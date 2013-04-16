@@ -359,6 +359,11 @@ def createSkelSoapMessage(soapAction):
     doc = minidom.Document()
 
     envEl = doc.createElementNS(NS_S, "s:Envelope")
+    
+    envEl.setAttribute("xmlns:a", NS_A)  # minidom does not insert this automatically
+    envEl.setAttribute("xmlns:d", NS_D)
+    envEl.setAttribute("xmlns:s", NS_S)
+    
     doc.appendChild(envEl)
 
     headerEl = doc.createElementNS(NS_S, "s:Header")
