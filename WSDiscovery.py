@@ -501,17 +501,17 @@ def parseProbeMatchMessage(dom):
     for node in pmNodes:
         epr = node.getElementsByTagNameNS(NS_A, "Address")[0].firstChild.data.strip()
         
-        types = None
+        types = []
         typeNodes = node.getElementsByTagNameNS(NS_D, "Types")
         if len(typeNodes) > 0:
             types = getTypes(typeNodes[0])
 
-        scopes = None
+        scopes = []
         scopeNodes = node.getElementsByTagNameNS(NS_D, "Scopes")
         if len(scopeNodes) > 0:
             scopes = getScopes(scopeNodes[0])
             
-        xAddrs = None
+        xAddrs = []
         xAddrNodes = node.getElementsByTagNameNS(NS_D, "XAddrs")
         if len(xAddrNodes) > 0:
             xAddrs = getXAddrs(xAddrNodes[0])
