@@ -9,6 +9,7 @@ import time
 import uuid
 import threading
 import thread
+import sys
 
 BUFFER_SIZE = 0xffff
 APP_MAX_DELAY = 500 # miliseconds
@@ -616,8 +617,17 @@ def parseByeMessage(dom):
     
     return env
 
-def parseEnvelope(data):
-    dom = minidom.parseString(data)    
+def parseEnvelope(data, ipAddr):
+    try:
+        dom = minidom.parseString(data)
+    except Exception as ex:
+        #print >> sys.stderr, 'Failed to parse message from %s\n"%s": %s' % (ipAddr, data, ex)
+        return None
+    
+    if dom.getElementsByTagNameNS(NS_S, "Fault"):
+        #print >> sys.stderr, 'Fault received from %s:' % (ipAddr, data)
+        return None
+    
     soapAction = dom.getElementsByTagNameNS(NS_A, "Action")[0].firstChild.data.strip()
     if soapAction == ACTION_PROBE:
         return parseProbeMessage(dom)
@@ -830,8 +840,11 @@ class MessageReceiverThread(threading.Thread):
                 continue
             (data, addr) = val
 
-            env = parseEnvelope(data)
+            env = parseEnvelope(data, addr[0])
 
+            if env is None: # fault or failed to parse
+                continue
+            
             mid = env.getMessageId()
             if self.__midMap.has_key(mid):
                 continue
