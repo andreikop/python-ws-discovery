@@ -1,6 +1,5 @@
 import urllib
 from xml.dom import minidom
-import xml.dom.ext
 import StringIO
 import random
 import string
@@ -380,7 +379,7 @@ def addElementWithText(doc, parent, name, ns, value):
 def getDocAsString(doc):
     outStr = ""
     stream = StringIO.StringIO(outStr)
-    xml.dom.ext.PrettyPrint(doc, stream)    
+    stream.write(doc.toprettyxml())
     return stream.getvalue()
 
 def getBodyEl(doc):
