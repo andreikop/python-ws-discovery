@@ -897,30 +897,6 @@ class MessageSenderThread(threading.Thread):
         threading.Thread.__init__(self)
         self.setDaemon(True)
 
-    def getUdpRepeat(self):
-        return self.__udpRepeat
-
-    def setUdpRepeat(self, udpRepeat):
-        self.__udpRepeat = udpRepeat
-
-    def getUdpMinDelay(self):
-        return self.__udpMinDelay
-
-    def setUdpMinDelay(self, udpMinDelay):
-        self.__udpMinDelay = udpMinDelay
-
-    def getUdpMaxDelay(self):
-        return self.__udpMaxDelay
-
-    def setUdpMaxDelay(self, udpMaxDelay):
-        self.__udpMaxDelay = udpMaxDelay
-
-    def getUdpUpperDelay(self):
-        return self.__udpUpperDelay
-
-    def setUdpUpperDelay(self, udpUpperDelay):
-        self.__udpUpperDelay = udpUpperDelay
-        
     def addMessage(self, env, addr, port, initialDelay=0):
         msg = Message(env, addr, port, self.__udpRepeat, \
                       self.__udpMinDelay, self.__udpMaxDelay, self.__udpUpperDelay, initialDelay)
