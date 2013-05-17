@@ -1055,10 +1055,45 @@ class WSDiscovery:
         self.__dpActive = False
         self.__dpAddr = None
         self.__dpEPR = None
+        
+        self.__remoteServiceHelloCallback = None
+        self.__remoteServiceHelloCallbackTypesFilter = None
+        self.__remoteServiceHelloCallbackScopesFilter = None
+        self.__remoteServiceByeCallback = None
+        
+        self.uuid = uuid.uuid4().get_urn()
 
-    def __addRemoteService(self, types, scopes, xAddrs, epr):
-        service = Service(types, scopes, xAddrs, epr, 0)
-        self.__remoteServices[epr] = service
+    def setRemoteServiceHelloCallback(self, cb, types=None, scopes=None):
+        """Set callback, which will be called when new service appeared online
+        and sent Hi message
+        
+        typesFilter and scopesFilter might be list of types and scopes.
+        If filter is set, callback is called only for Hello messages,
+        which match filter
+        
+        Set None to disable callback
+        """
+        self.__remoteServiceHelloCallback = cb
+        self.__remoteServiceHelloCallbackTypesFilter = types
+        self.__remoteServiceHelloCallbackScopesFilter = scopes
+
+    def setRemoteServiceByeCallback(self, cb):
+        """Set callback, which will be called when new service appeared online
+        and sent Hi message
+        Service is passed as a parameter to the callback
+        Set None to disable callback
+        """
+        self.__remoteServiceByeCallback = cb
+
+    def setRemoveServiceDisappearedCallback(self, cb):
+        """Set callback, which will be called when new service disappears
+        Service uuid is passed as a parameter to the callback
+        Set None to disable callback
+        """
+        self.__remoteServiceDisppearedCallback = cb
+
+    def __addRemoteService(self, service):
+        self.__remoteServices[service.getEPR()] = service
 
     def __removeRemoteService(self, epr):
         if self.__remoteServices.has_key(epr):
@@ -1067,13 +1102,13 @@ class WSDiscovery:
     def handleEnv(self, env, addr):        
         if (env.getAction() == ACTION_PROBE_MATCH):
             for match in env.getProbeResolveMatches():
-                self.__addRemoteService(match.getTypes(), match.getScopes(), match.getXAddrs(), match.getEPR())
+                self.__addRemoteService(Service(match.getTypes(), match.getScopes(), match.getXAddrs(), match.getEPR(), 0))
                 if match.getXAddrs() is None or len(match.getXAddrs()) == 0:
                     self.__sendResolve(match.getEPR())
                     
         elif env.getAction() == ACTION_RESOLVE_MATCH:
             for match in env.getProbeResolveMatches():
-                self.__addRemoteService(match.getTypes(), match.getScopes(), match.getXAddrs(), match.getEPR())
+                self.__addRemoteService(Service(match.getTypes(), match.getScopes(), match.getXAddrs(), match.getEPR(), 0))
 
         elif env.getAction() == ACTION_PROBE:
             services = self.__filterServices(self.__localServices.values(), env.getTypes(), env.getScopes())
@@ -1095,7 +1130,13 @@ class WSDiscovery:
                     self.__dpAddr = extractSoapUdpAddressFromURI(URI(xAddr))
                     self.__dpEPR = env.getEPR()
 
-            self.__addRemoteService(env.getTypes(), env.getScopes(), env.getXAddrs(), env.getEPR())
+            service = Service(env.getTypes(), env.getScopes(), env.getXAddrs(), env.getEPR(), 0)
+            self.__addRemoteService(service)
+            if self.__remoteServiceHelloCallback is not None:
+                if self.__matchesFilter(service,
+                                        self.__remoteServiceHelloCallbackTypesFilter,
+                                        self.__remoteServiceHelloCallbackScopesFilter):
+                    self.__remoteServiceHelloCallback(service)
 
         elif env.getAction() == ACTION_BYE:
             #if the bye is from discovery proxy... revert back to multicasting
@@ -1105,6 +1146,8 @@ class WSDiscovery:
                 self.__dpEPR = None
             
             self.__removeRemoteService(env.getEPR())
+            if self.__remoteServiceByeCallback is not None:
+                self.__remoteServiceByeCallback(env.getEPR())
 
     def envReceived(self, env, addr):
         thread.start_new_thread(self.handleEnv, (env, addr))
@@ -1199,7 +1242,6 @@ class WSDiscovery:
 
     def start(self):
         'start the discovery server - should be called before using other functions'
-        
         self.__startThreads()
         self.__serverStarted = True
 
@@ -1283,26 +1325,20 @@ class WSDiscovery:
             
         return False
 
-    def __filterServices(self, services, types, scopes):
-        ret = []
+    def __matchesFilter(self, service, types, scopes):
+        if types is not None:
+            for ttype in types:
+                if not self.__isTypeInList(ttype, service.getTypes()):
+                    return False
+        if scopes is not None:
+            for scope in scopes:
+                if not self.__isScopeInList(scope, service.getScopes()):
+                    return False
+        return True
 
-        ok = True
-        for service in services:
-            ok = True
-            if types is not None:
-                for ttype in types:
-                    if not self.__isTypeInList(ttype, service.getTypes()):
-                        ok = False
-                        break
-            if ok and scopes is not None:
-                for scope in scopes:
-                    if not self.__isScopeInList(scope, service.getScopes()):
-                        ok = False
-                        break
-            if ok:
-                ret.append(service)
-                
-        return ret
+    def __filterServices(self, services, types, scopes):
+        return [service for service in services \
+                    if self.__matchesFilter(service, types, scopes)]
 
     def clearRemoteServices(self):
         'clears remotely discovered services'
@@ -1336,10 +1372,9 @@ class WSDiscovery:
             raise Exception("Server not started")
         
         instanceId = (int) (time.time() * 1000000)
-        epr = uuid.uuid4().get_urn()
         
-        service = Service(types, scopes, xAddrs, epr, instanceId)
-        self.__localServices[epr] = service
+        service = Service(types, scopes, xAddrs, self.uuid, instanceId)
+        self.__localServices[self.uuid] = service
         self.__sendHello(service)
         
         time.sleep(0.001)
