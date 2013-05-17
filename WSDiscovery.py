@@ -54,66 +54,66 @@ class URI:
         uri = urllib.unquote(uri)
         i1 = uri.find(":")
         i2 = uri.find("@")
-        self.__scheme = uri[:i1]
+        self._scheme = uri[:i1]
         if i2 != -1:
-            self.__authority = uri[i1 + 1: i2]
-            self.__path = uri[i2 + 1:]
+            self._authority = uri[i1 + 1: i2]
+            self._path = uri[i2 + 1:]
         else:
-            self.__authority = ""
-            self.__path = uri[i1 + 1:]
+            self._authority = ""
+            self._path = uri[i1 + 1:]
 
     def getScheme(self):
-        return self.__scheme
+        return self._scheme
 
     def getAuthority(self):
-        return self.__authority
+        return self._authority
 
     def getPath(self):
-        return self.__path
+        return self._path
 
     def getPathExQueryFragment(self):
-        i = self.__path.find("?")
+        i = self._path.find("?")
         path = self.getPath()
         if i != -1:
-            return path[:self.__path.find("?")]
+            return path[:self._path.find("?")]
         else:
             return path
 
 class QName:
 
     def __init__(self, namespace, localname):        
-        self.__namespace = namespace
-        self.__localname = localname
+        self._namespace = namespace
+        self._localname = localname
 
     def getNamespace(self):
-        return self.__namespace
+        return self._namespace
 
     def getLocalname(self):
-        return self.__localname
+        return self._localname
 
     def getFullname(self):
         return self.getNamespace() + ":" + self.getLocalname()
 
-    def __repr__(self):
+    def _repr_(self):
         return self.getFullname()
         
 
 class Scope:
 
     def __init__(self, value, matchBy=None):
-        self.__matchBy = matchBy
-        self.__value = value
+        self._matchBy = matchBy
+        self._value = value
 
     def getMatchBy(self):
-        return self.__matchBy
+        return self._matchBy
 
     def getValue(self):
-        return self.__value
+        return self._value
 
     def getQuotedValue(self):
-        return self.__value.replace(' ', '%20')
+        return self._value.replace(' ', '%20')
     
-    def __repr__(self):
+    def _repr_(self):
         if self.getMatchBy() == None or len(self.getMatchBy()) == 0:
             return self.getValue()
         else:
@@ -122,28 +122,28 @@ class Scope:
 class ProbeResolveMatch:
 
     def __init__(self, epr, types, scopes, xAddrs, metadataVersion):
-        self.__epr = epr
-        self.__types = types
-        self.__scopes = scopes
-        self.__xAddrs = xAddrs
-        self.__metadataVersion = metadataVersion
+        self._epr = epr
+        self._types = types
+        self._scopes = scopes
+        self._xAddrs = xAddrs
+        self._metadataVersion = metadataVersion
         
     def getEPR(self):
-        return self.__epr
+        return self._epr
 
     def getTypes(self):
-        return self.__types
+        return self._types
 
     def getScopes(self):
-        return self.__scopes
+        return self._scopes
 
     def getXAddrs(self):
-        return self.__xAddrs
+        return self._xAddrs
 
     def getMetadataVersion(self):
-        return self.__metadataVersion
+        return self._metadataVersion
 
-    def __repr__(self):
+    def _repr_(self):
         return "EPR: %s\nTypes: %s\nScopes: %s\nXAddrs: %s\nMetadata Version: %s" % \
             (self.getEPR(), self.getTypes(), self.getScopes(),
              self.getXAddrs(), self.getMetadataVersion())
@@ -151,111 +151,111 @@ class ProbeResolveMatch:
 class SoapEnvelope:
 
     def __init__(self):
-        self.__action = ""
-        self.__messageId = ""
-        self.__relatesTo = ""
-        self.__relationshipType = None
-        self.__to = ""
-        self.__replyTo = ""
-        self.__instanceId = ""
-        self.__sequenceId = ""
-        self.__messageNumber = ""
-        self.__epr = ""
-        self.__types = []
-        self.__scopes = []
-        self.__xAddrs = []
-        self.__metadataVersion = "1"
-        self.__probeResolveMatches = []
+        self._action = ""
+        self._messageId = ""
+        self._relatesTo = ""
+        self._relationshipType = None
+        self._to = ""
+        self._replyTo = ""
+        self._instanceId = ""
+        self._sequenceId = ""
+        self._messageNumber = ""
+        self._epr = ""
+        self._types = []
+        self._scopes = []
+        self._xAddrs = []
+        self._metadataVersion = "1"
+        self._probeResolveMatches = []
 
     def getAction(self):
-        return self.__action
+        return self._action
 
     def setAction(self, action):
-        self.__action = action
+        self._action = action
 
     def getMessageId(self):
-        return self.__messageId
+        return self._messageId
 
     def setMessageId(self, messageId):
-        self.__messageId = messageId
+        self._messageId = messageId
 
     def getRelatesTo(self):
-        return self.__relatesTo
+        return self._relatesTo
 
     def setRelatesTo(self, relatesTo):
-        self.__relatesTo = relatesTo
+        self._relatesTo = relatesTo
 
     def getRelationshipType(self):
-        return self.__relationshipType
+        return self._relationshipType
 
     def setRelationshipType(self, relationshipType):
-        self.__relationshipType = relationshipType
+        self._relationshipType = relationshipType
 
     def getTo(self):
-        return self.__to
+        return self._to
     
     def setTo(self, to):
-        self.__to = to
+        self._to = to
 
     def getReplyTo(self):
-        return self.__replyTo
+        return self._replyTo
     
     def setReplyTo(self, replyTo):
-        self.__replyTo = replyTo
+        self._replyTo = replyTo
 
     def getInstanceId(self):
-        return self.__instanceId
+        return self._instanceId
 
     def setInstanceId(self, instanceId):
-        self.__instanceId = instanceId
+        self._instanceId = instanceId
 
     def getSequenceId(self):
-        return self.__sequenceId
+        return self._sequenceId
 
     def setSequenceId(self, sequenceId):
-        self.__sequenceId = sequenceId
+        self._sequenceId = sequenceId
         
     def getEPR(self):
-        return self.__epr
+        return self._epr
 
     def setEPR(self, epr):
-        self.__epr = epr
+        self._epr = epr
 
     def getMessageNumber(self):
-        return self.__messageNumber
+        return self._messageNumber
 
     def setMessageNumber(self, messageNumber):
-        self.__messageNumber = messageNumber
+        self._messageNumber = messageNumber
 
     def getTypes(self):
-        return self.__types
+        return self._types
 
     def setTypes(self, types):
-        self.__types = types
+        self._types = types
 
     def getScopes(self):
-        return self.__scopes
+        return self._scopes
 
     def setScopes(self, scopes):
-        self.__scopes = scopes
+        self._scopes = scopes
 
     def getXAddrs(self):
-        return self.__xAddrs
+        return self._xAddrs
 
     def setXAddrs(self, xAddrs):
-        self.__xAddrs = xAddrs
+        self._xAddrs = xAddrs
 
     def getMetadataVersion(self):
-        return self.__metadataVersion
+        return self._metadataVersion
 
     def setMetadataVersion(self, metadataVersion):
-        self.__metadataVersion = metadataVersion
+        self._metadataVersion = metadataVersion
 
     def getProbeResolveMatches(self):
-        return self.__probeResolveMatches
+        return self._probeResolveMatches
 
     def setProbeResolveMatches(self, probeResolveMatches):
-        self.__probeResolveMatches = probeResolveMatches
+        self._probeResolveMatches = probeResolveMatches
 
 
 def matchScope(src, target, matchBy):
@@ -835,17 +835,17 @@ def extractSoapUdpAddressFromURI(uri):
 class MessageReceiverThread(threading.Thread):
 
     def __init__(self, sock, midMap, iidMap, observer):
-        self.__sock = sock
-        self.__midMap = midMap
-        self.__iidMap = iidMap
-        self.__observer = observer
-        self.__stop = False
+        self._sock = sock
+        self._midMap = midMap
+        self._iidMap = iidMap
+        self._observer = observer
+        self._stop = False
         threading.Thread.__init__(self)
         self.setDaemon(True)
 
     def run(self):
-        while not self.__stop:
-            val = readMessage(self.__sock)
+        while not self._stop:
+            val = readMessage(self._sock)
             if val is None:
                 time.sleep(0.01)
                 continue
@@ -857,10 +857,10 @@ class MessageReceiverThread(threading.Thread):
                 continue
             
             mid = env.getMessageId()
-            if self.__midMap.has_key(mid):
+            if self._midMap.has_key(mid):
                 continue
             else:
-                self.__midMap[mid] = 0
+                self._midMap[mid] = 0
             
             iid = env.getInstanceId()
             mid = env.getMessageId()
@@ -869,173 +869,173 @@ class MessageReceiverThread(threading.Thread):
                 key = addr[0] + ":" + str(addr[1]) + ":" + str(iid)
                 if mid is not None and len(mid) > 0:
                     key = key + ":" + mid
-                if not self.__iidMap.has_key(key):
-                    self.__iidMap[key] = iid
+                if not self._iidMap.has_key(key):
+                    self._iidMap[key] = iid
                 else:
-                    tmnum = self.__iidMap[key]
+                    tmnum = self._iidMap[key]
                     if mnum > tmnum:
-                        self.__iidMap[key] = mnum
+                        self._iidMap[key] = mnum
                     else:
                         continue
 
-            self.__observer.envReceived(env, addr)
+            self._observer.envReceived(env, addr)
             
     def stop(self):
-        self.__stop = True
+        self._stop = True
 
 class MessageSenderThread(threading.Thread):
 
     def __init__(self, sock, midMap, udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay):
-        self.__sock = sock
-        self.__midMap = midMap
-        self.__udpRepeat = udpRepeat
-        self.__udpMinDelay = udpMinDelay
-        self.__udpMaxDelay = udpMaxDelay
-        self.__udpUpperDelay = udpUpperDelay
-        self.__stop = False
-        self.__queue = []
+        self._sock = sock
+        self._midMap = midMap
+        self._udpRepeat = udpRepeat
+        self._udpMinDelay = udpMinDelay
+        self._udpMaxDelay = udpMaxDelay
+        self._udpUpperDelay = udpUpperDelay
+        self._stop = False
+        self._queue = []
         threading.Thread.__init__(self)
         self.setDaemon(True)
 
     def addMessage(self, env, addr, port, initialDelay=0):
-        msg = Message(env, addr, port, self.__udpRepeat, \
-                      self.__udpMinDelay, self.__udpMaxDelay, self.__udpUpperDelay, initialDelay)
-        self.__queue.append(msg)
-        self.__midMap[env.getMessageId()] = 0
+        msg = Message(env, addr, port, self._udpRepeat, \
+                      self._udpMinDelay, self._udpMaxDelay, self._udpUpperDelay, initialDelay)
+        self._queue.append(msg)
+        self._midMap[env.getMessageId()] = 0
 
     def stop(self):
-        self.__stop = True
+        self._stop = True
 
     def run(self):
-        while not self.__stop or len(self.__queue) > 0:
-            if len(self.__queue) == 0:
+        while not self._stop or len(self._queue) > 0:
+            if len(self._queue) == 0:
                 time.sleep(0.1)
                 continue
-            msg = self.__queue.pop(0)
+            msg = self._queue.pop(0)
             if msg.canSend():
                 data = createMessage(msg.getEnv())
 
-                sendMessage(self.__sock, msg.getAddr(), msg.getPort(), data)
+                sendMessage(self._sock, msg.getAddr(), msg.getPort(), data)
                 msg.refresh()
                 if not (msg.isFinished()):
-                    self.__queue.append(msg)
+                    self._queue.append(msg)
             else:
-                self.__queue.append(msg)
+                self._queue.append(msg)
                 time.sleep(0.01)
 
 class Message:
 
     def __init__(self, env, addr, port, udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay, initialDelay=0):
-        self.__env = env
-        self.__addr = addr
-        self.__port = port
-        self.__udpRepeat = udpRepeat
-        self.__udpUpperDelay = udpUpperDelay
-        self.__t = (udpMinDelay + ((udpMaxDelay - udpMinDelay) * random.random())) / 2
-        self.__nextTime = int(time.time() * 1000) + initialDelay
+        self._env = env
+        self._addr = addr
+        self._port = port
+        self._udpRepeat = udpRepeat
+        self._udpUpperDelay = udpUpperDelay
+        self._t = (udpMinDelay + ((udpMaxDelay - udpMinDelay) * random.random())) / 2
+        self._nextTime = int(time.time() * 1000) + initialDelay
 
     def getEnv(self):
-        return self.__env
+        return self._env
 
     def getAddr(self):
-        return self.__addr
+        return self._addr
 
     def getPort(self):
-        return self.__port
+        return self._port
         
     def isFinished(self):
-        return self.__udpRepeat <= 0
+        return self._udpRepeat <= 0
 
     def canSend(self):
         ct = int(time.time() * 1000)
-        return self.__nextTime < ct
+        return self._nextTime < ct
 
     def refresh(self):
-        self.__t = self.__t * 2
-        if self.__t > self.__udpUpperDelay:
-            self.__t = self.__udpUpperDelay
-        self.__nextTime = int(time.time() * 1000) + self.__t
-        self.__udpRepeat = self.__udpRepeat - 1
+        self._t = self._t * 2
+        if self._t > self._udpUpperDelay:
+            self._t = self._udpUpperDelay
+        self._nextTime = int(time.time() * 1000) + self._t
+        self._udpRepeat = self._udpRepeat - 1
 
 class Service:
 
     def __init__(self, types, scopes, xAddrs, epr, instanceId):
-        self.__types = types
-        self.__scopes = scopes
-        self.__xAddrs = xAddrs
-        self.__epr = epr
-        self.__instanceId = instanceId
-        self.__messageNumber = 0
-        self.__metadataVersion = 1
+        self._types = types
+        self._scopes = scopes
+        self._xAddrs = xAddrs
+        self._epr = epr
+        self._instanceId = instanceId
+        self._messageNumber = 0
+        self._metadataVersion = 1
 
     def getTypes(self):
-        return self.__types
+        return self._types
 
     def setTypes(self, types):
-        self.__types = types
+        self._types = types
 
     def getScopes(self):
-        return self.__scopes
+        return self._scopes
 
     def setScopes(self, scopes):
-        self.__scopes = scopes
+        self._scopes = scopes
 
     def getXAddrs(self):
-        return self.__xAddrs
+        return self._xAddrs
 
     def setXAddrs(self, xAddrs):
-        self.__xAddrs = xAddrs
+        self._xAddrs = xAddrs
 
     def getEPR(self):
-        return self.__epr
+        return self._epr
 
     def setEPR(self, epr):
-        self.__epr = epr
+        self._epr = epr
 
     def getInstanceId(self):
-        return self.__instanceId
+        return self._instanceId
 
     def setInstanceId(self, instanceId):
-        self.__instanceId = instanceId
+        self._instanceId = instanceId
 
     def getMessageNumber(self):
-        return self.__messageNumber
+        return self._messageNumber
 
     def setMessageNumber(self, messageNumber):
-        self.__messageNumber = messageNumber
+        self._messageNumber = messageNumber
 
     def getMetadataVersion(self):
-        return self.__metadataVersion
+        return self._metadataVersion
 
     def setMetadataVersion(self, metadataVersion):
-        self.__metadataVersion = metadataVersion
+        self._metadataVersion = metadataVersion
 
     def incrementMessageNumber(self):
-        self.__messageNumber = self.__messageNumber + 1
+        self._messageNumber = self._messageNumber + 1
         
 class WSDiscovery:
 
     def __init__(self):
-        self.__sockMultiOut = None
-        self.__sockMultiIn = None
-        self.__sockUniOut = None
+        self._sockMultiOut = None
+        self._sockMultiIn = None
+        self._sockUniOut = None
         
-        self.__multicastSenderThread = None
-        self.__multicastReceiverThread = None
-        self.__unicastSenderThread = None
-        self.__unicastReceiverThread = None
-        self.__serverStarted = False
-        self.__remoteServices = {}
-        self.__localServices = {}
+        self._multicastSenderThread = None
+        self._multicastReceiverThread = None
+        self._unicastSenderThread = None
+        self._unicastReceiverThread = None
+        self._serverStarted = False
+        self._remoteServices = {}
+        self._localServices = {}
 
-        self.__dpActive = False
-        self.__dpAddr = None
-        self.__dpEPR = None
+        self._dpActive = False
+        self._dpAddr = None
+        self._dpEPR = None
         
-        self.__remoteServiceHelloCallback = None
-        self.__remoteServiceHelloCallbackTypesFilter = None
-        self.__remoteServiceHelloCallbackScopesFilter = None
-        self.__remoteServiceByeCallback = None
+        self._remoteServiceHelloCallback = None
+        self._remoteServiceHelloCallbackTypesFilter = None
+        self._remoteServiceHelloCallbackScopesFilter = None
+        self._remoteServiceByeCallback = None
         
         self.uuid = uuid.uuid4().get_urn()
 
@@ -1049,9 +1049,9 @@ class WSDiscovery:
         
         Set None to disable callback
         """
-        self.__remoteServiceHelloCallback = cb
-        self.__remoteServiceHelloCallbackTypesFilter = types
-        self.__remoteServiceHelloCallbackScopesFilter = scopes
+        self._remoteServiceHelloCallback = cb
+        self._remoteServiceHelloCallbackTypesFilter = types
+        self._remoteServiceHelloCallbackScopesFilter = scopes
 
     def setRemoteServiceByeCallback(self, cb):
         """Set callback, which will be called when new service appeared online
@@ -1059,41 +1059,41 @@ class WSDiscovery:
         Service is passed as a parameter to the callback
         Set None to disable callback
         """
-        self.__remoteServiceByeCallback = cb
+        self._remoteServiceByeCallback = cb
 
     def setRemoveServiceDisappearedCallback(self, cb):
         """Set callback, which will be called when new service disappears
         Service uuid is passed as a parameter to the callback
         Set None to disable callback
         """
-        self.__remoteServiceDisppearedCallback = cb
+        self._remoteServiceDisppearedCallback = cb
 
-    def __addRemoteService(self, service):
-        self.__remoteServices[service.getEPR()] = service
+    def _addRemoteService(self, service):
+        self._remoteServices[service.getEPR()] = service
 
-    def __removeRemoteService(self, epr):
-        if self.__remoteServices.has_key(epr):
-            del self.__remoteServices[epr]
+    def _removeRemoteService(self, epr):
+        if self._remoteServices.has_key(epr):
+            del self._remoteServices[epr]
 
     def handleEnv(self, env, addr):        
         if (env.getAction() == ACTION_PROBE_MATCH):
             for match in env.getProbeResolveMatches():
-                self.__addRemoteService(Service(match.getTypes(), match.getScopes(), match.getXAddrs(), match.getEPR(), 0))
+                self._addRemoteService(Service(match.getTypes(), match.getScopes(), match.getXAddrs(), match.getEPR(), 0))
                 if match.getXAddrs() is None or len(match.getXAddrs()) == 0:
-                    self.__sendResolve(match.getEPR())
+                    self._sendResolve(match.getEPR())
                     
         elif env.getAction() == ACTION_RESOLVE_MATCH:
             for match in env.getProbeResolveMatches():
-                self.__addRemoteService(Service(match.getTypes(), match.getScopes(), match.getXAddrs(), match.getEPR(), 0))
+                self._addRemoteService(Service(match.getTypes(), match.getScopes(), match.getXAddrs(), match.getEPR(), 0))
 
         elif env.getAction() == ACTION_PROBE:
-            services = self.__filterServices(self.__localServices.values(), env.getTypes(), env.getScopes())
-            self.__sendProbeMatch(services, env.getMessageId(), addr)
+            services = self._filterServices(self._localServices.values(), env.getTypes(), env.getScopes())
+            self._sendProbeMatch(services, env.getMessageId(), addr)
 
         elif env.getAction() == ACTION_RESOLVE:
-            if self.__localServices.has_key(env.getEPR()):
-                service = self.__localServices[env.getEPR()]
-                self.__sendResolveMatch(service, env.getMessageId(), addr)
+            if self._localServices.has_key(env.getEPR()):
+                service = self._localServices[env.getEPR()]
+                self._sendResolveMatch(service, env.getMessageId(), addr)
 
         elif env.getAction() == ACTION_HELLO:
             #check if it is from a discovery proxy
@@ -1102,33 +1102,33 @@ class WSDiscovery:
                 xAddr = env.getXAddrs()[0]
                 #only support 'soap.udp'
                 if xAddr.startswith("soap.udp:"):
-                    self.__dpActive = True
-                    self.__dpAddr = extractSoapUdpAddressFromURI(URI(xAddr))
-                    self.__dpEPR = env.getEPR()
+                    self._dpActive = True
+                    self._dpAddr = extractSoapUdpAddressFromURI(URI(xAddr))
+                    self._dpEPR = env.getEPR()
 
             service = Service(env.getTypes(), env.getScopes(), env.getXAddrs(), env.getEPR(), 0)
-            self.__addRemoteService(service)
-            if self.__remoteServiceHelloCallback is not None:
-                if self.__matchesFilter(service,
-                                        self.__remoteServiceHelloCallbackTypesFilter,
-                                        self.__remoteServiceHelloCallbackScopesFilter):
-                    self.__remoteServiceHelloCallback(service)
+            self._addRemoteService(service)
+            if self._remoteServiceHelloCallback is not None:
+                if self._matchesFilter(service,
+                                        self._remoteServiceHelloCallbackTypesFilter,
+                                        self._remoteServiceHelloCallbackScopesFilter):
+                    self._remoteServiceHelloCallback(service)
 
         elif env.getAction() == ACTION_BYE:
             #if the bye is from discovery proxy... revert back to multicasting
-            if self.__dpActive and self.__dpEPR == env.getEPR():
-                self.__dpActive = False
-                self.__dpAddr = None
-                self.__dpEPR = None
+            if self._dpActive and self._dpEPR == env.getEPR():
+                self._dpActive = False
+                self._dpAddr = None
+                self._dpEPR = None
             
-            self.__removeRemoteService(env.getEPR())
-            if self.__remoteServiceByeCallback is not None:
-                self.__remoteServiceByeCallback(env.getEPR())
+            self._removeRemoteService(env.getEPR())
+            if self._remoteServiceByeCallback is not None:
+                self._remoteServiceByeCallback(env.getEPR())
 
     def envReceived(self, env, addr):
         thread.start_new_thread(self.handleEnv, (env, addr))
 
-    def __sendResolveMatch(self, service, relatesTo, addr):
+    def _sendResolveMatch(self, service, relatesTo, addr):
         service.incrementMessageNumber()
         
         env = SoapEnvelope()
@@ -1142,9 +1142,9 @@ class WSDiscovery:
         env.getProbeResolveMatches().append(ProbeResolveMatch(service.getEPR(), \
                                                               service.getTypes(), service.getScopes(), \
                                                               service.getXAddrs(), str(service.getMetadataVersion())))
-        self.__unicastSenderThread.addMessage(env, addr[0], addr[1])
+        self._unicastSenderThread.addMessage(env, addr[0], addr[1])
 
-    def __sendProbeMatch(self, services, relatesTo, addr):
+    def _sendProbeMatch(self, services, relatesTo, addr):
         env = SoapEnvelope()
         env.setAction(ACTION_PROBE_MATCH)
         env.setTo(ADDRESS_UNKNOWN)
@@ -1159,9 +1159,9 @@ class WSDiscovery:
                                                                   service.getTypes(), service.getScopes(), \
                                                                   service.getXAddrs(), str(service.getMetadataVersion())))
 
-        self.__unicastSenderThread.addMessage(env, addr[0], addr[1], random.randint(0, APP_MAX_DELAY))
+        self._unicastSenderThread.addMessage(env, addr[0], addr[1], random.randint(0, APP_MAX_DELAY))
 
-    def __sendProbe(self, types=None, scopes=None):
+    def _sendProbe(self, types=None, scopes=None):
         env = SoapEnvelope()
         env.setAction(ACTION_PROBE)
         env.setTo(ADDRESS_ALL)
@@ -1169,24 +1169,24 @@ class WSDiscovery:
         env.setTypes(types)
         env.setScopes(scopes)
 
-        if self.__dpActive:
-            self.__unicastSenderThread.addMessage(env, self.__dpAddr[0], self.__dpAddr[1])
+        if self._dpActive:
+            self._unicastSenderThread.addMessage(env, self._dpAddr[0], self._dpAddr[1])
         else:
-            self.__multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
+            self._multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
 
-    def __sendResolve(self, epr):
+    def _sendResolve(self, epr):
         env = SoapEnvelope()
         env.setAction(ACTION_RESOLVE)
         env.setTo(ADDRESS_ALL)
         env.setMessageId(uuid.uuid4().get_urn())
         env.setEPR(epr)
 
-        if self.__dpActive:
-            self.__unicastSenderThread.addMessage(env, self.__dpAddr[0], self.__dpAddr[1])
+        if self._dpActive:
+            self._unicastSenderThread.addMessage(env, self._dpAddr[0], self._dpAddr[1])
         else:
-            self.__multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
+            self._multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
 
-    def __sendHello(self, service):
+    def _sendHello(self, service):
         service.incrementMessageNumber()
 
         env = SoapEnvelope()
@@ -1202,9 +1202,9 @@ class WSDiscovery:
 
         random.seed((int)(time.time() * 1000000))
 
-        self.__multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT, random.randint(0, APP_MAX_DELAY))
+        self._multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT, random.randint(0, APP_MAX_DELAY))
 
-    def __sendBye(self, service):
+    def _sendBye(self, service):
         env = SoapEnvelope()
         env.setAction(ACTION_BYE)
         env.setTo(ADDRESS_ALL)
@@ -1214,12 +1214,12 @@ class WSDiscovery:
         env.setEPR(service.getEPR())
 
         service.incrementMessageNumber()
-        self.__multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
+        self._multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
 
     def start(self):
         'start the discovery server - should be called before using other functions'
-        self.__startThreads()
-        self.__serverStarted = True
+        self._startThreads()
+        self._serverStarted = True
 
     def stop(self):
         'cleans up and stops the discovery server'
@@ -1227,131 +1227,131 @@ class WSDiscovery:
         self.clearRemoteServices()
         self.clearLocalServices()
 
-        self.__stopThreads()
-        self.__serverStarted = False
+        self._stopThreads()
+        self._serverStarted = False
 
-    def __startThreads(self):
-        if self.__multicastSenderThread is not None:
+    def _startThreads(self):
+        if self._multicastSenderThread is not None:
             return
         
-        self.__sockMultiOut = createMulticastOutSocket()
-        self.__sockMultiIn = createMulticastInSocket()
-        self.__sockUniOut = createUnicastOutSocket()
+        self._sockMultiOut = createMulticastOutSocket()
+        self._sockMultiIn = createMulticastInSocket()
+        self._sockUniOut = createUnicastOutSocket()
 
         iidMap = {}
         midMap = {}
 
-        self.__multicastSenderThread = MessageSenderThread(self.__sockMultiOut, midMap, \
+        self._multicastSenderThread = MessageSenderThread(self._sockMultiOut, midMap, \
                                 MULTICAST_UDP_REPEAT, MULTICAST_UDP_MIN_DELAY, \
                                 MULTICAST_UDP_MAX_DELAY, MULTICAST_UDP_UPPER_DELAY)
-        self.__multicastSenderThread.start()
+        self._multicastSenderThread.start()
 
-        self.__unicastSenderThread = MessageSenderThread(self.__sockUniOut, midMap, \
+        self._unicastSenderThread = MessageSenderThread(self._sockUniOut, midMap, \
                                 UNICAST_UDP_REPEAT, UNICAST_UDP_MIN_DELAY, \
                                 UNICAST_UDP_MAX_DELAY, UNICAST_UDP_UPPER_DELAY)
-        self.__unicastSenderThread.start()
+        self._unicastSenderThread.start()
 
-        self.__multicastReceiverThread = MessageReceiverThread(self.__sockMultiIn, midMap, iidMap, self)
-        self.__multicastReceiverThread.start()
+        self._multicastReceiverThread = MessageReceiverThread(self._sockMultiIn, midMap, iidMap, self)
+        self._multicastReceiverThread.start()
 
-        self.__unicastReceiverThread = MessageReceiverThread(self.__sockMultiOut, midMap, iidMap, self)
-        self.__unicastReceiverThread.start()
+        self._unicastReceiverThread = MessageReceiverThread(self._sockMultiOut, midMap, iidMap, self)
+        self._unicastReceiverThread.start()
 
 
-    def __stopThreads(self):
-        if self.__multicastSenderThread is None:
+    def _stopThreads(self):
+        if self._multicastSenderThread is None:
             return
 
-        self.__unicastReceiverThread.stop()
-        self.__unicastReceiverThread.join()
+        self._unicastReceiverThread.stop()
+        self._unicastReceiverThread.join()
         
-        self.__multicastReceiverThread.stop()
-        self.__multicastReceiverThread.join()
+        self._multicastReceiverThread.stop()
+        self._multicastReceiverThread.join()
 
-        self.__unicastSenderThread.stop()
-        self.__unicastSenderThread.join()
+        self._unicastSenderThread.stop()
+        self._unicastSenderThread.join()
         
-        self.__multicastSenderThread.stop()
-        self.__multicastSenderThread.join()
+        self._multicastSenderThread.stop()
+        self._multicastSenderThread.join()
         
-        self.__sockMultiOut.close()
-        self.__sockMultiIn.close()
-        self.__sockUniOut.close()
+        self._sockMultiOut.close()
+        self._sockMultiIn.close()
+        self._sockUniOut.close()
 
-        self.__sockMultiOut = None
-        self.__sockMultiIn = None
-        self.__sockUniOut = None
+        self._sockMultiOut = None
+        self._sockMultiIn = None
+        self._sockUniOut = None
         
-        self.__multicastSenderThread = None
-        self.__multicastReceiverThread = None
-        self.__unicastSenderThread = None
-        self.__unicastReceiverThread = None
+        self._multicastSenderThread = None
+        self._multicastReceiverThread = None
+        self._unicastSenderThread = None
+        self._unicastReceiverThread = None
 
-    def __isTypeInList(self, ttype, types):
+    def _isTypeInList(self, ttype, types):
         for entry in types:
             if matchType(ttype, entry):
                 return True
             
         return False
     
-    def __isScopeInList(self, scope, scopes):
+    def _isScopeInList(self, scope, scopes):
         for entry in scopes:
             if matchScope(scope.getValue(), entry.getValue(), scope.getMatchBy()):
                 return True
             
         return False
 
-    def __matchesFilter(self, service, types, scopes):
+    def _matchesFilter(self, service, types, scopes):
         if types is not None:
             for ttype in types:
-                if not self.__isTypeInList(ttype, service.getTypes()):
+                if not self._isTypeInList(ttype, service.getTypes()):
                     return False
         if scopes is not None:
             for scope in scopes:
-                if not self.__isScopeInList(scope, service.getScopes()):
+                if not self._isScopeInList(scope, service.getScopes()):
                     return False
         return True
 
-    def __filterServices(self, services, types, scopes):
+    def _filterServices(self, services, types, scopes):
         return [service for service in services \
-                    if self.__matchesFilter(service, types, scopes)]
+                    if self._matchesFilter(service, types, scopes)]
 
     def clearRemoteServices(self):
         'clears remotely discovered services'
         
-        self.__remoteServices.clear()
+        self._remoteServices.clear()
 
     def clearLocalServices(self):
         'send Bye messages for the services and remove them'
         
-        for service in self.__localServices.values():
-            self.__sendBye(service)
+        for service in self._localServices.values():
+            self._sendBye(service)
 
-        self.__localServices.clear()
+        self._localServices.clear()
 
     def searchServices(self, types=None, scopes=None, timeout=3):
         'search for services given the TYPES and SCOPES in a given TIMEOUT'
         
-        if not self.__serverStarted:
+        if not self._serverStarted:
             raise Exception("Server not started")
 
-        self.__sendProbe(types, scopes)
+        self._sendProbe(types, scopes)
         
         time.sleep(timeout)
 
-        return self.__filterServices(self.__remoteServices.values(), types, scopes)
+        return self._filterServices(self._remoteServices.values(), types, scopes)
 
     def publishService(self, types, scopes, xAddrs):
         'publish a service with the given TYPES, SCOPES and XAddrs (service addresses)'
         
-        if not self.__serverStarted:
+        if not self._serverStarted:
             raise Exception("Server not started")
         
         instanceId = (int) (time.time() * 1000000)
         
         service = Service(types, scopes, xAddrs, self.uuid, instanceId)
-        self.__localServices[self.uuid] = service
-        self.__sendHello(service)
+        self._localServices[self.uuid] = service
+        self._sendHello(service)
         
         time.sleep(0.001)
  
