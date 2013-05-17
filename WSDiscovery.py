@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import urllib
 from xml.dom import minidom
 import StringIO
