@@ -474,7 +474,8 @@ def parseProbeMessage(dom):
     env.setMessageId(dom.getElementsByTagNameNS(NS_A, "MessageID")[0].firstChild.data.strip())
 
     replyToNodes = dom.getElementsByTagNameNS(NS_A, "ReplyTo")
-    if len(replyToNodes) > 0:
+    if len(replyToNodes) > 0 and \
+       isinstance(replyToNodes[0].firstChild, minidom.Text):
         env.setReplyTo(replyToNodes[0].firstChild.data.strip())
 
     env.setTo(dom.getElementsByTagNameNS(NS_A, "To")[0].firstChild.data.strip())
