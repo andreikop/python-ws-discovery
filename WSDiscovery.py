@@ -110,6 +110,9 @@ class Scope:
     def getValue(self):
         return self.__value
 
+    def getQuotedValue(self):
+        return self.__value.replace(' ', '%20')
+    
     def __repr__(self):
         if self.getMatchBy() == None or len(self.getMatchBy()) == 0:
             return self.getValue()
@@ -336,7 +339,7 @@ def getScopes(scopeNode):
         items = scopeNode.childNodes[0].data.split(" ")
         
         for item in items:
-            item = item.strip()
+            item = urllib.unquote(item.strip())
             if len(item) == 0:
                 continue            
             ret.append(Scope(item, matchBy))
@@ -424,7 +427,7 @@ def addTypes(doc, node, types):
 
 def addScopes(doc, node, scopes):
     if scopes is not None and len(scopes) > 0:
-        addElementWithText(doc, node, "d:Scopes", NS_D, " ".join([x.getValue() for x in scopes]))
+        addElementWithText(doc, node, "d:Scopes", NS_D, " ".join([x.getQuotedValue() for x in scopes]))
         if scopes[0].getMatchBy() is not None and len(scopes[0].getMatchBy()) > 0:
             node.getElementsByTagNameNS(NS_D, "Scopes")[0].setAttribute("MatchBy", scopes[0].getMatchBy())
 
