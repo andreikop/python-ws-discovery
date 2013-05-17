@@ -159,7 +159,7 @@ class SoapEnvelope:
         self.__types = []
         self.__scopes = []
         self.__xAddrs = []
-        self.__metadataVersion = ""
+        self.__metadataVersion = "1"
         self.__probeResolveMatches = []
 
     def getAction(self):
