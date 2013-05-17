@@ -1359,4 +1359,3 @@ if __name__ == "__main__":
         print service.getEPR() + ":" + service.getXAddrs()[0]
 
     wsd.stop()
-
