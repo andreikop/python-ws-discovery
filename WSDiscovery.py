@@ -507,6 +507,16 @@ def parseProbeMessage(dom):
     
     return env
 
+
+def _parseAppSequence(dom, env):
+    nodes = dom.getElementsByTagNameNS(NS_D, "AppSequence")
+    if nodes:
+        appSeqNode = nodes[0]
+        env.setInstanceId(appSeqNode.getAttribute("InstanceId"))
+        env.setSequenceId(appSeqNode.getAttribute("SequenceId"))
+        env.setMessageNumber(appSeqNode.getAttribute("MessageNumber"))
+
+
 def parseProbeMatchMessage(dom):
     env = SoapEnvelope()
     env.setAction(ACTION_PROBE_MATCH)
@@ -515,10 +525,7 @@ def parseProbeMatchMessage(dom):
     env.setRelatesTo(dom.getElementsByTagNameNS(NS_A, "RelatesTo")[0].firstChild.data.strip())
     env.setTo(dom.getElementsByTagNameNS(NS_A, "To")[0].firstChild.data.strip())
 
-    appSeqNode = dom.getElementsByTagNameNS(NS_D, "AppSequence")[0]
-    env.setInstanceId(appSeqNode.getAttribute("InstanceId"))
-    env.setSequenceId(appSeqNode.getAttribute("SequenceId"))
-    env.setMessageNumber(appSeqNode.getAttribute("MessageNumber"))
+    _parseAppSequence(dom, env)
 
     pmNodes = dom.getElementsByTagNameNS(NS_D, "ProbeMatch")
     for node in pmNodes:
@@ -567,10 +574,7 @@ def parseResolveMatchMessage(dom):
     env.setRelatesTo(dom.getElementsByTagNameNS(NS_A, "RelatesTo")[0].firstChild.data.strip())
     env.setTo(dom.getElementsByTagNameNS(NS_A, "To")[0].firstChild.data.strip())
 
-    appSeqNode = dom.getElementsByTagNameNS(NS_D, "AppSequence")[0]
-    env.setInstanceId(appSeqNode.getAttribute("InstanceId"))
-    env.setSequenceId(appSeqNode.getAttribute("SequenceId"))
-    env.setMessageNumber(appSeqNode.getAttribute("MessageNumber"))
+    _parseAppSequence(dom, env)
 
     nodes = dom.getElementsByTagNameNS(NS_D, "ResolveMatch")
     if len(nodes) > 0:
@@ -600,10 +604,7 @@ def parseHelloMessage(dom):
     env.setMessageId(dom.getElementsByTagNameNS(NS_A, "MessageID")[0].firstChild.data.strip())
     env.setTo(dom.getElementsByTagNameNS(NS_A, "To")[0].firstChild.data.strip())
 
-    appSeqNode = dom.getElementsByTagNameNS(NS_D, "AppSequence")[0]
-    env.setInstanceId(appSeqNode.getAttribute("InstanceId"))
-    env.setSequenceId(appSeqNode.getAttribute("SequenceId"))
-    env.setMessageNumber(appSeqNode.getAttribute("MessageNumber"))
+    _parseAppSequence(dom, env)
 
     relatesToNodes = dom.getElementsByTagNameNS(NS_A, "RelatesTo")
     if len(relatesToNodes) > 0:
@@ -636,10 +637,7 @@ def parseByeMessage(dom):
     env.setMessageId(dom.getElementsByTagNameNS(NS_A, "MessageID")[0].firstChild.data.strip())
     env.setTo(dom.getElementsByTagNameNS(NS_A, "To")[0].firstChild.data.strip())
 
-    appSeqNode = dom.getElementsByTagNameNS(NS_D, "AppSequence")[0]
-    env.setInstanceId(appSeqNode.getAttribute("InstanceId"))
-    env.setSequenceId(appSeqNode.getAttribute("SequenceId"))
-    env.setMessageNumber(appSeqNode.getAttribute("MessageNumber"))
+    _parseAppSequence(dom, env)
     
     env.setEPR(dom.getElementsByTagNameNS(NS_A, "Address")[0].firstChild.data.strip())
     
