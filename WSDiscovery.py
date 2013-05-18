@@ -12,10 +12,21 @@ import uuid
 import threading
 import thread
 import sys
+import select
+
+try:
+    import netifaces
+    _supportMultiplyInterfaces = True
+except ImprotError:
+    _supportMultiplyInterfaces = False
+
 
 BUFFER_SIZE = 0xffff
 APP_MAX_DELAY = 500 # miliseconds
 DP_MAX_TIMEOUT = 5000 # 5 seconds
+
+_NETWORK_ADDRESSES_CHECK_TIMEOUT = 5
+
 MULTICAST_PORT = 3702
 MULTICAST_IPV4_ADDRESS = "239.255.255.250"
 
@@ -457,18 +468,20 @@ def addEPR(doc, node, epr):
     addElementWithText(doc, eprEl, "a:Address", NS_A, epr)
     node.appendChild(eprEl)
 
-def createMulticastOutSocket():
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 1)
-    sock.setblocking(0)
-    return sock
 
 def createMulticastInSocket():
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    
+    if not _supportMultiplyInterfaces:
+        mreq = struct.pack("4sl", socket.inet_aton(MULTICAST_IPV4_ADDRESS), socket.INADDR_ANY)
+        sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+    else:
+        pass
+        # concrete addresses will be added later
+    
     sock.bind(('', MULTICAST_PORT))
-    mreq = struct.pack("4sl", socket.inet_aton(MULTICAST_IPV4_ADDRESS), socket.INADDR_ANY)
-    sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+
     sock.setblocking(0)
 
     return sock
@@ -844,96 +857,215 @@ def extractSoapUdpAddressFromURI(uri):
     addr = [part1, part2]
     return addr
 
-class MessageReceiverThread(_StopableThread):
+
+class AddressMonitorThread(_StopableThread):
+    def __init__(self, wsd):
+        self._addrs = set()
+        self._wsd = wsd
+        super(AddressMonitorThread, self).__init__()
+        self._updateAddrs()
+    
+    @staticmethod
+    def _getNetworkAddrs():
+        result = []
+        
+        for if_name in netifaces.interfaces():
+            iface_info = netifaces.ifaddresses(if_name)
+            if netifaces.AF_INET in iface_info:
+                addrs =[addr['addr'] \
+                            for addr in iface_info[netifaces.AF_INET]]
+                result += addrs
+        
+        return result
+    
+    def _updateAddrs(self):
+        addrs = set(self._getNetworkAddrs())
+        
+        disappeared = self._addrs.difference(addrs)
+        new = addrs.difference(self._addrs)
+        
+        for addr in disappeared:
+            self._wsd._networkAddressRemoved(addr)
+        
+        for addr in new:
+            self._wsd._networkAddressAdded(addr)
+        
+        self._addrs = addrs
+
+    def run(self):
+        while not self._quitEvent.wait(_NETWORK_ADDRESSES_CHECK_TIMEOUT):
+            self._updateAddrs()
+
+
+def _readAndProcessMessage(sock, knownMessageIds, iidMap, observer):
+    val = readMessage(sock)
+    if val is None:
+        time.sleep(0.01)
+        return
+    (data, addr) = val
+
+    env = parseEnvelope(data, addr[0])
+
+    if env is None: # fault or failed to parse
+        return
+    
+    mid = env.getMessageId()
+    if mid in knownMessageIds:
+        return
+    else:
+        knownMessageIds.add(mid)
+    
+    iid = env.getInstanceId()
+    mid = env.getMessageId()
+    if iid > 0:
+        mnum = env.getMessageNumber()
+        key = addr[0] + ":" + str(addr[1]) + ":" + str(iid)
+        if mid is not None and len(mid) > 0:
+            key = key + ":" + mid
+        if not iidMap.has_key(key):
+            iidMap[key] = iid
+        else:
+            tmnum = iidMap[key]
+            if mnum > tmnum:
+                iidMap[key] = mnum
+            else:
+                return
+
+    observer.envReceived(env, addr)
+
+
+class MulticastReceiverThread(_StopableThread):
 
     def __init__(self, sock, knownMessageIds, iidMap, observer):
         self._sock = sock
         self._knownMessageIds = knownMessageIds
         self._iidMap = iidMap
         self._observer = observer
-        super(MessageReceiverThread, self).__init__()
+        super(MulticastReceiverThread, self).__init__()
         self.setDaemon(True)
 
     def run(self):
         while not self._quitEvent.is_set():
-            val = readMessage(self._sock)
-            if val is None:
-                time.sleep(0.01)
-                continue
-            (data, addr) = val
-
-            env = parseEnvelope(data, addr[0])
-
-            if env is None: # fault or failed to parse
-                continue
-            
-            mid = env.getMessageId()
-            if mid in self._knownMessageIds:
-                continue
-            else:
-                self._knownMessageIds.add(mid)
-            
-            iid = env.getInstanceId()
-            mid = env.getMessageId()
-            if iid > 0:
-                mnum = env.getMessageNumber()
-                key = addr[0] + ":" + str(addr[1]) + ":" + str(iid)
-                if mid is not None and len(mid) > 0:
-                    key = key + ":" + mid
-                if not self._iidMap.has_key(key):
-                    self._iidMap[key] = iid
-                else:
-                    tmnum = self._iidMap[key]
-                    if mnum > tmnum:
-                        self._iidMap[key] = mnum
-                    else:
-                        continue
-
-            self._observer.envReceived(env, addr)
+            _readAndProcessMessage(self._sock, self._knownMessageIds, self._iidMap, self._observer)
 
 
-class MessageSenderThread(_StopableThread):
-
-    def __init__(self, sock, knownMessageIds, udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay):
-        self._sock = sock
-        self._knownMessageIds = knownMessageIds
-        self._udpRepeat = udpRepeat
-        self._udpMinDelay = udpMinDelay
-        self._udpMaxDelay = udpMaxDelay
-        self._udpUpperDelay = udpUpperDelay
-        self._queue = []
-        super(MessageSenderThread, self).__init__()
+class _AbstractSenderThread(_StopableThread):
+    def __init__(self):
+        super(_AbstractSenderThread, self).__init__()
         self.setDaemon(True)
+        self._queue = []    # FIXME synchronisation
 
-    def addMessage(self, env, addr, port, initialDelay=0):
-        msg = Message(env, addr, port, self._udpRepeat, \
-                      self._udpMinDelay, self._udpMaxDelay, self._udpUpperDelay, initialDelay)
+    def addUnicastMessage(self, env, addr, port, initialDelay=0):
+        msg = Message(env, addr, port, Message.UNICAST, initialDelay)
+        
+        self._queue.append(msg)
+        self._knownMessageIds.add(env.getMessageId())
+    
+    def addMulticastMessage(self, env, addr, port, initialDelay=0):
+        msg = Message(env, addr, port, Message.MULTICAST, initialDelay)
+        
         self._queue.append(msg)
         self._knownMessageIds.add(env.getMessageId())
 
+    def _sendMsg(self, msg):
+        data = createMessage(msg.getEnv())
+
+        if msg.msgType() == Message.UNICAST:
+            self._unicastSocket.sendto(data, (msg.getAddr(), msg.getPort()))
+        else:
+            for sock in self._multicastSockets.values():
+                sock.sendto(data, (msg.getAddr(), msg.getPort()))
+
+    def _sendPendingMessages(self):
+        """Method sleeps, if nothing to do"""
+        if len(self._queue) == 0:
+            time.sleep(0.1)
+            return
+        msg = self._queue.pop(0)
+        if msg.canSend():
+            self._sendMsg(msg)
+            msg.refresh()
+            if not (msg.isFinished()):
+                self._queue.append(msg)
+        else:
+            self._queue.append(msg)
+            time.sleep(0.01)
+
     def run(self):
         while not self._quitEvent.is_set() or len(self._queue) > 0:
-            if len(self._queue) == 0:
-                time.sleep(0.1)
-                continue
-            msg = self._queue.pop(0)
-            if msg.canSend():
-                data = createMessage(msg.getEnv())
+            self._sendPendingMessages()
 
-                self._sock.sendto(data, (msg.getAddr(), msg.getPort()))
-                msg.refresh()
-                if not (msg.isFinished()):
-                    self._queue.append(msg)
-            else:
-                self._queue.append(msg)
-                time.sleep(0.01)
+
+class MulticastSenderThread(_AbstractSenderThread):
+    def __init__(self, unicastSocket, knownMessageIds, iidMap, observer):
+        super(MulticastSenderThread, self).__init__()
+        self._unicastSocket = unicastSocket
+        self._multicastSockets = {}  # FIXME synchronisation
+        self._knownMessageIds = knownMessageIds
+        self._iidMap = iidMap
+        self._observer = observer
+        self._poll = select.poll()
+
+    def _sendMsg(self, msg):
+        data = createMessage(msg.getEnv())
+
+        for sock in self._multicastSockets.values():
+            sock.sendto(data, (msg.getAddr(), msg.getPort()))
+    
+    def addSourceAddr(self, addr):
+        """None means 'system default'"""
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.setblocking(0)
+        sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 1)
+        if addr is None:
+            sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_IF, socket.INADDR_ANY)
+        else:
+            sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_IF, socket.inet_aton(addr))
+    
+        self._multicastSockets[addr] = sock
+        self._poll.register(sock, select.POLLIN)
+    
+    def removeSourceAddr(self):
+        sock = self._multicastSockets[addr]
+        self._poll.unregister(sock)
+        sock.close()
+        del self._multicastSockets[addr]
+
+    def run(self):
+        while not self._quitEvent.is_set() or self._queue:
+            self._sendPendingMessages()
+            self._recvUnicastMessages()
+    
+    def _recvUnicastMessages(self):
+        for fd, event in self._poll.poll(0):
+            sock = socket.fromfd(fd, socket.AF_INET, socket.SOCK_DGRAM)
+            _readAndProcessMessage(sock, self._knownMessageIds, self._iidMap, self._observer)
+
 
 class Message:
+    MULTICAST = 'multicast'
+    UNICAST = 'unicast'
 
-    def __init__(self, env, addr, port, udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay, initialDelay=0):
+    def __init__(self, env, addr, port, msgType, initialDelay=0):
+        """msgType shall be Message.MULTICAST or Message.UNICAST"""
         self._env = env
         self._addr = addr
         self._port = port
+        self._msgType = msgType
+        
+        if msgType == self.UNICAST:
+            udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay = \
+                    UNICAST_UDP_REPEAT, \
+                    UNICAST_UDP_MIN_DELAY, \
+                    UNICAST_UDP_MAX_DELAY, \
+                    UNICAST_UDP_UPPER_DELAY
+        else:
+            udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay = \
+                    MULTICAST_UDP_REPEAT, \
+                    MULTICAST_UDP_MIN_DELAY, \
+                    MULTICAST_UDP_MAX_DELAY, \
+                    MULTICAST_UDP_UPPER_DELAY
+
         self._udpRepeat = udpRepeat
         self._udpUpperDelay = udpUpperDelay
         self._t = (udpMinDelay + ((udpMaxDelay - udpMinDelay) * random.random())) / 2
@@ -947,7 +1079,10 @@ class Message:
 
     def getPort(self):
         return self._port
-        
+    
+    def msgType(self):
+        return self._msgType
+    
     def isFinished(self):
         return self._udpRepeat <= 0
 
@@ -1021,14 +1156,11 @@ class Service:
 class WSDiscovery:
 
     def __init__(self):
-        self._sockMultiOut = None
         self._sockMultiIn = None
         self._sockUniOut = None
         
         self._multicastSenderThread = None
         self._multicastReceiverThread = None
-        self._unicastSenderThread = None
-        self._unicastReceiverThread = None
         self._serverStarted = False
         self._remoteServices = {}
         self._localServices = {}
@@ -1147,7 +1279,7 @@ class WSDiscovery:
         env.getProbeResolveMatches().append(ProbeResolveMatch(service.getEPR(), \
                                                               service.getTypes(), service.getScopes(), \
                                                               service.getXAddrs(), str(service.getMetadataVersion())))
-        self._unicastSenderThread.addMessage(env, addr[0], addr[1])
+        self._multicastSenderThread.addUnicastMessage(env, addr[0], addr[1])
 
     def _sendProbeMatch(self, services, relatesTo, addr):
         env = SoapEnvelope()
@@ -1164,7 +1296,7 @@ class WSDiscovery:
                                                                   service.getTypes(), service.getScopes(), \
                                                                   service.getXAddrs(), str(service.getMetadataVersion())))
 
-        self._unicastSenderThread.addMessage(env, addr[0], addr[1], random.randint(0, APP_MAX_DELAY))
+        self._multicastSenderThread.addUnicastMessage(env, addr[0], addr[1], random.randint(0, APP_MAX_DELAY))
 
     def _sendProbe(self, types=None, scopes=None):
         env = SoapEnvelope()
@@ -1175,9 +1307,9 @@ class WSDiscovery:
         env.setScopes(scopes)
 
         if self._dpActive:
-            self._unicastSenderThread.addMessage(env, self._dpAddr[0], self._dpAddr[1])
+            self._multicastSenderThread.addUnicastMessage(env, self._dpAddr[0], self._dpAddr[1])
         else:
-            self._multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
+            self._multicastSenderThread.addMulticastMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
 
     def _sendResolve(self, epr):
         env = SoapEnvelope()
@@ -1187,9 +1319,9 @@ class WSDiscovery:
         env.setEPR(epr)
 
         if self._dpActive:
-            self._unicastSenderThread.addMessage(env, self._dpAddr[0], self._dpAddr[1])
+            self._multicastSenderThread.addUnicastMessage(env, self._dpAddr[0], self._dpAddr[1])
         else:
-            self._multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
+            self._multicastSenderThread.addMulticastMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
 
     def _sendHello(self, service):
         service.incrementMessageNumber()
@@ -1207,7 +1339,7 @@ class WSDiscovery:
 
         random.seed((int)(time.time() * 1000000))
 
-        self._multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT, random.randint(0, APP_MAX_DELAY))
+        self._multicastSenderThread.addMulticastMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT, random.randint(0, APP_MAX_DELAY))
 
     def _sendBye(self, service):
         env = SoapEnvelope()
@@ -1219,7 +1351,7 @@ class WSDiscovery:
         env.setEPR(service.getEPR())
 
         service.incrementMessageNumber()
-        self._multicastSenderThread.addMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
+        self._multicastSenderThread.addMulticastMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT)
 
     def start(self):
         'start the discovery server - should be called before using other functions'
@@ -1235,60 +1367,61 @@ class WSDiscovery:
         self._stopThreads()
         self._serverStarted = False
 
+    @staticmethod
+    def _makeMreq(addr):
+        return struct.pack("4s4s", socket.inet_aton(MULTICAST_IPV4_ADDRESS), socket.inet_aton(addr))
+    
+    def  _networkAddressAdded(self, addr):
+        self._sockMultiIn.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, self._makeMreq(addr))
+        self._multicastSenderThread.addSourceAddr(addr)
+
+    def _networkAddressRemoved(self, addr):
+        self._sockMultiIn.setsockopt(socket.IPPROTO_IP, socket.IP_DROP_MEMBERSHIP, self._makeMreq(addr))
+        self._multicastSenderThread.removeSourceAddr(addr)
+
     def _startThreads(self):
         if self._multicastSenderThread is not None:
             return
         
-        self._sockMultiOut = createMulticastOutSocket()
         self._sockMultiIn = createMulticastInSocket()
         self._sockUniOut = createUnicastOutSocket()
 
         iidMap = {}
         knownMessageIds = set()
 
-        self._multicastSenderThread = MessageSenderThread(self._sockMultiOut, knownMessageIds, \
-                                MULTICAST_UDP_REPEAT, MULTICAST_UDP_MIN_DELAY, \
-                                MULTICAST_UDP_MAX_DELAY, MULTICAST_UDP_UPPER_DELAY)
+        self._multicastSenderThread = MulticastSenderThread(self._sockUniOut, knownMessageIds, iidMap, self)
         self._multicastSenderThread.start()
 
-        self._unicastSenderThread = MessageSenderThread(self._sockUniOut, knownMessageIds, \
-                                UNICAST_UDP_REPEAT, UNICAST_UDP_MIN_DELAY, \
-                                UNICAST_UDP_MAX_DELAY, UNICAST_UDP_UPPER_DELAY)
-        self._unicastSenderThread.start()
-
-        self._multicastReceiverThread = MessageReceiverThread(self._sockMultiIn, knownMessageIds, iidMap, self)
+        self._multicastReceiverThread = MulticastReceiverThread(self._sockMultiIn, knownMessageIds, iidMap, self)
         self._multicastReceiverThread.start()
 
-        self._unicastReceiverThread = MessageReceiverThread(self._sockMultiOut, knownMessageIds, iidMap, self)
-        self._unicastReceiverThread.start()
-
+        if _supportMultiplyInterfaces:
+            self._addrsMonitorThread = AddressMonitorThread(self)
+            self._addrsMonitorThread.start()
+    
 
     def _stopThreads(self):
         if self._multicastSenderThread is None:
             return
 
-        self._unicastReceiverThread.schedule_stop()
         self._multicastReceiverThread.schedule_stop()
-        self._unicastSenderThread.schedule_stop()
         self._multicastSenderThread.schedule_stop()
         
-        self._unicastReceiverThread.join()
-        self._multicastReceiverThread.join()
-        self._unicastSenderThread.join()
-        self._multicastSenderThread.join()
+        if _supportMultiplyInterfaces:
+            self._addrsMonitorThread.schedule_stop()
         
-        self._sockMultiOut.close()
+        self._multicastReceiverThread.join()
+        self._multicastSenderThread.join()
+        self._addrsMonitorThread.join()
+        
         self._sockMultiIn.close()
         self._sockUniOut.close()
 
-        self._sockMultiOut = None
         self._sockMultiIn = None
         self._sockUniOut = None
         
         self._multicastSenderThread = None
         self._multicastReceiverThread = None
-        self._unicastSenderThread = None
-        self._unicastReceiverThread = None
 
     def _isTypeInList(self, ttype, types):
         for entry in types:
