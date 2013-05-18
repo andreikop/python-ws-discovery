@@ -848,9 +848,9 @@ def extractSoapUdpAddressFromURI(uri):
 
 class MessageReceiverThread(_StopableThread):
 
-    def __init__(self, sock, midMap, iidMap, observer):
+    def __init__(self, sock, knownMessageIds, iidMap, observer):
         self._sock = sock
-        self._midMap = midMap
+        self._knownMessageIds = knownMessageIds
         self._iidMap = iidMap
         self._observer = observer
         super(MessageReceiverThread, self).__init__()
@@ -870,10 +870,10 @@ class MessageReceiverThread(_StopableThread):
                 continue
             
             mid = env.getMessageId()
-            if self._midMap.has_key(mid):
+            if mid in self._knownMessageIds:
                 continue
             else:
-                self._midMap[mid] = 0
+                self._knownMessageIds.add(mid)
             
             iid = env.getInstanceId()
             mid = env.getMessageId()
@@ -896,9 +896,9 @@ class MessageReceiverThread(_StopableThread):
 
 class MessageSenderThread(_StopableThread):
 
-    def __init__(self, sock, midMap, udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay):
+    def __init__(self, sock, knownMessageIds, udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay):
         self._sock = sock
-        self._midMap = midMap
+        self._knownMessageIds = knownMessageIds
         self._udpRepeat = udpRepeat
         self._udpMinDelay = udpMinDelay
         self._udpMaxDelay = udpMaxDelay
@@ -911,7 +911,7 @@ class MessageSenderThread(_StopableThread):
         msg = Message(env, addr, port, self._udpRepeat, \
                       self._udpMinDelay, self._udpMaxDelay, self._udpUpperDelay, initialDelay)
         self._queue.append(msg)
-        self._midMap[env.getMessageId()] = 0
+        self._knownMessageIds.add(env.getMessageId())
 
     def run(self):
         while not self._quitEvent.is_set() or len(self._queue) > 0:
@@ -1246,22 +1246,22 @@ class WSDiscovery:
         self._sockUniOut = createUnicastOutSocket()
 
         iidMap = {}
-        midMap = {}
+        knownMessageIds = set()
 
-        self._multicastSenderThread = MessageSenderThread(self._sockMultiOut, midMap, \
+        self._multicastSenderThread = MessageSenderThread(self._sockMultiOut, knownMessageIds, \
                                 MULTICAST_UDP_REPEAT, MULTICAST_UDP_MIN_DELAY, \
                                 MULTICAST_UDP_MAX_DELAY, MULTICAST_UDP_UPPER_DELAY)
         self._multicastSenderThread.start()
 
-        self._unicastSenderThread = MessageSenderThread(self._sockUniOut, midMap, \
+        self._unicastSenderThread = MessageSenderThread(self._sockUniOut, knownMessageIds, \
                                 UNICAST_UDP_REPEAT, UNICAST_UDP_MIN_DELAY, \
                                 UNICAST_UDP_MAX_DELAY, UNICAST_UDP_UPPER_DELAY)
         self._unicastSenderThread.start()
 
-        self._multicastReceiverThread = MessageReceiverThread(self._sockMultiIn, midMap, iidMap, self)
+        self._multicastReceiverThread = MessageReceiverThread(self._sockMultiIn, knownMessageIds, iidMap, self)
         self._multicastReceiverThread.start()
 
-        self._unicastReceiverThread = MessageReceiverThread(self._sockMultiOut, midMap, iidMap, self)
+        self._unicastReceiverThread = MessageReceiverThread(self._sockMultiOut, knownMessageIds, iidMap, self)
         self._unicastReceiverThread.start()
 
 
