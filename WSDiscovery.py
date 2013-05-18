@@ -48,6 +48,23 @@ MATCH_BY_URI = "http://schemas.xmlsoap.org/ws/2005/04/discovery/rfc2396"
 MATCH_BY_UUID = "http://schemas.xmlsoap.org/ws/2005/04/discovery/uuid"
 MATCH_BY_STRCMP = "http://schemas.xmlsoap.org/ws/2005/04/discovery/strcmp0"
 
+
+class _StopableThread(threading.Thread):
+    """Stopable thread.
+    
+    run() method shall exit, when self._quitEvent.wait() returned True
+    """
+    def __init__(self):
+        self._quitEvent = threading.Event()
+        super(_StopableThread, self).__init__()
+   
+    def schedule_stop(self):
+        """Schedule stopping the thread.
+        Use join() to wait, until thread really has been stopped
+        """
+        self._quitEvent.set()
+
+
 class URI:
 
     def __init__(self, uri):
@@ -832,19 +849,18 @@ def extractSoapUdpAddressFromURI(uri):
     addr = [part1, part2]
     return addr
 
-class MessageReceiverThread(threading.Thread):
+class MessageReceiverThread(_StopableThread):
 
     def __init__(self, sock, midMap, iidMap, observer):
         self._sock = sock
         self._midMap = midMap
         self._iidMap = iidMap
         self._observer = observer
-        self._stop = False
-        threading.Thread.__init__(self)
+        super(MessageReceiverThread, self).__init__()
         self.setDaemon(True)
 
     def run(self):
-        while not self._stop:
+        while not self._quitEvent.is_set():
             val = readMessage(self._sock)
             if val is None:
                 time.sleep(0.01)
@@ -879,11 +895,9 @@ class MessageReceiverThread(threading.Thread):
                         continue
 
             self._observer.envReceived(env, addr)
-            
-    def stop(self):
-        self._stop = True
 
-class MessageSenderThread(threading.Thread):
+
+class MessageSenderThread(_StopableThread):
 
     def __init__(self, sock, midMap, udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay):
         self._sock = sock
@@ -892,9 +906,8 @@ class MessageSenderThread(threading.Thread):
         self._udpMinDelay = udpMinDelay
         self._udpMaxDelay = udpMaxDelay
         self._udpUpperDelay = udpUpperDelay
-        self._stop = False
         self._queue = []
-        threading.Thread.__init__(self)
+        super(MessageSenderThread, self).__init__()
         self.setDaemon(True)
 
     def addMessage(self, env, addr, port, initialDelay=0):
@@ -903,11 +916,8 @@ class MessageSenderThread(threading.Thread):
         self._queue.append(msg)
         self._midMap[env.getMessageId()] = 0
 
-    def stop(self):
-        self._stop = True
-
     def run(self):
-        while not self._stop or len(self._queue) > 0:
+        while not self._quitEvent.is_set() or len(self._queue) > 0:
             if len(self._queue) == 0:
                 time.sleep(0.1)
                 continue
@@ -1262,16 +1272,14 @@ class WSDiscovery:
         if self._multicastSenderThread is None:
             return
 
-        self._unicastReceiverThread.stop()
+        self._unicastReceiverThread.schedule_stop()
+        self._multicastReceiverThread.schedule_stop()
+        self._unicastSenderThread.schedule_stop()
+        self._multicastSenderThread.schedule_stop()
+        
         self._unicastReceiverThread.join()
-        
-        self._multicastReceiverThread.stop()
         self._multicastReceiverThread.join()
-
-        self._unicastSenderThread.stop()
         self._unicastSenderThread.join()
-        
-        self._multicastSenderThread.stop()
         self._multicastSenderThread.join()
         
         self._sockMultiOut.close()
