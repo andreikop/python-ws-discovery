@@ -670,9 +670,6 @@ def parseEnvelope(data, ipAddr):
     elif soapAction == ACTION_HELLO:
         return parseHelloMessage(dom)
 
-def sendMessage(sock, addr, port, data):
-    sock.sendto(data, (addr, port))
-
 def createMessage(env):
     if env.getAction() == ACTION_PROBE:
         return createProbeMessage(env)
@@ -925,7 +922,7 @@ class MessageSenderThread(_StopableThread):
             if msg.canSend():
                 data = createMessage(msg.getEnv())
 
-                sendMessage(self._sock, msg.getAddr(), msg.getPort(), data)
+                self._sock.sendto(data, (msg.getAddr(), msg.getPort()))
                 msg.refresh()
                 if not (msg.isFinished()):
                     self._queue.append(msg)
