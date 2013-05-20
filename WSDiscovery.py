@@ -17,7 +17,7 @@ import select
 try:
     import netifaces
     _supportMultiplyInterfaces = True
-except ImprotError:
+except ImportError:
     _supportMultiplyInterfaces = False
 
 
