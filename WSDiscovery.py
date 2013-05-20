@@ -60,6 +60,10 @@ MATCH_BY_UUID = "http://schemas.xmlsoap.org/ws/2005/04/discovery/uuid"
 MATCH_BY_STRCMP = "http://schemas.xmlsoap.org/ws/2005/04/discovery/strcmp0"
 
 
+def _generateInstanceId():
+    return str(random.randint(1, 0xFFFFFFFF))
+
+
 class _StopableThread(threading.Thread):
     """Stopable thread.
     
@@ -1271,7 +1275,7 @@ class WSDiscovery:
         env.setTo(ADDRESS_UNKNOWN)
         env.setMessageId(uuid.uuid4().get_urn())
         random.seed((int)(time.time() * 1000000))
-        env.setInstanceId(str(random.randint(1, 0xFFFFFFF)))
+        env.setInstanceId(_generateInstanceId())
         env.setMessageNumber("1")
         env.setRelatesTo(relatesTo)
 
@@ -1446,7 +1450,7 @@ class WSDiscovery:
         if not self._serverStarted:
             raise Exception("Server not started")
         
-        instanceId = (int) (time.time() * 1000000)
+        instanceId = _generateInstanceId()
         
         service = Service(types, scopes, xAddrs, self.uuid, instanceId)
         self._localServices[self.uuid] = service
