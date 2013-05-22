@@ -350,47 +350,26 @@ def getQNameFromValue(value, node):
     
 
 def getTypes(typeNode):
-    ret = []
-
-    if len(typeNode.childNodes) > 0:
-        items = typeNode.childNodes[0].data.split(" ")
-        
-        for item in items:
-            item = item.strip()
-            if len(item) == 0:
-                continue
-            ret.append(getQNameFromValue(item, typeNode))
-        
-    return ret
+    if typeNode.childNodes:
+        return [getQNameFromValue(item, typeNode) \
+                    for item in typeNode.childNodes[0].data.split()]
+    else:
+        return []
 
 def getScopes(scopeNode):
-    ret = []
     matchBy = scopeNode.getAttribute("MatchBy")
 
-    if len(scopeNode.childNodes) > 0:
-        items = scopeNode.childNodes[0].data.split(" ")
-        
-        for item in items:
-            item = urllib.unquote(item.strip())
-            if len(item) == 0:
-                continue            
-            ret.append(Scope(item, matchBy))
-
-    return ret
+    if scopeNode.childNodes:
+        return [Scope(item, matchBy) \
+                    for item in scopeNode.childNodes[0].data.split()]
+    else:
+        return []
 
 def getXAddrs(xAddrsNode):
-    ret = []
-
-    if len(xAddrsNode.childNodes) > 0:
-        items = xAddrsNode.childNodes[0].data.split(" ")
-        
-        for item in items:
-            item = item.strip()
-            if len(item) == 0:
-                continue            
-            ret.append(item)
-
-    return ret
+    if xAddrsNode.childNodes:
+        return xAddrsNode.childNodes[0].data.split()
+    else:
+        return []
 
 def createSkelSoapMessage(soapAction):
     doc = minidom.Document()
