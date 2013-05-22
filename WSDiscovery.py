@@ -126,7 +126,7 @@ class QName:
     def getFullname(self):
         return self.getNamespace() + ":" + self.getLocalname()
 
-    def _repr_(self):
+    def __repr__(self):
         return self.getFullname()
         
 
@@ -145,7 +145,7 @@ class Scope:
     def getQuotedValue(self):
         return self._value.replace(' ', '%20')
     
-    def _repr_(self):
+    def __repr__(self):
         if self.getMatchBy() == None or len(self.getMatchBy()) == 0:
             return self.getValue()
         else:
@@ -175,7 +175,7 @@ class ProbeResolveMatch:
     def getMetadataVersion(self):
         return self._metadataVersion
 
-    def _repr_(self):
+    def __repr__(self):
         return "EPR: %s\nTypes: %s\nScopes: %s\nXAddrs: %s\nMetadata Version: %s" % \
             (self.getEPR(), self.getTypes(), self.getScopes(),
              self.getXAddrs(), self.getMetadataVersion())
