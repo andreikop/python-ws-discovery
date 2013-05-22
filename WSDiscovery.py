@@ -355,29 +355,25 @@ def getQNameFromValue(value, node):
         localName = vals[1]
         ns = getNamespaceValue(node, vals[0])              
     return QName(ns, localName)
-    
 
-def getTypes(typeNode):
-    if typeNode.childNodes:
-        return [getQNameFromValue(item, typeNode) \
-                    for item in typeNode.childNodes[0].data.split()]
+def _parseSpaceSeparatedList(node):
+    if node.childNodes:
+        return [item.replace('%20', ' ') \
+            for item in node.childNodes[0].data.split()]
     else:
         return []
+
+def getTypes(typeNode):
+    return [getQNameFromValue(item, typeNode) \
+                for item in _parseSpaceSeparatedList(typeNode)]
 
 def getScopes(scopeNode):
     matchBy = scopeNode.getAttribute("MatchBy")
-
-    if scopeNode.childNodes:
-        return [Scope(item, matchBy) \
-                    for item in scopeNode.childNodes[0].data.split()]
-    else:
-        return []
+    return [Scope(item, matchBy) \
+                for item in _parseSpaceSeparatedList(scopeNode)]
 
 def getXAddrs(xAddrsNode):
-    if xAddrsNode.childNodes:
-        return xAddrsNode.childNodes[0].data.split()
-    else:
-        return []
+    return _parseSpaceSeparatedList(xAddrsNode)
 
 def createSkelSoapMessage(soapAction):
     doc = minidom.Document()
