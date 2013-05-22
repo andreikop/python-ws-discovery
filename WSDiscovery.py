@@ -13,12 +13,7 @@ import threading
 import thread
 import sys
 import select
-
-try:
-    import netifaces
-    _supportMultiplyInterfaces = True
-except ImportError:
-    _supportMultiplyInterfaces = False
+import netifaces
 
 
 BUFFER_SIZE = 0xffff
@@ -58,6 +53,19 @@ MATCH_BY_LDAP = "http://schemas.xmlsoap.org/ws/2005/04/discovery/ldap"
 MATCH_BY_URI = "http://schemas.xmlsoap.org/ws/2005/04/discovery/rfc2396"
 MATCH_BY_UUID = "http://schemas.xmlsoap.org/ws/2005/04/discovery/uuid"
 MATCH_BY_STRCMP = "http://schemas.xmlsoap.org/ws/2005/04/discovery/strcmp0"
+
+
+def _getNetworkAddrs():
+    result = []
+    
+    for if_name in netifaces.interfaces():
+        iface_info = netifaces.ifaddresses(if_name)
+        if netifaces.AF_INET in iface_info:
+            for addrDict in iface_info[netifaces.AF_INET]:
+                addr = addrDict['addr']
+                if addr != '127.0.0.1':
+                    result.append(addr)
+    return result
 
 
 def _generateInstanceId():
@@ -819,21 +827,8 @@ class AddressMonitorThread(_StopableThread):
         super(AddressMonitorThread, self).__init__()
         self._updateAddrs()
     
-    @staticmethod
-    def _getNetworkAddrs():
-        result = []
-        
-        for if_name in netifaces.interfaces():
-            iface_info = netifaces.ifaddresses(if_name)
-            if netifaces.AF_INET in iface_info:
-                addrs =[addr['addr'] \
-                            for addr in iface_info[netifaces.AF_INET]]
-                result += addrs
-        
-        return result
-    
     def _updateAddrs(self):
-        addrs = set(self._getNetworkAddrs())
+        addrs = set(_getNetworkAddrs())
         
         disappeared = self._addrs.difference(addrs)
         new = addrs.difference(self._addrs)
@@ -885,13 +880,6 @@ class NetworkingThread(_StopableThread):
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         
-        if not _supportMultiplyInterfaces:
-            mreq = struct.pack("4sl", socket.inet_aton(MULTICAST_IPV4_ADDRESS), socket.INADDR_ANY)
-            sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
-        else:
-            pass
-            # concrete addresses will be added later
-        
         sock.bind(('', MULTICAST_PORT))
     
         sock.setblocking(0)
@@ -900,14 +888,20 @@ class NetworkingThread(_StopableThread):
     
     def addSourceAddr(self, addr):
         """None means 'system default'"""
-        self._multiInSocket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, self._makeMreq(addr))
+        try:
+            self._multiInSocket.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, self._makeMreq(addr))
+        except socket.error:  # if 1 interface has more than 1 address, exception is raised for the second
+            pass
         
         sock = self._createMulticastOutSocket(addr)
         self._multiOutUniInSockets[addr] = sock
         self._poll.register(sock, select.POLLIN)
     
     def removeSourceAddr(self, addr):
-        self._multiInSocket.setsockopt(socket.IPPROTO_IP, socket.IP_DROP_MEMBERSHIP, self._makeMreq(addr))
+        try:
+            self._multiInSocket.setsockopt(socket.IPPROTO_IP, socket.IP_DROP_MEMBERSHIP, self._makeMreq(addr))
+        except socket.error:  # see comments for setsockopt(.., socket.IP_ADD_MEMBERSHIP..
+            pass
 
         sock = self._multiOutUniInSockets[addr]
         self._poll.unregister(sock)
@@ -1091,7 +1085,18 @@ class Service:
         self._scopes = scopes
 
     def getXAddrs(self):
-        return self._xAddrs
+        ret = []
+        ipAddrs = None
+        for xAddr in self._xAddrs:
+            if '{ip}' in xAddr:
+                if ipAddrs is None:
+                    ipAddrs = _getNetworkAddrs()
+                for ipAddr in ipAddrs:
+                    if ipAddr != '127.0.0.1':
+                        ret.append(xAddr.format(ip=ipAddr))
+            else:
+                ret.append(xAddr)
+        return ret
 
     def setXAddrs(self, xAddrs):
         self._xAddrs = xAddrs
@@ -1336,6 +1341,8 @@ class WSDiscovery:
 
     def  _networkAddressAdded(self, addr):
         self._networkingThread.addSourceAddr(addr)
+        for service in self._localServices.items():
+            self._sendHello(service)
 
     def _networkAddressRemoved(self, addr):
         self._networkingThread.removeSourceAddr(addr)
@@ -1350,9 +1357,8 @@ class WSDiscovery:
         self._networkingThread = NetworkingThread(knownMessageIds, iidMap, self)
         self._networkingThread.start()
 
-        if _supportMultiplyInterfaces:
-            self._addrsMonitorThread = AddressMonitorThread(self)
-            self._addrsMonitorThread.start()
+        self._addrsMonitorThread = AddressMonitorThread(self)
+        self._addrsMonitorThread.start()
     
 
     def _stopThreads(self):
@@ -1360,9 +1366,7 @@ class WSDiscovery:
             return
 
         self._networkingThread.schedule_stop()
-        
-        if _supportMultiplyInterfaces:
-            self._addrsMonitorThread.schedule_stop()
+        self._addrsMonitorThread.schedule_stop()
         
         self._networkingThread.join()
         self._addrsMonitorThread.join()
@@ -1424,7 +1428,10 @@ class WSDiscovery:
         return self._filterServices(self._remoteServices.values(), types, scopes)
 
     def publishService(self, types, scopes, xAddrs):
-        'publish a service with the given TYPES, SCOPES and XAddrs (service addresses)'
+        """Publish a service with the given TYPES, SCOPES and XAddrs (service addresses)
+        
+        if xAddrs contains item, which includes {ip} pattern, one item per IP addres will be sent
+        """
         
         if not self._serverStarted:
             raise Exception("Server not started")
@@ -1465,8 +1472,8 @@ if __name__ == "__main__":
     ttype2 = QName("namespace", "myOtherTestService_type1")
     scope2 = Scope("http://other_scope")
     
-    xAddr = "localhost:8080/abc"
-    wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=[xAddr])
+    xAddrs = ["localhost:8080/abc", '{ip}/device_service']
+    wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=xAddrs)
     
     #ret = wsd.searchServices(scopes=[scope1], timeout=10)
     ret = wsd.searchServices()
