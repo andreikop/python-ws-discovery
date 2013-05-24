@@ -1124,9 +1124,10 @@ class Service:
     def incrementMessageNumber(self):
         self._messageNumber = self._messageNumber + 1
         
+
 class WSDiscovery:
 
-    def __init__(self):
+    def __init__(self, uuid_=None):
         
         self._networkingThread = None
         self._serverStarted = False
@@ -1142,7 +1143,10 @@ class WSDiscovery:
         self._remoteServiceHelloCallbackScopesFilter = None
         self._remoteServiceByeCallback = None
         
-        self.uuid = uuid.uuid4().get_urn()
+        if uuid_ is not None:
+            self.uuid = uuid_
+        else:
+            self.uuid = uuid.uuid4().get_urn()
 
     def setRemoteServiceHelloCallback(self, cb, types=None, scopes=None):
         """Set callback, which will be called when new service appeared online
