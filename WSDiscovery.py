@@ -843,14 +843,14 @@ class AddressMonitorThread(_StopableThread):
 
 
 class NetworkingThread(_StopableThread):
-    def __init__(self, knownMessageIds, iidMap, observer):
+    def __init__(self, observer):
         super(NetworkingThread, self).__init__()
         
         self.setDaemon(True)
         self._queue = []    # FIXME synchronisation
 
-        self._knownMessageIds = knownMessageIds
-        self._iidMap = iidMap
+        self._knownMessageIds = set()
+        self._iidMap = {}
         self._observer = observer
         
         self._poll = select.poll()
@@ -1351,10 +1351,7 @@ class WSDiscovery:
         if self._networkingThread is not None:
             return
         
-        iidMap = {}
-        knownMessageIds = set()
-
-        self._networkingThread = NetworkingThread(knownMessageIds, iidMap, self)
+        self._networkingThread = NetworkingThread(self)
         self._networkingThread.start()
 
         self._addrsMonitorThread = AddressMonitorThread(self)
