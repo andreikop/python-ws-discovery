@@ -1235,7 +1235,7 @@ class WSDiscovery:
                 self._remoteServiceByeCallback(env.getEPR())
 
     def envReceived(self, env, addr):
-        thread.start_new_thread(self.handleEnv, (env, addr))
+        self.handleEnv(env, addr)
 
     def _sendResolveMatch(self, service, relatesTo, addr):
         service.incrementMessageNumber()
