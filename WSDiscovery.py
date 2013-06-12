@@ -1341,7 +1341,7 @@ class WSDiscovery:
 
     def  _networkAddressAdded(self, addr):
         self._networkingThread.addSourceAddr(addr)
-        for service in self._localServices.items():
+        for service in self._localServices.values():
             self._sendHello(service)
 
     def _networkAddressRemoved(self, addr):
