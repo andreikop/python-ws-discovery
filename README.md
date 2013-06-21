@@ -10,7 +10,7 @@ Authors and maintaining
 This is fork by Andrei Kopats <hlamer@tut.by> with fiew fixes applyied.
 
 I forked this project to make my fixes available for the public. It seems like L.A. Fernando no longer interested in the project and ignores patches.
-Maintaining the project is not among my priorities. If you know know, that original author resumed maintaining this project - notify me, I'll drop the fork. If YOU want to maintain it and already **have done** something for it - let me know, I'll replace this page with redirect to your site.
+Maintaining the project is not among my priorities. If you know know, that original author resumed maintaining this project - notify me, I'll drop the fork. If you want to maintain it and already **have done** something for it - let me know, I'll replace this page with redirect to your site.
 
 Usage
 -----
@@ -40,6 +40,12 @@ A sample use of the module is shown below:
 
     wsd.stop()
 ```
+
+Development state
+-----------------
+This is not 100% complete and correct WS-Discovery implementation
+It doesn't verify data, received from the network. It may crash, and even may contain security holes.
+It works for me, and should work for you. But test it carefully.
 
 TODO
 ----
