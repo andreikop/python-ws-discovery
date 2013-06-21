@@ -43,8 +43,8 @@ A sample use of the module is shown below:
 
 Development state
 -----------------
-This is not 100% complete and correct WS-Discovery implementation
-It doesn't verify data, received from the network. It may crash, and even may contain security holes.
+This is not 100% complete and correct WS-Discovery implementation. It doesn't verify data, received from the network. It may crash, and even may contain security holes. 
+
 It works for me, and should work for you. But test it carefully.
 
 TODO
