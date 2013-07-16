@@ -72,14 +72,15 @@ def _generateInstanceId():
     return str(random.randint(1, 0xFFFFFFFF))
 
 
-class _StopableThread(threading.Thread):
-    """Stopable thread.
+class _StopableDaemonThread(threading.Thread):
+    """Stopable daemon thread.
     
     run() method shall exit, when self._quitEvent.wait() returned True
     """
     def __init__(self):
         self._quitEvent = threading.Event()
-        super(_StopableThread, self).__init__()
+        super(_StopableDaemonThread, self).__init__()
+        self.daemon = True
    
     def schedule_stop(self):
         """Schedule stopping the thread.
@@ -816,7 +817,7 @@ def extractSoapUdpAddressFromURI(uri):
     return addr
 
 
-class AddressMonitorThread(_StopableThread):
+class AddressMonitorThread(_StopableDaemonThread):
     def __init__(self, wsd):
         self._addrs = set()
         self._wsd = wsd
@@ -842,7 +843,7 @@ class AddressMonitorThread(_StopableThread):
             self._updateAddrs()
 
 
-class NetworkingThread(_StopableThread):
+class NetworkingThread(_StopableDaemonThread):
     def __init__(self, observer):
         super(NetworkingThread, self).__init__()
         

@@ -10,7 +10,7 @@ Authors and maintaining
 This is fork by Andrei Kopats <hlamer@tut.by> with fiew fixes applyied.
 
 I forked this project to make my fixes available for the public. It seems like L.A. Fernando no longer interested in the project and ignores patches.
-Maintaining the project is not among my priorities. If you know know, that original author resumed maintaining this project - notify me, I'll drop the fork. If you want to maintain it and already **have done** something for it - let me know, I'll replace this page with redirect to your site.
+Maintaining the project is not among my priorities. If you know, that original author resumed maintaining this project - notify me, I'll drop the fork. If you want to maintain it and already **have done** something for it - let me know, I'll replace this page with redirect to your site.
 
 Usage
 -----
