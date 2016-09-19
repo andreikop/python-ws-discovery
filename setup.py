@@ -3,10 +3,10 @@
 from distutils.core import setup
 
 setup(name='WSDiscovery',
-      version='0.1',
+      version='0.2',
       description='WS-Discovery implementation for python',
-      author='L.A. Fernando',
-      author_email='lafernando@gmail.com',
-      url='http://code.google.com/p/python-ws-discovery/',
+      author='Pieter Willem Jordaan',
+      author_email='pieterwjordaanpc@gmail.com',
+      url='https://github.com/Climax777/python-ws-discovery.git',
       py_modules=['WSDiscovery']
      )
