@@ -583,7 +583,7 @@ def parseHelloMessage(dom):
         env.setRelatesTo(relatesToNodes[0].firstChild.data.strip())
         env.setRelationshipType(getQNameFromValue( \
             relatesToNodes[0].getAttribute("RelationshipType"), relatesToNodes[0]))
-
+    import pdb; pdb.set_trace()
     env.setEPR(dom.getElementsByTagNameNS(NS_A, "Address")[0].firstChild.data.strip())
 
     typeNodes = dom.getElementsByTagNameNS(NS_D, "Types")
@@ -945,7 +945,7 @@ class NetworkingThread(_StopableDaemonThread):
             
             iid = env.getInstanceId()
             mid = env.getMessageId()
-            if int(iid) > 0:
+            if len(iid) > 0 and int(iid) > 0:
                 mnum = env.getMessageNumber()
                 key = addr[0] + ":" + str(addr[1]) + ":" + str(iid)
                 if mid is not None and len(mid) > 0:
@@ -1471,14 +1471,15 @@ if __name__ == "__main__":
     scope2 = Scope("http://other_scope")
     
     xAddrs = ["localhost:8080/abc", '{ip}/device_service']
-    wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=xAddrs)
+    # wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=xAddrs)
     
     #ret = wsd.searchServices(scopes=[scope1], timeout=10)
-    ret = wsd.searchServices()
+    # ret = wsd.searchServices()
+
+    nvt = QName("http://www.onvif.org/ver10/network/wsdl", "NetworkVideoTransmitter")
+    ret = wsd.searchServices(types=[nvt])
     
     for service in ret:
         print(service.getEPR() + ":" + service.getXAddrs()[0])
-        print(service.getScopes())
-        print(service.getTypes())
 
     wsd.stop()
