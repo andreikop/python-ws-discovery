@@ -407,7 +407,7 @@ def getDocAsString(doc):
     outStr = ""
     stream = io.StringIO(outStr)
     stream.write(doc.toprettyxml())
-    return stream.getvalue()
+    return stream.getvalue().encode('UTF-8')
 
 def getBodyEl(doc):
     return doc.getElementsByTagNameNS(NS_S, "Body")[0]
@@ -583,7 +583,7 @@ def parseHelloMessage(dom):
         env.setRelatesTo(relatesToNodes[0].firstChild.data.strip())
         env.setRelationshipType(getQNameFromValue( \
             relatesToNodes[0].getAttribute("RelationshipType"), relatesToNodes[0]))
-    import pdb; pdb.set_trace()
+    
     env.setEPR(dom.getElementsByTagNameNS(NS_A, "Address")[0].firstChild.data.strip())
 
     typeNodes = dom.getElementsByTagNameNS(NS_D, "Types")
@@ -672,7 +672,7 @@ def createProbeMessage(env):
     addTypes(doc, probeEl, env.getTypes())
     addScopes(doc, probeEl, env.getScopes())
     
-    return getDocAsString(doc).encode('UTF-8')
+    return getDocAsString(doc)
 
 def createProbeMatchMessage(env):
     doc = createSkelSoapMessage(ACTION_PROBE_MATCH)
@@ -703,7 +703,7 @@ def createProbeMatchMessage(env):
     
     bodyEl.appendChild(probeMatchesEl)
 
-    return getDocAsString(doc).encode('UTF-8')
+    return getDocAsString(doc)
 
 def createResolveMessage(env):
     doc = createSkelSoapMessage(ACTION_RESOLVE)
@@ -721,7 +721,7 @@ def createResolveMessage(env):
     addEPR(doc, resolveEl, env.getEPR())
     bodyEl.appendChild(resolveEl)
 
-    return getDocAsString(doc).encode('UTF-8')    
+    return getDocAsString(doc)   
 
 def createResolveMatchMessage(env):
     doc = createSkelSoapMessage(ACTION_RESOLVE_MATCH)
@@ -752,7 +752,7 @@ def createResolveMatchMessage(env):
 
     bodyEl.appendChild(resolveMatchesEl)
     
-    return getDocAsString(doc).encode('UTF-8')
+    return getDocAsString(doc)
 
 def createHelloMessage(env):
     doc = createSkelSoapMessage(ACTION_HELLO)
@@ -783,7 +783,7 @@ def createHelloMessage(env):
 
     bodyEl.appendChild(helloEl)
     
-    return getDocAsString(doc).encode('UTF-8')
+    return getDocAsString(doc)
 
 def createByeMessage(env):
     doc = createSkelSoapMessage(ACTION_BYE)
@@ -803,7 +803,7 @@ def createByeMessage(env):
     addEPR(doc, byeEl, env.getEPR())
     bodyEl.appendChild(byeEl)
 
-    return getDocAsString(doc).encode('UTF-8')
+    return getDocAsString(doc)
 
 def extractSoapUdpAddressFromURI(uri):
     val = uri.getPathExQueryFragment().split(":")
