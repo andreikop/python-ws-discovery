@@ -407,7 +407,7 @@ def getDocAsString(doc):
     outStr = ""
     stream = io.StringIO(outStr)
     stream.write(doc.toprettyxml())
-    return stream.getvalue().encode('UTF-8')
+    return stream.getvalue()
 
 def getBodyEl(doc):
     return doc.getElementsByTagNameNS(NS_S, "Body")[0]
@@ -962,7 +962,7 @@ class NetworkingThread(_StopableDaemonThread):
             self._observer.envReceived(env, addr)
     
     def _sendMsg(self, msg):
-        data = createMessage(msg.getEnv())
+        data = createMessage(msg.getEnv()).encode("UTF-8")
 
         if msg.msgType() == Message.UNICAST:
             self._uniOutSocket.sendto(data, (msg.getAddr(), msg.getPort()))
