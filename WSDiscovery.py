@@ -1,6 +1,16 @@
 #!/usr/bin/env python
 
-import urllib.request, urllib.parse, urllib.error
+import sys
+
+if sys.version_info.major > 2:
+	import urllib.request, urllib.parse, urllib.error
+	urllib_parse_unquote = urllib.parse.unquote
+	import _thread
+	def unicode(x): return x
+else:
+	import urllib
+	urllib_parse_unquote = urllib.unquote
+
 from xml.dom import minidom
 import io
 import random
@@ -10,8 +20,6 @@ import struct
 import time
 import uuid
 import threading
-import _thread
-import sys
 import select
 import netifaces
 
@@ -92,7 +100,7 @@ class _StopableDaemonThread(threading.Thread):
 class URI:
 
     def __init__(self, uri):
-        uri = urllib.parse.unquote(uri)
+        uri = urllib_parse_unquote(uri)
         i1 = uri.find(":")
         i2 = uri.find("@")
         self._scheme = uri[:i1]
@@ -404,9 +412,9 @@ def addElementWithText(doc, parent, name, ns, value):
     parent.appendChild(el)
 
 def getDocAsString(doc):
-    outStr = ""
+    outStr = u""
     stream = io.StringIO(outStr)
-    stream.write(doc.toprettyxml())
+    stream.write(unicode(doc.toprettyxml()))
     return stream.getvalue()
 
 def getBodyEl(doc):
@@ -1463,15 +1471,15 @@ if __name__ == "__main__":
     wsd = WSDiscovery()
     wsd.start()
 
-    ttype = QName("abc", "def")
+    #ttype = QName("abc", "def")
 
-    ttype1 = QName("namespace", "myTestService")
-    scope1 = Scope("http://myscope")
-    ttype2 = QName("namespace", "myOtherTestService_type1")
-    scope2 = Scope("http://other_scope")
+    #ttype1 = QName("namespace", "myTestService")
+    #scope1 = Scope("http://myscope")
+    #ttype2 = QName("namespace", "myOtherTestService_type1")
+    #scope2 = Scope("http://other_scope")
     
-    xAddrs = ["localhost:8080/abc", '{ip}/device_service']
-    wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=xAddrs)
+    #xAddrs = ["localhost:8080/abc", '{ip}/device_service']
+    #wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=xAddrs)
     
     #ret = wsd.searchServices(scopes=[scope1], timeout=10)
     
