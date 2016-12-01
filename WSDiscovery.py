@@ -1157,6 +1157,12 @@ class WSDiscovery:
         else:
             self.uuid = uuid.uuid4().urn
 
+    def __enter__(self): # support for with-as statement
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.stop()
+
     def setRemoteServiceHelloCallback(self, cb, types=None, scopes=None):
         """Set callback, which will be called when new service appeared online
         and sent Hi message
@@ -1468,27 +1474,26 @@ def showEnv(env):
     print("-----------------------------")
     
 if __name__ == "__main__":
-    wsd = WSDiscovery()
-    wsd.start()
+    with WSDiscovery() as wsd:
+        wsd.start()
 
-    #ttype = QName("abc", "def")
+        #ttype = QName("abc", "def")
 
-    #ttype1 = QName("namespace", "myTestService")
-    #scope1 = Scope("http://myscope")
-    #ttype2 = QName("namespace", "myOtherTestService_type1")
-    #scope2 = Scope("http://other_scope")
-    
-    #xAddrs = ["localhost:8080/abc", '{ip}/device_service']
-    #wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=xAddrs)
-    
-    #ret = wsd.searchServices(scopes=[scope1], timeout=10)
-    
-    #nvt = QName("http://www.onvif.org/ver10/network/wsdl", "NetworkVideoTransmitter")
-    #ret = wsd.searchServices(types=[nvt])
-    
-    ret = wsd.searchServices()
-    
-    for service in ret:
-        print(service.getEPR() + ":" + service.getXAddrs()[0])
-
-    wsd.stop()
+        #ttype1 = QName("namespace", "myTestService")
+        #scope1 = Scope("http://myscope")
+        #ttype2 = QName("namespace", "myOtherTestService_type1")
+        #scope2 = Scope("http://other_scope")
+        
+        #xAddrs = ["localhost:8080/abc", '{ip}/device_service']
+        #wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=xAddrs)
+        
+        #ret = wsd.searchServices(scopes=[scope1], timeout=10)
+        
+        #nvt = QName("http://www.onvif.org/ver10/network/wsdl", "NetworkVideoTransmitter")
+        #ret = wsd.searchServices(types=[nvt])
+        
+        ret = wsd.searchServices()
+        
+        for service in ret:
+            print(service.getEPR() + ":" + service.getXAddrs()[0])
+# EOF #
