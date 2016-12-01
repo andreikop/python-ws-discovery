@@ -1,10 +1,13 @@
 WS-Discovery in Python
 ======================
-This is WS-Discovery implementation for Python3 **only**.
+This is WS-Discovery implementation for Python2 and Python3 again.
 It allows to discover services and to be discovered.
 
 Authors and maintaining
 -----------------------
+
+[This fork](https://github.com/jn0/python-ws-discovery) is to allow Python2 mostly...
+
 [Original version](http://code.google.com/p/python-ws-discovery/) was created by L.A. Fernando <lafernando@gmail.com>
 
 This is fork by Andrei Kopats <hlamer@tut.by> with few fixes applied. Python3 port done by Pieter Jordaan <pieterwjordaanpc@gmail.com>
