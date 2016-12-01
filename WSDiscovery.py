@@ -1472,28 +1472,24 @@ def showEnv(env):
     print("Metadata Version: %s" % env.getMetadataVersion())
     print("Probe Matches: %s" % env.getProbeResolveMatches())
     print("-----------------------------")
-    
-if __name__ == "__main__":
+
+def discover(timeout=3.0):
+    '''Perform service discovery and return dict of lists'''
+    res = {}
     with WSDiscovery() as wsd:
         wsd.start()
+        for service in wsd.searchServices(timeout=timeout):
+            epr = service.getEPR()
+            res[epr] = []
+            for xaddr in service.getXAddrs():
+                res[epr].append(xaddr)
+    return res
 
-        #ttype = QName("abc", "def")
-
-        #ttype1 = QName("namespace", "myTestService")
-        #scope1 = Scope("http://myscope")
-        #ttype2 = QName("namespace", "myOtherTestService_type1")
-        #scope2 = Scope("http://other_scope")
-        
-        #xAddrs = ["localhost:8080/abc", '{ip}/device_service']
-        #wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=xAddrs)
-        
-        #ret = wsd.searchServices(scopes=[scope1], timeout=10)
-        
-        #nvt = QName("http://www.onvif.org/ver10/network/wsdl", "NetworkVideoTransmitter")
-        #ret = wsd.searchServices(types=[nvt])
-        
-        ret = wsd.searchServices()
-        
-        for service in ret:
-            print(service.getEPR() + ":" + service.getXAddrs()[0])
+# EOF #
+if __name__ == "__main__":
+    ret = discover()
+   
+    for service in ret:
+        for xaddr in ret[service]:
+            print(service + ":" + xaddr)
 # EOF #
