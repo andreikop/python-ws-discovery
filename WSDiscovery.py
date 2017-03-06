@@ -1,7 +1,7 @@
 #!/usr/bin/env python
+from __future__ import print_function
+from __future__ import unicode_literals
 
-import urllib.request, urllib.parse, urllib.error
-from xml.dom import minidom
 import io
 import random
 import string
@@ -10,10 +10,15 @@ import struct
 import time
 import uuid
 import threading
-import _thread
 import sys
 import select
 import netifaces
+from xml.dom import minidom
+
+try:
+    from urllib.parse import unquote  # Python 3
+except ImportError:
+    from urllib2 import unquote  # Python 2
 
 
 BUFFER_SIZE = 0xffff
@@ -92,7 +97,7 @@ class _StopableDaemonThread(threading.Thread):
 class URI:
 
     def __init__(self, uri):
-        uri = urllib.parse.unquote(uri)
+        uri = unquote(uri)
         i1 = uri.find(":")
         i2 = uri.find("@")
         self._scheme = uri[:i1]
@@ -619,11 +624,11 @@ def parseEnvelope(data, ipAddr):
     try:
         dom = minidom.parseString(data)
     except Exception as ex:
-        #print >> sys.stderr, 'Failed to parse message from %s\n"%s": %s' % (ipAddr, data, ex)
+        #print('Failed to parse message from %s\n"%s": %s' % (ipAddr, data, ex), file=sys.stderr)
         return None
     
     if dom.getElementsByTagNameNS(NS_S, "Fault"):
-        #print >> sys.stderr, 'Fault received from %s:' % (ipAddr, data)
+        #print('Fault received from %s:' % (ipAddr, data), file=sys.stderr)
         return None
     
     soapAction = dom.getElementsByTagNameNS(NS_A, "Action")[0].firstChild.data.strip()
