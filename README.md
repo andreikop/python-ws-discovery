@@ -1,6 +1,6 @@
 WS-Discovery in Python
 ======================
-This is WS-Discovery implementation for Python3 **only**.
+This is WS-Discovery implementation for Python 2.7 and above
 It allows to discover services and to be discovered.
 
 Authors and maintaining
