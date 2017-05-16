@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+try:
+   from setuptools.commands import setup
+except:
+   from distutils.core import setup
 
 setup(name='WSDiscovery',
       version='0.2',
@@ -25,5 +28,6 @@ setup(name='WSDiscovery',
             'Topic :: Software Development :: Libraries :: Python Modules',
             'Topic :: Communications'
       ],
-      py_modules=['WSDiscovery']
+      py_modules=['WSDiscovery'],
+      setup_requires=['netifaces']
      )
