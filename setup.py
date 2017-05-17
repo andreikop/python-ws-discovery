@@ -8,9 +8,9 @@ except:
 setup(name='WSDiscovery',
       version='0.2',
       description='WS-Discovery implementation for python',
-      author='L.A. Fernando',
-      author_email='lafernando@gmail.com',
-      url='https://github.com/hlamer/python-ws-discovery.git',
+      author='Andrei Kopats',
+      author_email='andrei.kopats@gmail.com',
+      url='https://github.com/andreikop/python-ws-discovery.git',
       classifiers=[
             'Development Status :: 4 - Beta',
             'Environment :: Console',
