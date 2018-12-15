@@ -29,5 +29,6 @@ setup(name='WSDiscovery',
             'Topic :: Communications'
       ],
       py_modules=['WSDiscovery'],
-      setup_requires=['netifaces']
+      setup_requires=['netifaces'],
+      install_requires=['netifaces']
      )
