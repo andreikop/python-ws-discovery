@@ -2,6 +2,10 @@
 A threaded discovery daemon implementation.
 """
 
+# Python2 compatibility
+from __future__ import print_function
+from __future__ import unicode_literals
+
 import random
 import time
 import uuid

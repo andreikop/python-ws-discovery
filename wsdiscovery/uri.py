@@ -3,7 +3,10 @@
 Simple URI implementation, just for the purposes of service scope matching
 """
 
-from urllib.parse import unquote
+try:
+    from urllib.parse import unquote  # Python 3
+except ImportError:
+    from urllib2 import unquote  # Python 2
 
 
 class URI:
