@@ -1,10 +1,12 @@
-Metadata-Version: 1.0
+Metadata-Version: 1.2
 Name: WSDiscovery
-Version: 0.1
+Version: 0.2
 Summary: WS-Discovery implementation for python
-Home-page: http://code.google.com/p/python-ws-discovery/
+Home-page: https://github.com/andreikop/python-ws-discovery
 Author: L.A. Fernando
 Author-email: lafernando@gmail.com
-License: UNKNOWN
-Description: UNKNOWN
-Platform: UNKNOWN
+Maintainer: Andrei Kopats
+Maintainer-email: andrei.kopats@gmail.com
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
