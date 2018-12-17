@@ -7,7 +7,7 @@ Authors and maintaining
 -----------------------
 Original version created by L.A. Fernando. Code was then forked and maintained
 by Andrei Kopats. Python3 port done by Pieter Jordaan. Packaging & major
-refactoring by Petri Savolainen.
+refactoring by Petri Savolainen. Python2 support fixes by Michael Leinartas.
 
 Usage
 -----
