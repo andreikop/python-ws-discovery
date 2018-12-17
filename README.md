@@ -1,10 +1,13 @@
 WS-Discovery in Python
 ======================
-This is WS-Discovery implementation for Python 2 & 3. It allows to discover services and to be discovered.
+This is WS-Discovery implementation for Python 2 & 3. It allows to discover
+services and to be discovered.
 
 Authors and maintaining
 -----------------------
-Original version created by L.A. Fernando. Code was then forked and maintained by Andrei Kopats. Python3 port done by Pieter Jordaan. Updated packaging & major refactoring by Petri Savolainen.
+Original version created by L.A. Fernando. Code was then forked and maintained
+by Andrei Kopats. Python3 port done by Pieter Jordaan. Packaging & major
+refactoring by Petri Savolainen.
 
 Usage
 -----
@@ -21,7 +24,7 @@ A sample use of the module is shown below:
 
     ttype1 = QName("namespace", "myTestService")
     
-    # Note: some devices scope services using `onvif://` scheme rather than `http://`
+    # Note: some devices scope services using onvif:// scheme, not http://
     scope1 = Scope("http://myscope")
     ttype2 = QName("namespace", "myOtherTestService_type1")
     scope2 = Scope("http://other_scope")
@@ -40,8 +43,8 @@ A sample use of the module is shown below:
 
 Development state
 -----------------
-This is not 100% complete and correct WS-Discovery implementation. It doesn't verify data, received from the network. It may crash, and even may contain security holes. No guarantees.
-
-It works for me, and should work for you. But test it carefully for your use case.
+This is not 100% complete and correct WS-Discovery implementation. It doesn't
+verify data received from the network. It may crash, and might contain security
+holes. No guarantees - test it carefully for your use case.
 
 
