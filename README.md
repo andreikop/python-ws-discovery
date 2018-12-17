@@ -15,7 +15,7 @@ Usage
 A sample use of the module is shown below:
 
 ```python
-    from .WSDiscovery import WSDiscovery, QName, Scope
+    from wsdiscovery import WSDiscovery, QName, Scope
 
     wsd = WSDiscovery()
     wsd.start()
