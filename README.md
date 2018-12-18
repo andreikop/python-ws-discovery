@@ -1,23 +1,21 @@
 WS-Discovery in Python
 ======================
-This is WS-Discovery implementation for Python 2.7 and above
-It allows to discover services and to be discovered.
+This is WS-Discovery implementation for Python 2 & 3. It allows to discover
+services and to be discovered.
 
 Authors and maintaining
 -----------------------
-[Original version](http://code.google.com/p/python-ws-discovery/) was created by L.A. Fernando <lafernando@gmail.com>
-
-This is fork by Andrei Kopats <andrei.kopats@gmail.com> with few fixes applied. Python3 port done by Pieter Jordaan <pieterwjordaanpc@gmail.com>
-
-I forked this project to make my fixes available for the public. It seems like L.A. Fernando no longer interested in the project and ignores patches.
-Maintaining the project is not among my priorities. If you know, that original author resumed maintaining this project - notify me, I'll drop the fork. If you want to maintain it and already **have done** something for it - let me know, I'll replace this page with redirect to your site.
+Original version created by L.A. Fernando. Code was then forked and maintained
+by Andrei Kopats. Python3 port done by Pieter Jordaan. Packaging & major
+refactoring by Petri Savolainen. Python2 support fixes by Michael Leinartas.
 
 Usage
 -----
 
 A sample use of the module is shown below:
+
 ```python
-    from .WSDiscovery import WSDiscovery, QName, Scope
+    from wsdiscovery import WSDiscovery, QName, Scope
 
     wsd = WSDiscovery()
     wsd.start()
@@ -25,6 +23,8 @@ A sample use of the module is shown below:
     ttype = QName("abc", "def")
 
     ttype1 = QName("namespace", "myTestService")
+    
+    # Note: some devices scope services using onvif:// scheme, not http://
     scope1 = Scope("http://myscope")
     ttype2 = QName("namespace", "myOtherTestService_type1")
     scope2 = Scope("http://other_scope")
@@ -43,11 +43,8 @@ A sample use of the module is shown below:
 
 Development state
 -----------------
-This is not 100% complete and correct WS-Discovery implementation. It doesn't verify data, received from the network. It may crash, and even may contain security holes.
+This is not 100% complete and correct WS-Discovery implementation. It doesn't
+verify data received from the network. It may crash, and might contain security
+holes. No guarantees - test it carefully for your use case.
 
-It works for me, and should work for you. But test it carefully.
 
-TODO
-----
-
-* Put more documentation.
