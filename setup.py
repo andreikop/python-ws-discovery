@@ -1,13 +1,26 @@
 #!/usr/bin/env python
 
+import os.path
+
 try:
    from setuptools.commands import setup
 except:
    from distutils.core import setup
 
+here = os.path.abspath(os.path.dirname(__file__))
+
+try:
+    README = open(os.path.join(here, "README.md")).read()
+    CHANGES = open(os.path.join(here, "CHANGES.md")).read()
+except Exception:
+    README = CHANGES = ""
+
+
 setup(name='WSDiscovery',
-      version='0.2',
+      version='1.0.0',
       description='WS-Discovery implementation for python',
+      long_description=README + "\n\n" + CHANGES,
+      long_description_content_type="text/markdown",
       author='Andrei Kopats',
       author_email='andrei.kopats@gmail.com',
       url='https://github.com/andreikop/python-ws-discovery.git',

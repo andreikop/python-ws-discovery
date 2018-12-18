@@ -1,7 +1,7 @@
 Changelog
 ==========
 
-x.y (2018-12-xx)
+1.0.0 (2018-12-18)
 -----------------
 
 - Improved packaging (petri)
