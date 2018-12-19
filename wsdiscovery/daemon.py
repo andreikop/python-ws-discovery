@@ -19,6 +19,7 @@ from .udp import UDPMessage
 from .envelope import SoapEnvelope
 from .actions import *
 from .util import _getNetworkAddrs, matchScope
+from .util import _generateInstanceId
 from .message import createSOAPMessage, parseSOAPMessage
 from .service import Service
 

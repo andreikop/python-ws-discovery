@@ -2,7 +2,8 @@
 from ..namespaces import NS_A, NS_D
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
-                   addTypes, addScopes, getDocAsString, getScopes, addEPR
+                   addTypes, addScopes, getDocAsString, getScopes, addEPR, \
+                   _parseAppSequence
 
 
 ACTION_BYE = "http://schemas.xmlsoap.org/ws/2005/04/discovery/Bye"

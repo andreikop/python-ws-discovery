@@ -1,11 +1,13 @@
 
 import io
+import string
 import random
 import netifaces
 from xml.dom import minidom
 from .scope import Scope
 from .uri import URI
 from .namespaces import NS_A, NS_D, NS_S
+from .qname import QName
 
 
 def createSkelSoapMessage(soapAction):
@@ -117,6 +119,11 @@ def getXAddrs(xAddrsNode):
     return _parseSpaceSeparatedList(xAddrsNode)
 
 
+def getTypes(typeNode):
+    return [getQNameFromValue(item, typeNode) \
+                for item in _parseSpaceSeparatedList(typeNode)]
+
+
 def getScopes(scopeNode):
     matchBy = scopeNode.getAttribute("MatchBy")
     return [Scope(item, matchBy) \
@@ -154,6 +161,16 @@ def matchScope(src, target, matchBy):
         return src == target
     else:
         return False
+
+
+def getNamespaceValue(node, prefix):
+    while node != None:
+        if node.nodeType == minidom.Node.ELEMENT_NODE:
+            attr = node.getAttributeNode("xmlns:" + prefix)
+            if attr != None:
+                return attr.nodeValue
+        node = node.parentNode
+    return ""
 
 
 def getDefaultNamespace(node):
