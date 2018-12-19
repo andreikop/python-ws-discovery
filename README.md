@@ -12,7 +12,9 @@ refactoring by Petri Savolainen. Python2 support fixes by Michael Leinartas.
 Usage
 -----
 
-A sample use of the module is shown below:
+A simple `discover` command-line client is provided. Run `discover --help` for usage instructions.
+
+An example of how to use the package in your Python code:
 
 ```python
     from wsdiscovery import WSDiscovery, QName, Scope
