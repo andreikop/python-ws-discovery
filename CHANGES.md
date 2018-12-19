@@ -1,8 +1,14 @@
 Changelog
 ==========
 
+1.1.0 (unreleased)
+-------------------
+
+- Add a simple command-line client (petri)
+- Fix breakage caused by refactoring (petri)
+
 1.0.0 (2018-12-18)
------------------
+-------------------
 
 - Improved packaging (petri)
 - Modularize & refactor (petri)
