@@ -42,6 +42,9 @@ setup(name='WSDiscovery',
             'Topic :: Communications'
       ],
       packages=['wsdiscovery'],
-      setup_requires=['netifaces'],
-      install_requires=['netifaces']
+      setup_requires=['netifaces', 'click'],
+      install_requires=['netifaces', 'click'],
+      entry_points = {
+         'console_scripts': ['discover=wsdiscovery.cmdline:discover'],
+      }
      )

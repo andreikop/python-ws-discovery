@@ -6,6 +6,7 @@ A threaded discovery daemon implementation.
 from __future__ import print_function
 from __future__ import unicode_literals
 
+import logging
 import random
 import time
 import uuid
@@ -21,6 +22,8 @@ from .util import _getNetworkAddrs, matchScope
 from .message import createSOAPMessage, parseSOAPMessage
 from .service import Service
 
+
+logger = logging.getLogger("ws-discovery")
 
 BUFFER_SIZE = 0xffff
 _NETWORK_ADDRESSES_CHECK_TIMEOUT = 5
@@ -169,6 +172,13 @@ class NetworkingThread(_StoppableDaemonThread):
 
             if env is None: # fault or failed to parse
                 continue
+
+            _own_addrs = self._observer._addrsMonitorThread._addrs
+            if addr[0] not in _own_addrs:
+                if env.getAction() == ACTION_PROBE_MATCH:
+                    prms = "\n ".join((str(prm) for prm in env.getProbeResolveMatches()))
+                    msg = "probe response from %s:\n --- begin ---\n%s\n--- end ---\n"
+                    logger.debug(msg, addr[0], prms)
 
             mid = env.getMessageId()
             if mid in self._knownMessageIds:
