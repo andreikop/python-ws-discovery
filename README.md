@@ -12,9 +12,9 @@ refactoring by Petri Savolainen. Python2 support fixes by Michael Leinartas.
 Usage
 -----
 
-A simple `discover` command-line client is provided. Run `discover --help` for usage instructions.
+A simple `discover` command-line client is provided for discovering WS-Discovery compliant devices and systems. Run `discover --help` for usage instructions.
 
-An example of how to use the package in your Python code:
+Here's an example of how to use the package in your Python code. The following code first publishes a service and then discovers it:
 
 ```python
     from wsdiscovery import WSDiscovery, QName, Scope
