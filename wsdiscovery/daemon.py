@@ -81,7 +81,7 @@ class AddressMonitorThread(_StoppableDaemonThread):
 
 
 class NetworkingThread(_StoppableDaemonThread):
-    def __init__(self, observer):
+    def __init__(self, observer, capture=None):
         super(NetworkingThread, self).__init__()
 
         self.setDaemon(True)
@@ -90,7 +90,8 @@ class NetworkingThread(_StoppableDaemonThread):
         self._knownMessageIds = set()
         self._iidMap = {}
         self._observer = observer
-
+        self._capture = observer._capture
+        self._seqnum = 1 # capture sequence number
         self._poll = select.poll()
 
     @staticmethod
@@ -162,7 +163,6 @@ class NetworkingThread(_StoppableDaemonThread):
     def _recvMessages(self):
         for fd, event in self._poll.poll(0):
             sock = socket.fromfd(fd, socket.AF_INET, socket.SOCK_DGRAM)
-
             try:
                 data, addr = sock.recvfrom(BUFFER_SIZE)
             except socket.error as e:
@@ -180,6 +180,11 @@ class NetworkingThread(_StoppableDaemonThread):
                     prms = "\n ".join((str(prm) for prm in env.getProbeResolveMatches()))
                     msg = "probe response from %s:\n --- begin ---\n%s\n--- end ---\n"
                     logger.debug(msg, addr[0], prms)
+
+                if self._capture:
+                    self._capture.write("%i RECV %s:%s\n" % (self._seqnum, addr[0], addr[1]))
+                    self._capture.write(data.decode("utf-8") + "\n")
+                    self._seqnum += 1
 
             mid = env.getMessageId()
             if mid in self._knownMessageIds:
@@ -210,9 +215,17 @@ class NetworkingThread(_StoppableDaemonThread):
 
         if msg.msgType() == UDPMessage.UNICAST:
             self._uniOutSocket.sendto(data, (msg.getAddr(), msg.getPort()))
+            if self._capture:
+                self._capture.write("%i SEND %s:%s\n" % (self._seqnum, msg.getAddr(), msg.getPort()))
+                self._capture.write(data.decode("utf-8") + "\n")
+                self._seqnum += 1
         else:
             for sock in list(self._multiOutUniInSockets.values()):
                 sock.sendto(data, (msg.getAddr(), msg.getPort()))
+                if self._capture:
+                    self._capture.write("%i SEND %s:%s\n" % (self._seqnum, msg.getAddr(), msg.getPort()))
+                    self._capture.write(data.decode("utf-8") + "\n")
+                    self._seqnum += 1
 
     def _sendPendingMessages(self):
         """Method sleeps, if nothing to do"""
@@ -249,7 +262,7 @@ class NetworkingThread(_StoppableDaemonThread):
 
 class WSDiscovery:
 
-    def __init__(self, uuid_=None):
+    def __init__(self, uuid_=None, capture=None):
 
         self._networkingThread = None
         self._serverStarted = False
@@ -264,6 +277,7 @@ class WSDiscovery:
         self._remoteServiceHelloCallbackTypesFilter = None
         self._remoteServiceHelloCallbackScopesFilter = None
         self._remoteServiceByeCallback = None
+        self._capture = capture
 
         if uuid_ is not None:
             self.uuid = uuid_

@@ -30,7 +30,7 @@ def get_ip_address(ifname):
     return ipv4_addresses[0]["addr"]
 
 
-def run(scope=None):
+def run(scope=None, capture=None):
 
     ifname = get_valid_interface()
     if not ifname:
@@ -40,7 +40,7 @@ def run(scope=None):
     ipaddr = get_ip_address(ifname)
     logger.debug("using %s interface with IPv4 address %s", ifname, ipaddr)
 
-    wsd = WSDiscovery()
+    wsd = WSDiscovery(capture=capture)
     wsd.start()
 
     if not scope:
@@ -60,7 +60,8 @@ def run(scope=None):
 @click.command()
 @click.option('--scope', '-s', help='Full scope URI, eg. onvif://www.onvif.org/Model/')
 @click.option('--loglevel', '-l',  help='Log level; one of INFO, DEBUG, WARNING, ERROR')
-def discover(scope, loglevel):
+@click.option('--capture', '-c', nargs=1, type=click.File('w'), help='Capture messages to a file')
+def discover(scope, loglevel, capture):
     "Discover systems using WS-Discovery"
 
     if loglevel:
@@ -70,7 +71,7 @@ def discover(scope, loglevel):
            return
         logger.setLevel(level)
 
-    run(scope=scope)
+    run(scope=scope, capture=capture)
 
 if __name__ == '__main__':
     discover()
