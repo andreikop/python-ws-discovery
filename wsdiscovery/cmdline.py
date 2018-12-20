@@ -28,7 +28,7 @@ def get_valid_interface():
 def get_ip_address(ifname):
     ipv4_addresses = netifaces.ifaddresses(ifname)[netifaces.AF_INET]
     return ipv4_addresses[0]["addr"]
-    
+
 
 def run(scope=None):
 
@@ -47,7 +47,7 @@ def run(scope=None):
         svcs = wsd.searchServices()
     else:
         # we support giving just one scope, for now
-        svcs = wsd.searchServices(scopes=[scope])
+        svcs = wsd.searchServices(scopes=[Scope(scope)])
 
     print("\nDiscovered:\n")
     for service in svcs:
