@@ -4,6 +4,11 @@ Changelog
 1.1.0 (2018-12-21)
 -------------------
 
+- Fix packaging
+
+1.1.0 (2018-12-21)
+-------------------
+
 - Add a simple command-line client (petri)
 - Debugging support, including message capture (petri)
 - Fix breakage caused by refactoring (petri)

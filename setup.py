@@ -17,7 +17,7 @@ except Exception:
 
 
 setup(name='WSDiscovery',
-      version='1.1.0',
+      version='1.1.1',
       description='WS-Discovery implementation for python',
       long_description=README + "\n\n" + CHANGES,
       long_description_content_type="text/markdown",
@@ -41,7 +41,7 @@ setup(name='WSDiscovery',
             'Topic :: Software Development :: Libraries :: Python Modules',
             'Topic :: Communications'
       ],
-      packages=['wsdiscovery'],
+      packages=['wsdiscovery', 'wsdiscovery.actions'],
       setup_requires=['netifaces', 'click'],
       install_requires=['netifaces', 'click'],
       tests_require = ['pytest', 'mock'],
