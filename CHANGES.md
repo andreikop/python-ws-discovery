@@ -1,7 +1,7 @@
 Changelog
 ==========
 
-1.1.0 (unreleased)
+1.1.0 (2018-12-21)
 -------------------
 
 - Add a simple command-line client (petri)
