@@ -76,7 +76,7 @@ def addXAddrs(doc, node, xAddrs):
 
 
 def getDocAsString(doc):
-    outStr = ""
+    outStr = None
     stream = io.StringIO(outStr)
     stream.write(doc.toprettyxml())
     return stream.getvalue()
