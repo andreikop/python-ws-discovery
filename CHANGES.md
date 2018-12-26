@@ -1,7 +1,13 @@
 Changelog
 ==========
 
-1.1.0 (2018-12-21)
+1.1.2 (unreleased)
+-------------------
+
+- Refactoring fixes
+- Introduce automated Travis testing
+
+1.1.1 (2018-12-21)
 -------------------
 
 - Fix packaging
