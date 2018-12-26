@@ -3,7 +3,7 @@ from xml.dom import minidom
 from ..namespaces import NS_A, NS_D
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
-                   addTypes, addScopes, getDocAsString, getScopes
+                   addTypes, getTypes, addScopes, getDocAsString, getScopes
 
 
 ACTION_PROBE = "http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe"

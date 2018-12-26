@@ -115,6 +115,18 @@ def _parseSpaceSeparatedList(node):
         return []
 
 
+def extractSoapUdpAddressFromURI(uri):
+    val = uri.getPathExQueryFragment().split(":")
+    part1 = val[0][2:]
+    part2 = None
+    if val[1].count('/') > 0:
+        part2 = int(val[1][:val[1].index('/')])
+    else:
+        part2 = int(val[1])
+    addr = [part1, part2]
+    return addr
+
+
 def getXAddrs(xAddrsNode):
     return _parseSpaceSeparatedList(xAddrsNode)
 

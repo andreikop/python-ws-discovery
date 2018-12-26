@@ -2,7 +2,7 @@
 from ..namespaces import NS_A, NS_D
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
-                   addTypes, addScopes, getDocAsString, getScopes
+                   addEPR, addTypes, addScopes, getDocAsString, getScopes
 
 
 ACTION_RESOLVE = "http://schemas.xmlsoap.org/ws/2005/04/discovery/Resolve"

@@ -2,7 +2,11 @@
 from ..namespaces import NS_A, NS_D
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
-                   addTypes, addScopes, getDocAsString, getScopes, addEPR, addXAddrs, getXAddrs
+                   addTypes, getTypes, addScopes, getDocAsString, getScopes, addEPR, \
+                   addXAddrs, getXAddrs, _parseAppSequence
+
+from .probematch import ProbeResolveMatch
+
 
 ACTION_RESOLVE_MATCH = "http://schemas.xmlsoap.org/ws/2005/04/discovery/ResolveMatches"
 

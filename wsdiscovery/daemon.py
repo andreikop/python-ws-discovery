@@ -18,10 +18,12 @@ import select
 from .udp import UDPMessage
 from .envelope import SoapEnvelope
 from .actions import *
+from .uri import URI
 from .util import _getNetworkAddrs, matchScope
-from .util import _generateInstanceId
+from .util import _generateInstanceId, extractSoapUdpAddressFromURI
 from .message import createSOAPMessage, parseSOAPMessage
 from .service import Service
+from .namespaces import NS_D
 
 
 logger = logging.getLogger("ws-discovery")

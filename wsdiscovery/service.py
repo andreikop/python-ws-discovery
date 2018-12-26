@@ -3,6 +3,9 @@ Scoped Onvif service implementation.
 """
 
 
+from .util import _getNetworkAddrs
+
+
 class Service:
 
     def __init__(self, types, scopes, xAddrs, epr, instanceId):
