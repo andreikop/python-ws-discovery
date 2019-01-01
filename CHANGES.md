@@ -1,10 +1,10 @@
 Changelog
 ==========
 
-1.1.2 (unreleased)
+1.1.2 (2019-01-01)
 -------------------
 
-- Refactoring fixes
+- Refactoring & Python2 fixes
 - Introduce automated Travis testing
 
 1.1.1 (2018-12-21)
