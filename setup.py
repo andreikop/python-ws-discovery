@@ -17,7 +17,7 @@ except Exception:
 
 
 setup(name='WSDiscovery',
-      version='1.1.2',
+      version='1.1.3.dev0',
       description='WS-Discovery implementation for python',
       long_description=README + "\n\n" + CHANGES,
       long_description_content_type="text/markdown",
