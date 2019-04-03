@@ -101,10 +101,10 @@ class NetworkingThread(_StoppableDaemonThread):
         return struct.pack("4s4s", socket.inet_aton(MULTICAST_IPV4_ADDRESS), socket.inet_aton(addr))
 
     @staticmethod
-    def _createMulticastOutSocket(addr):
+    def _createMulticastOutSocket(addr, ttl):
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setblocking(0)
-        sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 1)
+        sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
         if addr is None:
             sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_IF, socket.INADDR_ANY)
         else:
@@ -130,7 +130,7 @@ class NetworkingThread(_StoppableDaemonThread):
         except socket.error:  # if 1 interface has more than 1 address, exception is raised for the second
             pass
 
-        sock = self._createMulticastOutSocket(addr)
+        sock = self._createMulticastOutSocket(addr, self._observer.ttl)
         self._multiOutUniInSockets[addr] = sock
         self._poll.register(sock, select.POLLIN)
 
@@ -264,7 +264,7 @@ class NetworkingThread(_StoppableDaemonThread):
 
 class WSDiscovery:
 
-    def __init__(self, uuid_=None, capture=None):
+    def __init__(self, uuid_=None, capture=None, ttl=1):
 
         self._networkingThread = None
         self._serverStarted = False
@@ -285,6 +285,8 @@ class WSDiscovery:
             self.uuid = uuid_
         else:
             self.uuid = uuid.uuid4().urn
+
+        self.ttl = ttl
 
     def setRemoteServiceHelloCallback(self, cb, types=None, scopes=None):
         """Set callback, which will be called when new service appeared online
