@@ -61,7 +61,8 @@ def run(scope=None, capture=None):
 @click.option('--scope', '-s', help='Full scope URI, eg. onvif://www.onvif.org/Model/')
 @click.option('--loglevel', '-l',  help='Log level; one of INFO, DEBUG, WARNING, ERROR')
 @click.option('--capture', '-c', nargs=1, type=click.File('w'), help='Capture messages to a file')
-def discover(scope, loglevel, capture):
+@click.option('--interface', '-i', help='Specify network interface name')
+def discover(scope, loglevel, capture, interface):
     "Discover systems using WS-Discovery"
 
     if loglevel:
@@ -71,6 +72,10 @@ def discover(scope, loglevel, capture):
            return
         logger.setLevel(level)
 
+    if interface:
+        global external_ifaces
+        external_ifaces = (interface,)
+        
     run(scope=scope, capture=capture)
 
 if __name__ == '__main__':
