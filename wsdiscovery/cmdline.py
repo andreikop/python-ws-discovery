@@ -1,8 +1,5 @@
-import os
-import sys
 import logging
 import click
-import netifaces
 from wsdiscovery.daemon import WSDiscovery
 from wsdiscovery.scope import Scope
 
@@ -15,31 +12,8 @@ logging.basicConfig()
 logger = logging.getLogger("ws-discovery")
 logger.setLevel(logging.INFO)
 
-# an external interface is needed
-# darwin has en0, linux has eth0 by default
-external_ifaces = ("en0", "eth0")
-
-
-def get_valid_interface():
-    ifaces = netifaces.interfaces()
-    valid = list(set(external_ifaces).intersection(ifaces))
-    return valid[0] if len(valid) == 1 else None
-
-def get_ip_address(ifname):
-    ipv4_addresses = netifaces.ifaddresses(ifname)[netifaces.AF_INET]
-    return ipv4_addresses[0]["addr"]
-
 
 def run(scope=None, capture=None):
-
-    ifname = get_valid_interface()
-    if not ifname:
-        logger.error("no interface found; use one of: %s", ", ".join(external_ifaces))
-        return
-
-    ipaddr = get_ip_address(ifname)
-    logger.debug("using %s interface with IPv4 address %s", ifname, ipaddr)
-
     wsd = WSDiscovery(capture=capture)
     wsd.start()
 
@@ -72,6 +46,7 @@ def discover(scope, loglevel, capture):
         logger.setLevel(level)
 
     run(scope=scope, capture=capture)
+
 
 if __name__ == '__main__':
     discover()
