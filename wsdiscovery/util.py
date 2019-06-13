@@ -60,11 +60,14 @@ def addTypes(doc, node, types):
         for type in types:
             ns = type.getNamespace()
             localname = type.getLocalname()
-            if prefixMap.get(ns) == None:
-                prefix = getRandomStr()
-                prefixMap[ns] = prefix
+            if type.getNamespacePrefix() is None:
+                if prefixMap.get(ns) == None:
+                    prefix = getRandomStr()
+                    prefixMap[ns] = prefix
+                else:
+                    prefix = prefixMap.get(ns)
             else:
-                prefix = prefixMap.get(ns)
+                prefix = type.getNamespacePrefix()
             addNSAttrToEl(envEl, ns, prefix)
             typeList.append(prefix + ":" + localname)
         addElementWithText(doc, node, "d:Types", NS_D, " ".join(typeList))
@@ -198,13 +201,15 @@ def getDefaultNamespace(node):
 def getQNameFromValue(value, node):
     vals = value.split(":")
     ns = ""
+    prefix = None
     if len(vals) == 1:
         localName = vals[0]
         ns = getDefaultNamespace(node)
     else:
         localName = vals[1]
-        ns = getNamespaceValue(node, vals[0])
-    return QName(ns, localName)
+        prefix = vals[0]
+        ns = getNamespaceValue(node, prefix)
+    return QName(ns, localName, prefix)
 
 
 def _getNetworkAddrs():
