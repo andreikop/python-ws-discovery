@@ -12,7 +12,7 @@ refactoring & command-line client by Petri Savolainen. Python2 support fixes by 
 Usage
 -----
 
-A simple `discover` command-line client is provided for discovering WS-Discovery compliant devices and systems. Run `discover --help` for usage instructions.
+A simple `wsdiscover` command-line client is provided for discovering WS-Discovery compliant devices and systems. Run `wsdiscover --help` for usage instructions.
 
 Here's an example of how to use the package in your Python code. The following code first publishes a service and then discovers it:
 
@@ -25,7 +25,7 @@ Here's an example of how to use the package in your Python code. The following c
     ttype = QName("abc", "def")
 
     ttype1 = QName("namespace", "myTestService")
-    
+
     # Note: some devices scope services using onvif:// scheme, not http://
     scope1 = Scope("http://myscope")
     ttype2 = QName("namespace", "myOtherTestService_type1")

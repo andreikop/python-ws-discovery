@@ -46,6 +46,6 @@ setup(name='WSDiscovery',
       install_requires=['netifaces', 'click'],
       tests_require = ['pytest', 'mock'],
       entry_points = {
-         'console_scripts': ['discover=wsdiscovery.cmdline:discover'],
+         'console_scripts': ['wsdiscover=wsdiscovery.cmdline:discover'],
       }
      )
