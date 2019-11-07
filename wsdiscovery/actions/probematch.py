@@ -47,7 +47,10 @@ def parseProbeMatchMessage(dom):
 
     env.setMessageId(dom.getElementsByTagNameNS(NS_A, "MessageID")[0].firstChild.data.strip())
     env.setRelatesTo(dom.getElementsByTagNameNS(NS_A, "RelatesTo")[0].firstChild.data.strip())
-    env.setTo(dom.getElementsByTagNameNS(NS_A, "To")[0].firstChild.data.strip())
+    # Even though To is required in WS-Discovery, some devices omit it
+    elem = dom.getElementsByTagNameNS(NS_A, "To").item(0)
+    if elem:
+        env.setTo(elem.firstChild.data.strip())
 
     _parseAppSequence(dom, env)
 
