@@ -9,7 +9,7 @@ from xml.dom import minidom
 
 
 def createSOAPMessage(env):
-    "construct a a raw SOAP XML string, given a prepared SoapEnvelope object"
+    "construct a raw SOAP XML string, given a prepared SoapEnvelope object"
     if env.getAction() == ACTION_PROBE:
         return createProbeMessage(env)
     if env.getAction() == ACTION_PROBE_MATCH:
