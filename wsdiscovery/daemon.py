@@ -566,7 +566,7 @@ class WSDiscovery:
     def publishService(self, types, scopes, xAddrs):
         """Publish a service with the given TYPES, SCOPES and XAddrs (service addresses)
 
-        if xAddrs contains item, which includes {ip} pattern, one item per IP addres will be sent
+        if xAddrs contains item, which includes {ip} pattern, one item per IP address will be sent
         """
 
         if not self._serverStarted:
