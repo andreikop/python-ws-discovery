@@ -195,8 +195,7 @@ class NetworkingThread(_StoppableDaemonThread):
                 self._knownMessageIds.add(mid)
 
             iid = env.getInstanceId()
-            mid = env.getMessageId()
-            if len(iid) > 0 and int(iid) > 0:
+            if len(iid) > 0 and int(iid) >= 0:
                 mnum = env.getMessageNumber()
                 key = addr[0] + ":" + str(addr[1]) + ":" + str(iid)
                 if mid is not None and len(mid) > 0:
