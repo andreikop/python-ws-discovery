@@ -1,3 +1,4 @@
+"""Various utilities used by different parts of the package."""
 
 import io
 import string
@@ -6,27 +7,27 @@ import netifaces
 from xml.dom import minidom
 from .scope import Scope
 from .uri import URI
-from .namespaces import NS_A, NS_D, NS_S
+from .namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_SOAPENV
 from .qname import QName
 
 
 def createSkelSoapMessage(soapAction):
     doc = minidom.Document()
 
-    envEl = doc.createElementNS(NS_S, "s:Envelope")
+    envEl = doc.createElementNS(NS_SOAPENV, "s:Envelope")
 
-    envEl.setAttribute("xmlns:a", NS_A)  # minidom does not insert this automatically
-    envEl.setAttribute("xmlns:d", NS_D)
-    envEl.setAttribute("xmlns:s", NS_S)
+    envEl.setAttribute("xmlns:a", NS_ADDRESSING)  # minidom does not insert this automatically
+    envEl.setAttribute("xmlns:d", NS_DISCOVERY)
+    envEl.setAttribute("xmlns:s", NS_SOAPENV)
 
     doc.appendChild(envEl)
 
-    headerEl = doc.createElementNS(NS_S, "s:Header")
+    headerEl = doc.createElementNS(NS_SOAPENV, "s:Header")
     envEl.appendChild(headerEl)
 
-    addElementWithText(doc, headerEl, "a:Action", NS_A, soapAction)
+    addElementWithText(doc, headerEl, "a:Action", NS_ADDRESSING, soapAction)
 
-    bodyEl = doc.createElementNS(NS_S, "s:Body")
+    bodyEl = doc.createElementNS(NS_SOAPENV, "s:Body")
     envEl.appendChild(bodyEl)
 
     return doc
@@ -40,16 +41,16 @@ def addElementWithText(doc, parent, name, ns, value):
 
 
 def addEPR(doc, node, epr):
-    eprEl = doc.createElementNS(NS_A, "a:EndpointReference")
-    addElementWithText(doc, eprEl, "a:Address", NS_A, epr)
+    eprEl = doc.createElementNS(NS_ADDRESSING, "a:EndpointReference")
+    addElementWithText(doc, eprEl, "a:Address", NS_ADDRESSING, epr)
     node.appendChild(eprEl)
 
 
 def addScopes(doc, node, scopes):
     if scopes is not None and len(scopes) > 0:
-        addElementWithText(doc, node, "d:Scopes", NS_D, " ".join([x.getQuotedValue() for x in scopes]))
+        addElementWithText(doc, node, "d:Scopes", NS_DISCOVERY, " ".join([x.getQuotedValue() for x in scopes]))
         if scopes[0].getMatchBy() is not None and len(scopes[0].getMatchBy()) > 0:
-            node.getElementsByTagNameNS(NS_D, "Scopes")[0].setAttribute("MatchBy", scopes[0].getMatchBy())
+            node.getElementsByTagNameNS(NS_DISCOVERY, "Scopes")[0].setAttribute("MatchBy", scopes[0].getMatchBy())
 
 
 def addTypes(doc, node, types):
@@ -70,12 +71,12 @@ def addTypes(doc, node, types):
                 prefix = type.getNamespacePrefix()
             addNSAttrToEl(envEl, ns, prefix)
             typeList.append(prefix + ":" + localname)
-        addElementWithText(doc, node, "d:Types", NS_D, " ".join(typeList))
+        addElementWithText(doc, node, "d:Types", NS_DISCOVERY, " ".join(typeList))
 
 
 def addXAddrs(doc, node, xAddrs):
     if xAddrs is not len(xAddrs) > 0:
-        addElementWithText(doc, node, "d:XAddrs", NS_D, " ".join([x for x in xAddrs]))
+        addElementWithText(doc, node, "d:XAddrs", NS_DISCOVERY, " ".join([x for x in xAddrs]))
 
 
 def getDocAsString(doc):
@@ -86,15 +87,15 @@ def getDocAsString(doc):
 
 
 def getBodyEl(doc):
-    return doc.getElementsByTagNameNS(NS_S, "Body")[0]
+    return doc.getElementsByTagNameNS(NS_SOAPENV, "Body")[0]
 
 
 def getHeaderEl(doc):
-    return doc.getElementsByTagNameNS(NS_S, "Header")[0]
+    return doc.getElementsByTagNameNS(NS_SOAPENV, "Header")[0]
 
 
 def getEnvEl(doc):
-    return doc.getElementsByTagNameNS(NS_S, "Envelope")[0]
+    return doc.getElementsByTagNameNS(NS_SOAPENV, "Envelope")[0]
 
 
 def addNSAttrToEl(el, ns, prefix):
@@ -102,7 +103,7 @@ def addNSAttrToEl(el, ns, prefix):
 
 
 def _parseAppSequence(dom, env):
-    nodes = dom.getElementsByTagNameNS(NS_D, "AppSequence")
+    nodes = dom.getElementsByTagNameNS(NS_DISCOVERY, "AppSequence")
     if nodes:
         appSeqNode = nodes[0]
         env.setInstanceId(appSeqNode.getAttribute("InstanceId"))
@@ -176,6 +177,36 @@ def matchScope(src, target, matchBy):
         return src == target
     else:
         return False
+
+
+def isTypeInList(ttype, types):
+    for entry in types:
+        if ttype.getFullname() == entry.getFullname():
+            return True
+    return False
+
+
+def isScopeInList(scope, scopes):
+    for entry in scopes:
+        if matchScope(scope.getValue(), entry.getValue(), scope.getMatchBy()):
+            return True
+    return False
+
+
+def matchesFilter(service, types, scopes):
+    if types is not None:
+        for ttype in types:
+            if not isTypeInList(ttype, service.getTypes()):
+                return False
+    if scopes is not None:
+        for scope in scopes:
+            if not isScopeInList(scope, service.getScopes()):
+                return False
+    return True
+
+
+def filterServices(services, types, scopes):
+    return [service for service in services if matchesFilter(service, types, scopes)]
 
 
 def getNamespaceValue(node, prefix):
