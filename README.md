@@ -3,8 +3,10 @@ WS-Discovery in Python
 This is WS-Discovery implementation for Python 2 & 3. It allows to both discover
 services and publish discoverable services.
 
-Usage
------
+Full [package documentation](https://python-ws-discovery-ng.readthedocs.io/en/decoupled/index.html) is at readthedocs.org.
+
+Basic usage
+------------
 
 A simple `wsdiscover` command-line client is provided for discovering WS-Discovery compliant devices and systems. Run `wsdiscover --help` for usage instructions.
 
