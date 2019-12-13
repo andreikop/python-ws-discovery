@@ -1,9 +1,12 @@
-"""
-SOAP envelope object implementation.
-"""
+"""SOAP envelope and WSDiscovery message factories."""
+
+import uuid
+from .util import _generateInstanceId
+from .namespaces import *
 
 
 class SoapEnvelope:
+    "envelope implementation"
 
     def __init__(self):
         self._action = ""
@@ -113,3 +116,99 @@ class SoapEnvelope:
         self._probeResolveMatches = probeResolveMatches
 
 
+#
+# Functions to construct actual WSDiscovery SOAP message envelopes
+#
+
+
+def constructResolveMatch(service, relatesTo):
+    "construct an envelope that represents a ``Resolve Match`` message"
+
+    service.incrementMessageNumber()
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_RESOLVE_MATCH)
+    env.setTo(NS_ADDRESS_UNKNOWN)
+    env.setMessageId(uuid.uuid4().urn)
+    env.setInstanceId(str(service.getInstanceId()))
+    env.setMessageNumber(str(service.getMessageNumber()))
+    env.setRelatesTo(relatesTo)
+
+    prb = ProbeResolveMatch(service.getEPR(), service.getTypes(), service.getScopes(), \
+                            service.getXAddrs(), str(service.getMetadataVersion()))
+    env.getProbeResolveMatches().append(prb)
+    return env
+
+
+def constructProbeMatch(services, relatesTo):
+    "construct an envelope that represents a ``Probe Match`` message"
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_PROBE_MATCH)
+    env.setTo(NS_ADDRESS_UNKNOWN)
+    env.setMessageId(uuid.uuid4().urn)
+    random.seed((int)(time.time() * 1000000))
+    env.setInstanceId(_generateInstanceId())
+    env.setMessageNumber("1")
+    env.setRelatesTo(relatesTo)
+
+    prbs =  env.getProbeResolveMatches()
+    for srv in services:
+        prb = ProbeResolveMatch(srv.getEPR(), srv.getTypes(), srv.getScopes(), \
+                                srv.getXAddrs(), str(srv.getMetadataVersion()))
+        prbs.append(prb)
+    return env
+
+
+def constructProbe(types, scopes):
+    "construct an envelope that represents a ``Probe`` message"
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_PROBE)
+    env.setTo(NS_ADDRESS_ALL)
+    env.setMessageId(uuid.uuid4().urn)
+    env.setTypes(types)
+    env.setScopes(scopes)
+    return env
+
+
+def constructResolve(epr):
+    "construct an envelope that represents a ``Resolve`` message"
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_RESOLVE)
+    env.setTo(NS_ADDRESS_ALL)
+    env.setMessageId(uuid.uuid4().urn)
+    env.setEPR(epr)
+    return env
+
+
+def constructHello(service):
+    "construct an envelope that represents a ``Hello`` message"
+
+    service.incrementMessageNumber()
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_HELLO)
+    env.setTo(NS_ADDRESS_ALL)
+    env.setMessageId(uuid.uuid4().urn)
+    env.setInstanceId(str(service.getInstanceId()))
+    env.setMessageNumber(str(service.getMessageNumber()))
+    env.setTypes(service.getTypes())
+    env.setScopes(service.getScopes())
+    env.setXAddrs(service.getXAddrs())
+    env.setEPR(service.getEPR())
+    return env
+
+
+def constructBye(service):
+    "construct an envelope that represents a ``Bye`` message"
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_BYE)
+    env.setTo(NS_ADDRESS_ALL)
+    env.setMessageId(uuid.uuid4().urn)
+    env.setInstanceId(str(service.getInstanceId()))
+    env.setMessageNumber(str(service.getMessageNumber()))
+    env.setEPR(service.getEPR())
+    return env
