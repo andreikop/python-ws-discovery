@@ -1,27 +1,27 @@
+"Serialize & parse WS-Discovery Probe SOAP messages"
 
 from xml.dom import minidom
-from ..namespaces import NS_A, NS_D
+from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_PROBE
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
                    addTypes, getTypes, addScopes, getDocAsString, getScopes
 
 
-ACTION_PROBE = "http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe"
-
-
 def createProbeMessage(env):
-    doc = createSkelSoapMessage(ACTION_PROBE)
+    "serialize a SOAP envelope object into a string"
+
+    doc = createSkelSoapMessage(NS_ACTION_PROBE)
 
     bodyEl = getBodyEl(doc)
     headerEl = getHeaderEl(doc)
 
-    addElementWithText(doc, headerEl, "a:MessageID", NS_A, env.getMessageId())
-    addElementWithText(doc, headerEl, "a:To", NS_A, env.getTo())
+    addElementWithText(doc, headerEl, "a:MessageID", NS_ADDRESSING, env.getMessageId())
+    addElementWithText(doc, headerEl, "a:To", NS_ADDRESSING, env.getTo())
 
     if len(env.getReplyTo()) > 0:
-        addElementWithText(doc, headerEl, "a:ReplyTo", NS_A, env.getReplyTo())
+        addElementWithText(doc, headerEl, "a:ReplyTo", NS_ADDRESSING, env.getReplyTo())
 
-    probeEl = doc.createElementNS(NS_D, "d:Probe")
+    probeEl = doc.createElementNS(NS_DISCOVERY, "d:Probe")
     bodyEl.appendChild(probeEl)
 
     addTypes(doc, probeEl, env.getTypes())
@@ -31,22 +31,24 @@ def createProbeMessage(env):
 
 
 def parseProbeMessage(dom):
-    env = SoapEnvelope()
-    env.setAction(ACTION_PROBE)
-    env.setMessageId(dom.getElementsByTagNameNS(NS_A, "MessageID")[0].firstChild.data.strip())
+    "parse a XML message into a SOAP envelope object"
 
-    replyToNodes = dom.getElementsByTagNameNS(NS_A, "ReplyTo")
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_PROBE)
+    env.setMessageId(dom.getElementsByTagNameNS(NS_ADDRESSING, "MessageID")[0].firstChild.data.strip())
+
+    replyToNodes = dom.getElementsByTagNameNS(NS_ADDRESSING, "ReplyTo")
     if len(replyToNodes) > 0 and \
        isinstance(replyToNodes[0].firstChild, minidom.Text):
         env.setReplyTo(replyToNodes[0].firstChild.data.strip())
 
-    env.setTo(dom.getElementsByTagNameNS(NS_A, "To")[0].firstChild.data.strip())
+    env.setTo(dom.getElementsByTagNameNS(NS_ADDRESSING, "To")[0].firstChild.data.strip())
 
-    typeNodes = dom.getElementsByTagNameNS(NS_D, "Types")
+    typeNodes = dom.getElementsByTagNameNS(NS_DISCOVERY, "Types")
     if len(typeNodes) > 0:
         env.getTypes().extend(getTypes(typeNodes[0]))
 
-    scopeNodes = dom.getElementsByTagNameNS(NS_D, "Scopes")
+    scopeNodes = dom.getElementsByTagNameNS(NS_DISCOVERY, "Scopes")
     if len(scopeNodes) > 0:
         env.getScopes().extend(getScopes(scopeNodes[0]))
 

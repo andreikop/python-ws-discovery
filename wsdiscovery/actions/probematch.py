@@ -1,38 +1,38 @@
+"Serialize & parse WS-Discovery Probe Match SOAP messages"
 
-from ..namespaces import NS_A, NS_D
+from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_PROBE_MATCH
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
                    addTypes, addScopes, getDocAsString, getScopes, _parseAppSequence, \
                    addEPR, getXAddrs, addXAddrs, getTypes
 
 
-ACTION_PROBE_MATCH = "http://schemas.xmlsoap.org/ws/2005/04/discovery/ProbeMatches"
-
-
 def createProbeMatchMessage(env):
-    doc = createSkelSoapMessage(ACTION_PROBE_MATCH)
+    "serialize a SOAP envelope object into a string"
+
+    doc = createSkelSoapMessage(NS_ACTION_PROBE_MATCH)
 
     bodyEl = getBodyEl(doc)
     headerEl = getHeaderEl(doc)
 
-    addElementWithText(doc, headerEl, "a:MessageID", NS_A, env.getMessageId())
-    addElementWithText(doc, headerEl, "a:RelatesTo", NS_A, env.getRelatesTo())
-    addElementWithText(doc, headerEl, "a:To", NS_A, env.getTo())
+    addElementWithText(doc, headerEl, "a:MessageID", NS_ADDRESSING, env.getMessageId())
+    addElementWithText(doc, headerEl, "a:RelatesTo", NS_ADDRESSING, env.getRelatesTo())
+    addElementWithText(doc, headerEl, "a:To", NS_ADDRESSING, env.getTo())
 
-    appSeqEl = doc.createElementNS(NS_D, "d:AppSequence")
+    appSeqEl = doc.createElementNS(NS_DISCOVERY, "d:AppSequence")
     appSeqEl.setAttribute("InstanceId", env.getInstanceId())
     appSeqEl.setAttribute("MessageNumber", env.getMessageNumber())
     headerEl.appendChild(appSeqEl)
 
-    probeMatchesEl = doc.createElementNS(NS_D, "d:ProbeMatches")
+    probeMatchesEl = doc.createElementNS(NS_DISCOVERY, "d:ProbeMatches")
     probeMatches = env.getProbeResolveMatches()
     for probeMatch in probeMatches:
-        probeMatchEl = doc.createElementNS(NS_D, "d:ProbeMatch")
+        probeMatchEl = doc.createElementNS(NS_DISCOVERY, "d:ProbeMatch")
         addEPR(doc, probeMatchEl, probeMatch.getEPR())
         addTypes(doc, probeMatchEl, probeMatch.getTypes())
         addScopes(doc, probeMatchEl, probeMatch.getScopes())
         addXAddrs(doc, probeMatchEl, probeMatch.getXAddrs())
-        addElementWithText(doc, probeMatchEl, "d:MetadataVersion", NS_D, probeMatch.getMetadataVersion())
+        addElementWithText(doc, probeMatchEl, "d:MetadataVersion", NS_DISCOVERY, probeMatch.getMetadataVersion())
         probeMatchesEl.appendChild(probeMatchEl)
 
 
@@ -42,38 +42,40 @@ def createProbeMatchMessage(env):
 
 
 def parseProbeMatchMessage(dom):
-    env = SoapEnvelope()
-    env.setAction(ACTION_PROBE_MATCH)
+    "parse a XML message into a SOAP envelope object"
 
-    env.setMessageId(dom.getElementsByTagNameNS(NS_A, "MessageID")[0].firstChild.data.strip())
-    env.setRelatesTo(dom.getElementsByTagNameNS(NS_A, "RelatesTo")[0].firstChild.data.strip())
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_PROBE_MATCH)
+
+    env.setMessageId(dom.getElementsByTagNameNS(NS_ADDRESSING, "MessageID")[0].firstChild.data.strip())
+    env.setRelatesTo(dom.getElementsByTagNameNS(NS_ADDRESSING, "RelatesTo")[0].firstChild.data.strip())
     # Even though To is required in WS-Discovery, some devices omit it
-    elem = dom.getElementsByTagNameNS(NS_A, "To").item(0)
+    elem = dom.getElementsByTagNameNS(NS_ADDRESSING, "To").item(0)
     if elem:
         env.setTo(elem.firstChild.data.strip())
 
     _parseAppSequence(dom, env)
 
-    pmNodes = dom.getElementsByTagNameNS(NS_D, "ProbeMatch")
+    pmNodes = dom.getElementsByTagNameNS(NS_DISCOVERY, "ProbeMatch")
     for node in pmNodes:
-        epr = node.getElementsByTagNameNS(NS_A, "Address")[0].firstChild.data.strip()
+        epr = node.getElementsByTagNameNS(NS_ADDRESSING, "Address")[0].firstChild.data.strip()
 
         types = []
-        typeNodes = node.getElementsByTagNameNS(NS_D, "Types")
+        typeNodes = node.getElementsByTagNameNS(NS_DISCOVERY, "Types")
         if len(typeNodes) > 0:
             types = getTypes(typeNodes[0])
 
         scopes = []
-        scopeNodes = node.getElementsByTagNameNS(NS_D, "Scopes")
+        scopeNodes = node.getElementsByTagNameNS(NS_DISCOVERY, "Scopes")
         if len(scopeNodes) > 0:
             scopes = getScopes(scopeNodes[0])
 
         xAddrs = []
-        xAddrNodes = node.getElementsByTagNameNS(NS_D, "XAddrs")
+        xAddrNodes = node.getElementsByTagNameNS(NS_DISCOVERY, "XAddrs")
         if len(xAddrNodes) > 0:
             xAddrs = getXAddrs(xAddrNodes[0])
 
-        mdv = node.getElementsByTagNameNS(NS_D, "MetadataVersion")[0].firstChild.data.strip()
+        mdv = node.getElementsByTagNameNS(NS_DISCOVERY, "MetadataVersion")[0].firstChild.data.strip()
         env.getProbeResolveMatches().append(ProbeResolveMatch(epr, types, scopes, xAddrs, mdv))
 
     return env
