@@ -1,10 +1,8 @@
-"""
-Simple scope object implementation.
-
-"""
+"""Service scopes are used to constrain service discovery."""
 
 
 class Scope:
+    "Service scope implementation."
 
     def __init__(self, value, matchBy=None):
         self._matchBy = matchBy

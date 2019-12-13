@@ -1,9 +1,8 @@
-"""
-Simple QName implementation
-"""
+"""Qualified name support; see e.g. https://en.wikipedia.org/wiki/QName"""
 
 
 class QName:
+    "Qualified name implementation"
 
     def __init__(self, namespace, localname, namespace_prefix=None):
         self._namespace = namespace
