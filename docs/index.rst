@@ -12,7 +12,8 @@ For more on WS-Discovery, see :doc:`wsdiscovery`.
    :maxdepth: 2
    :caption: Table of contents:
 
-   cmdline
+   cmd_wsdiscover
+   cmd_wspublish
    appsupport
 
 Indices and tables
