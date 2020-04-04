@@ -20,7 +20,7 @@ WS-Discovery terms
    EPR
       An Endpoint reference is an :abbr:`URI (Uniform Resource Identifier)`
       that identifies a SOAP resource such as a WS-Discovery service. A
-      EPR is included in a :term:`Probe match` message. A  :term:`Resolve`
+      EPR is included in a :term:`Probe match` message. A :term:`Resolve`
       message can then be used to retrieve actual network address for service.
 
    Envelope

@@ -1,16 +1,24 @@
-Application development support
-================================
+Framework for discovery applications
+=====================================
 
-This package provides reusable support for implementing networked service
+Reusable facilities for implementing networked service
 publishing and discovery applications.
 
-The higher-level application development support is found in their own `discovery` and
-`publishing` modules. The threaded networking implementation is split into its own module
-as well. Finally, there's a bunch of lower-level supporting & utility modules.
-
 .. toctree::
+   :caption: Full publish & discovery implementations:
 
    publishing
    discovery
+
+.. toctree::
+   :caption: Facilities provided by the framework:
+
    networking
-   lowlevelsupport
+   serialize_deserialize
+   service
+   scope
+   envelope
+   qname
+   uri
+   udp
+   namespaces

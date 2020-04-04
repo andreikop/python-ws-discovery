@@ -1,9 +1,8 @@
-Service discovery support
-===========================
+Service discovery implementation
+=================================
 
-.. automodule:: wsdiscovery.discovery
-   :members:
-   :undoc-members:
+.. autoclass:: wsdiscovery.discovery.ThreadedWSDiscovery
+   :show-inheritance:
+   :members: start, stop, searchServices, clearRemoteServices,
+             setRemoteServiceByeCallback, setRemoteServiceHelloCallback, setRemoveServiceDisappearedCallback
 
-:doc:`lowlevelsupport` provided by the package make up the shared building blocks
-that application-level support is based on.

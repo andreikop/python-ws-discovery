@@ -1,12 +1,11 @@
-SOAP message (de)serialization
-===============================
+WS-Discovery messages (de)serialization
+========================================
 
 .. automodule:: wsdiscovery.message
    :members:
    :undoc-members:
 
-Serialization & deserialization implementations for each
-message type, or action:
+Serialization & deserialization functions for each message:
 
 .. toctree::
    :glob:
@@ -14,3 +13,4 @@ message type, or action:
 
    actions/*
 
+See :doc:`envelope` for the envelope implementation and how to create message envelopes for each WS-Discovery message type.

@@ -1,5 +1,5 @@
-SOAP envelope implementation
-=============================
+WS-Discovery message envelope & factories
+==========================================
 
 .. automodule:: wsdiscovery.envelope
    :members:

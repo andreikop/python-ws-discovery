@@ -1,4 +1,4 @@
-"""Functions to serialize and deserialize messages"""
+"""Functions to serialize and deserialize messages between SOAP envelope & string representations"""
 
 import io
 from .namespaces import NS_ADDRESSING, NS_SOAPENV

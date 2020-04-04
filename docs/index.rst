@@ -1,17 +1,17 @@
 Package documentation
 ======================
 
-This package provides a framework for building WS-Discovery service publishing
-or discovery applications, and a ``wsdiscover`` command-line discovery
-application.
-
-For more on WS-Discovery, see :doc:`wsdiscovery`.
+This package provides a short introduction to WS-Discovery, simple
+command-line tools for discovering and publishing services, and a
+framework for building WS-Discovery service publishing or discovery
+applications.
 
 .. toctree::
    :glob:
    :maxdepth: 2
    :caption: Table of contents:
 
+   wsdiscovery
    cmdline
    appsupport
 

@@ -1,9 +1,6 @@
-Service publishing support
-===========================
+Service publishing implementation
+=================================
 
-.. automodule:: wsdiscovery.publishing
-   :members:
-   :undoc-members:
-
-:doc:`lowlevelsupport` provided by the package make up the shared building blocks
-that application-level support is based on.
+.. autoclass:: wsdiscovery.publishing.ThreadedWSPublishing
+   :show-inheritance:
+   :members: start, stop, publishService, clearLocalServices

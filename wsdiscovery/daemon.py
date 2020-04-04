@@ -1,4 +1,4 @@
-"""A  publish and/or discovery daemon implementation."""
+"""Generic networking-agnostic WS-Discovery messaging daemon mixin implementation."""
 
 # Python2 compatibility
 from __future__ import print_function

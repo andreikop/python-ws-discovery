@@ -1,11 +1,13 @@
-Networking daemons
-==================
+Networking daemon base classes
+===============================
 
-The package decouples WS-Discovery functionality from the networking system.
-The following networking daemons are or will be provided:
+The framework decouples WS-Discovery messaging functionality
+from the actual networking system implementation. A set of
+base classes are provided for creating networked service
+discovery and/or publishing implementations.
 
 .. toctree::
 
+   daemon
    threaded
-   async
 

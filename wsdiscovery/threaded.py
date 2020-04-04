@@ -1,4 +1,4 @@
-"""A threaded discovery daemon implementation."""
+"""Threaded networking facilities for implementing threaded WS-Discovery daemons."""
 
 # Python2 compatibility
 from __future__ import print_function
@@ -25,7 +25,7 @@ logger = logging.getLogger("threading")
 
 
 BUFFER_SIZE = 0xffff
-_NETWORK_ADDRESSES_CHECK_TIMEOUT = 5
+NETWORK_ADDRESSES_CHECK_TIMEOUT = 5
 MULTICAST_PORT = 3702
 MULTICAST_IPV4_ADDRESS = "239.255.255.250"
 
@@ -48,6 +48,8 @@ class _StoppableDaemonThread(threading.Thread):
 
 
 class AddressMonitorThread(_StoppableDaemonThread):
+    "trigger address change callbacks when local service addresses change"
+
     def __init__(self, wsd):
         self._addrs = set()
         self._wsd = wsd
@@ -69,7 +71,7 @@ class AddressMonitorThread(_StoppableDaemonThread):
         self._addrs = addrs
 
     def run(self):
-        while not self._quitEvent.wait(_NETWORK_ADDRESSES_CHECK_TIMEOUT):
+        while not self._quitEvent.wait(NETWORK_ADDRESSES_CHECK_TIMEOUT):
             self._updateAddrs()
 
 
@@ -253,7 +255,7 @@ class NetworkingThread(_StoppableDaemonThread):
 
 
 class ThreadedNetworking:
-    "handle networking start & stop, address add/remove & message sending"
+    "handle threaded networking start & stop, address add/remove & message sending"
 
     def __init__(self, **kwargs):
         self._networkingThread = None
@@ -284,12 +286,12 @@ class ThreadedNetworking:
         self._networkingThread = None
 
     def start(self):
-        "start the server - should be called before using other functions"
+        "start networking - should be called before using other methods"
         self._startThreads()
         self._serverStarted = True
 
     def stop(self):
-        "cleans up and stops the discovery server"
+        "cleans up and stops networking"
         self._stopThreads()
         self._serverStarted = False
 

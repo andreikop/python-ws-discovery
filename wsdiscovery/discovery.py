@@ -137,7 +137,7 @@ class Discovery:
 
 
 class ThreadedWSDiscovery(Daemon, Discovery, ThreadedNetworking):
-    "threaded service discovery"
+    "Full threaded service discovery implementation"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
