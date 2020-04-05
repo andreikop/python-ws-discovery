@@ -1,9 +1,9 @@
 WS-Discovery in Python
 ======================
-This is WS-Discovery implementation for Python 2 & 3. It allows to both discover
+This is WS-Discovery implementation for Python 3. It allows to both discover
 services and publish discoverable services.
 
-Full [package documentation](https://python-ws-discovery-ng.readthedocs.io/en/decoupled/index.html) is at readthedocs.org.
+Extensive [package documentation](https://koodaamo.github.io/python-ws-discovery) is available.
 
 Basic usage
 ------------
@@ -51,8 +51,10 @@ Original version created by L.A. Fernando.
 
 Code was then forked and maintained by Andrei Kopats.
 
+Python2 support fixes by Michael Leinartas.
+
 Python3 port done by Pieter Jordaan.
 
-Packaging, major refactoring & command-line client by Petri Savolainen.
+Packaging, major refactoring & command-line clients and
+reStructuredText package documentation by Petri Savolainen.
 
-Python2 support fixes by Michael Leinartas.
