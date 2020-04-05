@@ -1,9 +1,5 @@
 """Threaded networking facilities for implementing threaded WS-Discovery daemons."""
 
-# Python2 compatibility
-from __future__ import print_function
-from __future__ import unicode_literals
-
 import logging
 import random
 import time

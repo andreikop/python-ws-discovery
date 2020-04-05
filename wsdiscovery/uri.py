@@ -1,9 +1,6 @@
 """Module with URI implementation that supports service scope matching"""
 
-try:
-    from urllib.parse import unquote  # Python 3
-except ImportError:
-    from urllib2 import unquote  # Python 2
+from urllib.parse import unquote
 
 
 class URI:
