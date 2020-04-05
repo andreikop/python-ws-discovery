@@ -18,11 +18,11 @@
 # -- Project information -----------------------------------------------------
 
 project = 'WSDiscovery'
-copyright = '2019, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas'
+copyright = '2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas'
 author = 'L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas'
 
 # The full version, including alpha/beta/rc tags
-release = '1.2'
+release = '2.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -54,3 +54,6 @@ html_theme = 'alabaster'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# do not copy source rst files into build dir
+html_copy_source = False
