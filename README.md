@@ -1,7 +1,8 @@
 WS-Discovery in Python
 ======================
 This is WS-Discovery implementation for Python 3. It allows to both discover
-services and publish discoverable services.
+services and publish discoverable services. For Python 2 support, use the latest 1.x version
+of this package.
 
 Extensive [package documentation](https://koodaamo.github.io/python-ws-discovery) is available.
 
