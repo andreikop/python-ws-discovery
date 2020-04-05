@@ -18,8 +18,7 @@ See :doc:`terms` for explanation of some common terms.
       a client sends a Probe message. Probe can be unicast or multicast.
 
    Probe match
-      When a service receives a matching Probe, it *must* respond with a Probe Match
-      message.
+      When a service receives a matching Probe, it *must* respond with a Probe Match message.
 
    Resolve
       A client may send a one-way multicast Resolve message to locate service
@@ -27,8 +26,8 @@ See :doc:`terms` for explanation of some common terms.
 
    Resolve match
       When a service matches a Resolve message, it *must* respond with a unicast
-      Resolve Match message. 
+      Resolve Match message.
 
    Bye
-      A service *should* send a one-way multicast :doc:`Bye <actions/bye>` message when preparing to
+      A service *should* send a one-way multicast Bye message when preparing to
       leave a network.

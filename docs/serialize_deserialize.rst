@@ -13,4 +13,6 @@ Serialization & deserialization functions for each message:
 
    actions/*
 
-See :doc:`envelope` for the envelope implementation and how to create message envelopes for each WS-Discovery message type.
+.. seealso::
+   :doc:`envelope`
+
