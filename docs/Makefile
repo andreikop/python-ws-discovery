@@ -1,13 +1,16 @@
 # Minimal makefile for Sphinx documentation
-#
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
-SOURCEDIR     = .
-BUILDDIR      = _build
+SOURCEDIR     = _sources
+BUILDDIR      = .
 
-# Put it first so that "make" without argument is like "make help".
+
+# Build html docs into current directory
+docs:
+	@$(SPHINXBUILD) "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
