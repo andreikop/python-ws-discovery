@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Generic networking base daemon &#8212; WSDiscovery 2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Threaded networking base classes" href="threaded.html" />
+    <link rel="prev" title="Networking daemon base classes" href="networking.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-wsdiscovery.daemon">
+<span id="generic-networking-base-daemon"></span><h1>Generic networking base daemon<a class="headerlink" href="#module-wsdiscovery.daemon" title="Permalink to this headline">¶</a></h1>
+<p>Generic networking-agnostic WS-Discovery messaging daemon mixin implementation.</p>
+<dl class="class">
+<dt id="wsdiscovery.daemon.Daemon">
+<em class="property">class </em><code class="descclassname">wsdiscovery.daemon.</code><code class="descname">Daemon</code><span class="sig-paren">(</span><em>uuid_=None</em>, <em>capture=None</em>, <em>ttl=1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon" title="Permalink to this definition">¶</a></dt>
+<dd><p>generic WS-Discovery messaging daemon implementation</p>
+<dl class="method">
+<dt id="wsdiscovery.daemon.Daemon._sendBye">
+<code class="descname">_sendBye</code><span class="sig-paren">(</span><em>service</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendBye" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.daemon.Daemon._sendHello">
+<code class="descname">_sendHello</code><span class="sig-paren">(</span><em>service</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendHello" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.daemon.Daemon._sendProbe">
+<code class="descname">_sendProbe</code><span class="sig-paren">(</span><em>types=None</em>, <em>scopes=None</em>, <em>address=None</em>, <em>port=None</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendProbe" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.daemon.Daemon._sendProbeMatch">
+<code class="descname">_sendProbeMatch</code><span class="sig-paren">(</span><em>services</em>, <em>relatesTo</em>, <em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendProbeMatch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.daemon.Daemon._sendResolve">
+<code class="descname">_sendResolve</code><span class="sig-paren">(</span><em>epr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendResolve" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.daemon.Daemon._sendResolveMatch">
+<code class="descname">_sendResolveMatch</code><span class="sig-paren">(</span><em>service</em>, <em>relatesTo</em>, <em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendResolveMatch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.daemon.Daemon.envReceived">
+<code class="descname">envReceived</code><span class="sig-paren">(</span><em>env</em>, <em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon.envReceived" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">WSDiscovery</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Table of contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="wsdiscovery.html">WS-Discovery in a nutshell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmdline.html">Command-line utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="appsupport.html">Framework for discovery applications</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="publishing.html">Service publishing implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="discovery.html">Service discovery implementation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="networking.html">Networking daemon base classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">WS-Discovery message facilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="service.html">Service representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">Service Scope representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qname.html">QName representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI parser for scope matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="udp.html">UDP communications handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespaces.html">Namespace definitions</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="appsupport.html">Framework for discovery applications</a><ul>
+  <li><a href="networking.html">Networking daemon base classes</a><ul>
+      <li>Previous: <a href="networking.html" title="previous chapter">Networking daemon base classes</a></li>
+      <li>Next: <a href="threaded.html" title="next chapter">Threaded networking base classes</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

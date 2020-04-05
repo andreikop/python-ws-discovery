@@ -1,0 +1,195 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Command-line utilities &#8212; WSDiscovery 2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Framework for discovery applications" href="appsupport.html" />
+    <link rel="prev" title="WS-Discovery terms" href="terms.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="command-line-utilities">
+<h1>Command-line utilities<a class="headerlink" href="#command-line-utilities" title="Permalink to this headline">¶</a></h1>
+<p>There are two command-line tools available for discovering and
+publishing services.</p>
+<div class="section" id="wsdiscover">
+<h2>wsdiscover<a class="headerlink" href="#wsdiscover" title="Permalink to this headline">¶</a></h2>
+<p>Discover services using WS-Discovery</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wsdiscover <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-wsdiscover-s">
+<code class="descname">-s</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--scope</code><code class="descclassname"> &lt;scope&gt;</code><a class="headerlink" href="#cmdoption-wsdiscover-s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full scope URI, eg. onvif://www.onvif.org/Model/</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-wsdiscover-a">
+<code class="descname">-a</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--address</code><code class="descclassname"> &lt;address&gt;</code><a class="headerlink" href="#cmdoption-wsdiscover-a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Service address</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-wsdiscover-p">
+<code class="descname">-p</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--port</code><code class="descclassname"> &lt;port&gt;</code><a class="headerlink" href="#cmdoption-wsdiscover-p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Service port</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-wsdiscover-l">
+<code class="descname">-l</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--loglevel</code><code class="descclassname"> &lt;loglevel&gt;</code><a class="headerlink" href="#cmdoption-wsdiscover-l" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log level; one of INFO, DEBUG, WARNING, ERROR</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-wsdiscover-c">
+<code class="descname">-c</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--capture</code><code class="descclassname"> &lt;capture&gt;</code><a class="headerlink" href="#cmdoption-wsdiscover-c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Capture messages to a file</p>
+</dd></dl>
+
+</div>
+<div class="section" id="wspublish">
+<h2>wspublish<a class="headerlink" href="#wspublish" title="Permalink to this headline">¶</a></h2>
+<p>Publish services using WS-Discovery</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>wspublish <span class="o">[</span>OPTIONS<span class="o">]</span>
+</pre></div>
+</div>
+<p class="rubric">Options</p>
+<dl class="option">
+<dt id="cmdoption-wspublish-s">
+<code class="descname">-s</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--scope</code><code class="descclassname"> &lt;scope&gt;</code><a class="headerlink" href="#cmdoption-wspublish-s" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full scope URI, eg. onvif://www.onvif.org/Model/</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-wspublish-t">
+<code class="descname">-t</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--type</code><code class="descclassname"> &lt;type&gt;</code><a class="headerlink" href="#cmdoption-wspublish-t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Namespaced type URI, eg. <a class="reference external" href="https://myns:myservice_type">https://myns:myservice_type</a></p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-wspublish-a">
+<code class="descname">-a</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--address</code><code class="descclassname"> &lt;address&gt;</code><a class="headerlink" href="#cmdoption-wspublish-a" title="Permalink to this definition">¶</a></dt>
+<dd><p>Service IP address</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-wspublish-p">
+<code class="descname">-p</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--port</code><code class="descclassname"> &lt;port&gt;</code><a class="headerlink" href="#cmdoption-wspublish-p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Service port</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-wspublish-l">
+<code class="descname">-l</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--loglevel</code><code class="descclassname"> &lt;loglevel&gt;</code><a class="headerlink" href="#cmdoption-wspublish-l" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log level; one of INFO, DEBUG, WARNING, ERROR</p>
+</dd></dl>
+
+<dl class="option">
+<dt id="cmdoption-wspublish-c">
+<code class="descname">-c</code><code class="descclassname"></code><code class="descclassname">, </code><code class="descname">--capture</code><code class="descclassname"> &lt;capture&gt;</code><a class="headerlink" href="#cmdoption-wspublish-c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Capture messages to a file</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">WSDiscovery</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Table of contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="wsdiscovery.html">WS-Discovery in a nutshell</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Command-line utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#wsdiscover">wsdiscover</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wspublish">wspublish</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="appsupport.html">Framework for discovery applications</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="terms.html" title="previous chapter">WS-Discovery terms</a></li>
+      <li>Next: <a href="appsupport.html" title="next chapter">Framework for discovery applications</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

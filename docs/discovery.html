@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Service discovery implementation &#8212; WSDiscovery 2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Networking daemon base classes" href="networking.html" />
+    <link rel="prev" title="Service publishing implementation" href="publishing.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="service-discovery-implementation">
+<h1>Service discovery implementation<a class="headerlink" href="#service-discovery-implementation" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="wsdiscovery.discovery.ThreadedWSDiscovery">
+<em class="property">class </em><code class="descclassname">wsdiscovery.discovery.</code><code class="descname">ThreadedWSDiscovery</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.discovery.ThreadedWSDiscovery" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="daemon.html#wsdiscovery.daemon.Daemon" title="wsdiscovery.daemon.Daemon"><code class="xref py py-class docutils literal notranslate"><span class="pre">wsdiscovery.daemon.Daemon</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">wsdiscovery.discovery.Discovery</span></code>, <a class="reference internal" href="threaded.html#wsdiscovery.threaded.ThreadedNetworking" title="wsdiscovery.threaded.ThreadedNetworking"><code class="xref py py-class docutils literal notranslate"><span class="pre">wsdiscovery.threaded.ThreadedNetworking</span></code></a></p>
+<p>Full threaded service discovery implementation</p>
+<dl class="method">
+<dt id="wsdiscovery.discovery.ThreadedWSDiscovery.clearRemoteServices">
+<code class="descname">clearRemoteServices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.discovery.ThreadedWSDiscovery.clearRemoteServices" title="Permalink to this definition">¶</a></dt>
+<dd><p>clears remotely discovered services</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.discovery.ThreadedWSDiscovery.searchServices">
+<code class="descname">searchServices</code><span class="sig-paren">(</span><em>types=None</em>, <em>scopes=None</em>, <em>address=None</em>, <em>port=None</em>, <em>timeout=3</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.discovery.ThreadedWSDiscovery.searchServices" title="Permalink to this definition">¶</a></dt>
+<dd><p>search for services given the TYPES and SCOPES in a given TIMEOUT</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.discovery.ThreadedWSDiscovery.setRemoteServiceByeCallback">
+<code class="descname">setRemoteServiceByeCallback</code><span class="sig-paren">(</span><em>cb</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.discovery.ThreadedWSDiscovery.setRemoteServiceByeCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set callback, which will be called when new service appeared online
+and sent Hi message
+Service is passed as a parameter to the callback
+Set None to disable callback</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.discovery.ThreadedWSDiscovery.setRemoteServiceHelloCallback">
+<code class="descname">setRemoteServiceHelloCallback</code><span class="sig-paren">(</span><em>cb</em>, <em>types=None</em>, <em>scopes=None</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.discovery.ThreadedWSDiscovery.setRemoteServiceHelloCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set callback, which will be called when new service appeared online
+and sent Hi message</p>
+<p>typesFilter and scopesFilter might be list of types and scopes.
+If filter is set, callback is called only for Hello messages,
+which match filter</p>
+<p>Set None to disable callback</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.discovery.ThreadedWSDiscovery.setRemoveServiceDisappearedCallback">
+<code class="descname">setRemoveServiceDisappearedCallback</code><span class="sig-paren">(</span><em>cb</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.discovery.ThreadedWSDiscovery.setRemoveServiceDisappearedCallback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set callback, which will be called when new service disappears
+Service uuid is passed as a parameter to the callback
+Set None to disable callback</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.discovery.ThreadedWSDiscovery.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.discovery.ThreadedWSDiscovery.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>start networking - should be called before using other methods</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.discovery.ThreadedWSDiscovery.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.discovery.ThreadedWSDiscovery.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>cleans up and stops networking</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">WSDiscovery</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Table of contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="wsdiscovery.html">WS-Discovery in a nutshell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmdline.html">Command-line utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="appsupport.html">Framework for discovery applications</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="publishing.html">Service publishing implementation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Service discovery implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking.html">Networking daemon base classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">WS-Discovery message facilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="service.html">Service representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">Service Scope representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qname.html">QName representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI parser for scope matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="udp.html">UDP communications handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespaces.html">Namespace definitions</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="appsupport.html">Framework for discovery applications</a><ul>
+      <li>Previous: <a href="publishing.html" title="previous chapter">Service publishing implementation</a></li>
+      <li>Next: <a href="networking.html" title="next chapter">Networking daemon base classes</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

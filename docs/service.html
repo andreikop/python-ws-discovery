@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Service representation &#8212; WSDiscovery 2.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Service Scope representation" href="scope.html" />
+    <link rel="prev" title="Resolve match message (de)serialization" href="actions/resolvematch.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-wsdiscovery.service">
+<span id="service-representation"></span><h1>Service representation<a class="headerlink" href="#module-wsdiscovery.service" title="Permalink to this headline">¶</a></h1>
+<p>Discoverable WS-Discovery service.</p>
+<dl class="class">
+<dt id="wsdiscovery.service.Service">
+<em class="property">class </em><code class="descclassname">wsdiscovery.service.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>types</em>, <em>scopes</em>, <em>xAddrs</em>, <em>epr</em>, <em>instanceId</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service" title="Permalink to this definition">¶</a></dt>
+<dd><p>A web service representation implementation</p>
+<dl class="method">
+<dt id="wsdiscovery.service.Service.getEPR">
+<code class="descname">getEPR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getEPR" title="Permalink to this definition">¶</a></dt>
+<dd><p>get endpoint reference</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.getInstanceId">
+<code class="descname">getInstanceId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getInstanceId" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.getMessageNumber">
+<code class="descname">getMessageNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getMessageNumber" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.getMetadataVersion">
+<code class="descname">getMetadataVersion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getMetadataVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.getScopes">
+<code class="descname">getScopes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getScopes" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the service scopes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.getTypes">
+<code class="descname">getTypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>get service types</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.getXAddrs">
+<code class="descname">getXAddrs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getXAddrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>get service network address</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.incrementMessageNumber">
+<code class="descname">incrementMessageNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.incrementMessageNumber" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.setEPR">
+<code class="descname">setEPR</code><span class="sig-paren">(</span><em>epr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setEPR" title="Permalink to this definition">¶</a></dt>
+<dd><p>set endpoint reference</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.setInstanceId">
+<code class="descname">setInstanceId</code><span class="sig-paren">(</span><em>instanceId</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setInstanceId" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.setMessageNumber">
+<code class="descname">setMessageNumber</code><span class="sig-paren">(</span><em>messageNumber</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setMessageNumber" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.setMetadataVersion">
+<code class="descname">setMetadataVersion</code><span class="sig-paren">(</span><em>metadataVersion</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setMetadataVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.setScopes">
+<code class="descname">setScopes</code><span class="sig-paren">(</span><em>scopes</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setScopes" title="Permalink to this definition">¶</a></dt>
+<dd><p>set the service scopes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.setTypes">
+<code class="descname">setTypes</code><span class="sig-paren">(</span><em>types</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setTypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>set service types</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wsdiscovery.service.Service.setXAddrs">
+<code class="descname">setXAddrs</code><span class="sig-paren">(</span><em>xAddrs</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setXAddrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>set service network address</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">WSDiscovery</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Table of contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="wsdiscovery.html">WS-Discovery in a nutshell</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cmdline.html">Command-line utilities</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="appsupport.html">Framework for discovery applications</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="publishing.html">Service publishing implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="discovery.html">Service discovery implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="networking.html">Networking daemon base classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="message.html">WS-Discovery message facilities</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Service representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scope.html">Service Scope representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qname.html">QName representation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uri.html">URI parser for scope matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="udp.html">UDP communications handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespaces.html">Namespace definitions</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="appsupport.html">Framework for discovery applications</a><ul>
+      <li>Previous: <a href="actions/resolvematch.html" title="previous chapter"><span class="xref std std-term">Resolve match</span> message (de)serialization</a></li>
+      <li>Next: <a href="scope.html" title="next chapter">Service Scope representation</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
