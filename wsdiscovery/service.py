@@ -1,6 +1,5 @@
 """Discoverable WS-Discovery service."""
 
-
 from .util import _getNetworkAddrs
 
 

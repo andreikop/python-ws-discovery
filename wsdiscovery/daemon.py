@@ -1,9 +1,5 @@
 """Generic networking-agnostic WS-Discovery messaging daemon mixin implementation."""
 
-# Python2 compatibility
-from __future__ import print_function
-from __future__ import unicode_literals
-
 import random
 import time
 import uuid
