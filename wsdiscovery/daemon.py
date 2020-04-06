@@ -12,7 +12,7 @@ import logging
 from .actions import *
 from .uri import URI
 from .service import Service
-from .envelope import *
+from .envelope import SoapEnvelope
 
 
 APP_MAX_DELAY = 500 # miliseconds

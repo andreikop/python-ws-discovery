@@ -1,10 +1,24 @@
 "Serialize & parse WS-Discovery Bye SOAP messages"
 
-from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_BYE
+import uuid
+from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_BYE, NS_ADDRESS_ALL
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
                    addTypes, addScopes, getDocAsString, getScopes, addEPR, \
                    _parseAppSequence
+
+
+def constructBye(service):
+    "construct an envelope that represents a ``Bye`` message"
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_BYE)
+    env.setTo(NS_ADDRESS_ALL)
+    env.setMessageId(uuid.uuid4().urn)
+    env.setInstanceId(str(service.getInstanceId()))
+    env.setMessageNumber(str(service.getMessageNumber()))
+    env.setEPR(service.getEPR())
+    return env
 
 
 def createByeMessage(env):

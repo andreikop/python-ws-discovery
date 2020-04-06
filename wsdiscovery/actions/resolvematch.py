@@ -1,13 +1,33 @@
 "Serialize & parse WS-Discovery Resolve Match SOAP messages"
 
+import uuid
 
-from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_RESOLVE_MATCH
+from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_RESOLVE_MATCH, NS_ADDRESS_UNKNOWN
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
                    addTypes, getTypes, addScopes, getDocAsString, getScopes, addEPR, \
                    addXAddrs, getXAddrs, _parseAppSequence
-
+                   
 from .probematch import ProbeResolveMatch
+
+
+def constructResolveMatch(service, relatesTo):
+    "construct an envelope that represents a ``Resolve Match`` message"
+
+    service.incrementMessageNumber()
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_RESOLVE_MATCH)
+    env.setTo(NS_ADDRESS_UNKNOWN)
+    env.setMessageId(uuid.uuid4().urn)
+    env.setInstanceId(str(service.getInstanceId()))
+    env.setMessageNumber(str(service.getMessageNumber()))
+    env.setRelatesTo(relatesTo)
+
+    prb = ProbeResolveMatch(service.getEPR(), service.getTypes(), service.getScopes(), \
+                            service.getXAddrs(), str(service.getMetadataVersion()))
+    env.getProbeResolveMatches().append(prb)
+    return env
 
 
 def createResolveMatchMessage(env):
