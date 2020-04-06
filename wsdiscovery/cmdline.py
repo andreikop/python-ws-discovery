@@ -1,20 +1,13 @@
 import sys
 import logging
 from contextlib import contextmanager
-
+from urllib.parse import urlparse
 import click
-
 from wsdiscovery.discovery import ThreadedWSDiscovery as WSDiscovery
 from wsdiscovery.publishing import ThreadedWSPublishing as WSPublishing
 from wsdiscovery.scope import Scope
 
-try:
-    from urlparse import urlparse
-except:
-    from urllib.parse import urlparse
-
 logging.basicConfig()
-
 
 DEFAULT_LOGLEVEL = logging.INFO
 
