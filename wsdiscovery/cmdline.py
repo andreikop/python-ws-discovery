@@ -1,20 +1,14 @@
 import sys
 import logging
 from contextlib import contextmanager
-
+from urllib.parse import urlparse
 import click
-
 from wsdiscovery.discovery import ThreadedWSDiscovery as WSDiscovery
 from wsdiscovery.publishing import ThreadedWSPublishing as WSPublishing
 from wsdiscovery.scope import Scope
-
-try:
-    from urlparse import urlparse
-except:
-    from urllib.parse import urlparse
+from wsdiscovery.qname import QName
 
 logging.basicConfig()
-
 
 DEFAULT_LOGLEVEL = logging.INFO
 
@@ -69,19 +63,27 @@ def discover(scope, address, port, loglevel, capture):
 
 @click.command()
 @click.option('--scope', '-s', help='Full scope URI, eg. onvif://www.onvif.org/Model/')
-@click.option('--type', '-t', help='Namespaced type URI, eg. https://myns:myservice_type')
+@click.option('--typename', '-t', help='Qualified type name, eg. https://myservicesns:myservice_type')
 @click.option('--address', '-a', help='Service IP address')
 @click.option('--port', '-p', type=int, help='Service port')
 @click.option('--loglevel', '-l',  help='Log level; one of INFO, DEBUG, WARNING, ERROR')
 @click.option('--capture', '-c', nargs=1, type=click.File('w'), help='Capture messages to a file')
-def publish(scope, type, address, port, loglevel, capture):
+def publish(scope, typename, address, port, loglevel, capture):
     "Publish services using WS-Discovery"
 
     logger = get_logger("ws-publishing", loglevel)
 
     with publishing(capture) as wsp:
         scopes = [Scope(scope)] if scope else []
-        types = [Qname(type.split(':'))] if type else []
+
+        try:
+            proto, ns, name = typename.split(':')
+        except:
+            types = []
+        else:
+            ns = ns[2:]
+            types = [QName(proto, ns)]
+
         xAddrs = ["%s:%i" % (address, port)] if address else ['127.0.0.1']
         svc = wsp.publishService(types, scopes, xAddrs)
 

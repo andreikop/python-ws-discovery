@@ -1,9 +1,5 @@
 """Generic networking-agnostic WS-Discovery messaging daemon mixin implementation."""
 
-# Python2 compatibility
-from __future__ import print_function
-from __future__ import unicode_literals
-
 import random
 import time
 import uuid
@@ -12,7 +8,7 @@ import logging
 from .actions import *
 from .uri import URI
 from .service import Service
-from .envelope import *
+from .envelope import SoapEnvelope
 
 
 APP_MAX_DELAY = 500 # miliseconds

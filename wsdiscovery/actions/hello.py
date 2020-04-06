@@ -1,10 +1,29 @@
 "Serialize & parse WS-Discovery Hello SOAP messages"
 
-from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_HELLO
+import uuid
+from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_HELLO, NS_ADDRESS_ALL
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
                    addTypes, addScopes, getDocAsString, getScopes, getQNameFromValue, \
                    addEPR, addXAddrs, _parseAppSequence, getTypes, getXAddrs
+
+
+def constructHello(service):
+    "construct an envelope that represents a ``Hello`` message"
+
+    service.incrementMessageNumber()
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_HELLO)
+    env.setTo(NS_ADDRESS_ALL)
+    env.setMessageId(uuid.uuid4().urn)
+    env.setInstanceId(str(service.getInstanceId()))
+    env.setMessageNumber(str(service.getMessageNumber()))
+    env.setTypes(service.getTypes())
+    env.setScopes(service.getScopes())
+    env.setXAddrs(service.getXAddrs())
+    env.setEPR(service.getEPR())
+    return env
 
 
 def createHelloMessage(env):

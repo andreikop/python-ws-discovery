@@ -1,9 +1,5 @@
 """Publisher application."""
 
-# Python2 compatibility
-from __future__ import print_function
-from __future__ import unicode_literals
-
 import logging
 import random
 import time
@@ -60,7 +56,7 @@ class Publishing:
         self._localServices[self.uuid] = service
         self._sendHello(service)
 
-        time.sleep(0.001)
+        time.sleep(10.001)
 
     def clearLocalServices(self):
         'send Bye messages for the services and remove them'

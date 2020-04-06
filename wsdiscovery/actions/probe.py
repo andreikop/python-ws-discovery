@@ -1,10 +1,24 @@
 "Serialize & parse WS-Discovery Probe SOAP messages"
 
+import uuid
 from xml.dom import minidom
-from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_PROBE
+
+from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_PROBE, NS_ADDRESS_ALL
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
                    addTypes, getTypes, addScopes, getDocAsString, getScopes
+
+
+def constructProbe(types, scopes):
+    "construct an envelope that represents a ``Probe`` message"
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_PROBE)
+    env.setTo(NS_ADDRESS_ALL)
+    env.setMessageId(uuid.uuid4().urn)
+    env.setTypes(types)
+    env.setScopes(scopes)
+    return env
 
 
 def createProbeMessage(env):

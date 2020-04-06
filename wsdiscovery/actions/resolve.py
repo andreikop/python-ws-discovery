@@ -1,9 +1,22 @@
 "Serialize & parse WS-Discovery Resolve SOAP messages"
 
-from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_RESOLVE
+import uuid
+
+from ..namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_ACTION_RESOLVE, NS_ADDRESS_ALL
 from ..envelope import SoapEnvelope
 from ..util import createSkelSoapMessage, getBodyEl, getHeaderEl, addElementWithText, \
                    addEPR, addTypes, addScopes, getDocAsString, getScopes
+
+
+def constructResolve(epr):
+    "construct an envelope that represents a ``Resolve`` message"
+
+    env = SoapEnvelope()
+    env.setAction(NS_ACTION_RESOLVE)
+    env.setTo(NS_ADDRESS_ALL)
+    env.setMessageId(uuid.uuid4().urn)
+    env.setEPR(epr)
+    return env
 
 
 def createResolveMessage(env):

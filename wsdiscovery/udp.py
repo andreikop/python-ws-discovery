@@ -5,7 +5,6 @@ management of unicast/multicast semantics and repeat & delay handling.
 import random
 import time
 
-
 UNICAST_UDP_REPEAT=2
 UNICAST_UDP_MIN_DELAY=50
 UNICAST_UDP_MAX_DELAY=250
