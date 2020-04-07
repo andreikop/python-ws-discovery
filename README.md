@@ -14,29 +14,26 @@ A simple `wsdiscover` command-line client is provided for discovering WS-Discove
 Here's an example of how to use the package in your Python code. The following code first publishes a service and then discovers it:
 
 ```python
-    from wsdiscovery import WSDiscovery, QName, Scope
+    from wsdiscovery.discovery import ThreadedWSDiscovery as WSDiscovery
+    from wsdiscovery.publishing import ThreadedWSPublishing as WSPublishing
+    from wsdiscovery import QName, Scope
 
+    # Define type, scope & address of service
+    ttype1 = QName("http://www.onvif.org/ver10/device/wsdl", "Device")
+    scope1 = Scope("onvif://www.onvif.org/Model")
+    xAddr1 = "localhost:8080/abc"
+
+    # Publish the service
+    wsp = WSPublishing()
+    wsp.start()
+    wsp.publishService(types=[ttype1], scopes=[scope1], xAddrs=[xAddr1])
+
+    # Discover it (along with any other service out there)
     wsd = WSDiscovery()
     wsd.start()
-
-    ttype = QName("abc", "def")
-
-    ttype1 = QName("namespace", "myTestService")
-
-    # Note: some devices scope services using onvif:// scheme, not http://
-    scope1 = Scope("http://myscope")
-    ttype2 = QName("namespace", "myOtherTestService_type1")
-    scope2 = Scope("http://other_scope")
-
-    xAddr = "localhost:8080/abc"
-    wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=[xAddr])
-
-    #ret = wsd.searchServices(scopes=[scope1], timeout=10)
-    ret = wsd.searchServices()
-
-    for service in ret:
+    services = wsd.searchServices()
+    for service in services:
         print(service.getEPR() + ":" + service.getXAddrs()[0])
-
     wsd.stop()
 ```
 
