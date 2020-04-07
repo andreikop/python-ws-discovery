@@ -17,7 +17,7 @@ except Exception:
 
 
 setup(name='WSDiscovery',
-      version='1.1.3.dev0',
+      version='2.0.0.dev0',
       description='WS-Discovery implementation for python',
       long_description=README + "\n\n" + CHANGES,
       long_description_content_type="text/markdown",
@@ -31,12 +31,11 @@ setup(name='WSDiscovery',
             'License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)',
             'Operating System :: MacOS :: MacOS X',
             'Operating System :: POSIX :: Linux',
-            'Programming Language :: Python :: 2',
-            'Programming Language :: Python :: 2.7',
             'Programming Language :: Python :: 3',
-            'Programming Language :: Python :: 3.3',
             'Programming Language :: Python :: 3.4',
             'Programming Language :: Python :: 3.5',
+            'Programming Language :: Python :: 3.6',
+            'Programming Language :: Python :: 3.7',
             'Topic :: Software Development :: Libraries',
             'Topic :: Software Development :: Libraries :: Python Modules',
             'Topic :: Communications'
@@ -46,6 +45,9 @@ setup(name='WSDiscovery',
       install_requires=['netifaces', 'click'],
       tests_require = ['pytest', 'mock'],
       entry_points = {
-         'console_scripts': ['wsdiscover=wsdiscovery.cmdline:discover'],
+         'console_scripts': [
+            'wsdiscover=wsdiscovery.cmdline:discover',
+            'wspublish=wsdiscovery.cmdline:publish'
+        ],
       }
      )

@@ -1,10 +1,9 @@
-"""
-Message implementation used by the daemon. NOT a SOAP / ONVIF / WSDiscovery message.
+""":abbr:`UDP (User Datagram Protocol)` message implementation that helps with
+management of unicast/multicast semantics and repeat & delay handling.
 """
 
 import random
 import time
-
 
 UNICAST_UDP_REPEAT=2
 UNICAST_UDP_MIN_DELAY=50
@@ -18,6 +17,8 @@ MULTICAST_UDP_UPPER_DELAY=500
 
 
 class UDPMessage:
+    "UDP message management implementation"
+
     MULTICAST = 'multicast'
     UNICAST = 'unicast'
 

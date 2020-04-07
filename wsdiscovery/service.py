@@ -1,12 +1,10 @@
-"""
-Scoped Onvif service implementation.
-"""
-
+"""Discoverable WS-Discovery service."""
 
 from .util import _getNetworkAddrs
 
 
 class Service:
+    "A web service representation implementation"
 
     def __init__(self, types, scopes, xAddrs, epr, instanceId):
         self._types = types
@@ -18,18 +16,23 @@ class Service:
         self._metadataVersion = 1
 
     def getTypes(self):
+        "get service types"
         return self._types
 
     def setTypes(self, types):
+        "set service types"
         self._types = types
 
     def getScopes(self):
+        "get the service scopes"
         return self._scopes
 
     def setScopes(self, scopes):
+        "set the service scopes"
         self._scopes = scopes
 
     def getXAddrs(self):
+        "get service network address"
         ret = []
         ipAddrs = None
         for xAddr in self._xAddrs:
@@ -44,6 +47,7 @@ class Service:
         return ret
 
     def setXAddrs(self, xAddrs):
+        "set service network address"
         self._xAddrs = xAddrs
 
     def getEPR(self):

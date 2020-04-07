@@ -1,9 +1,8 @@
-"""
-SOAP envelope object implementation.
-"""
+"""SOAP envelope implementation."""
 
 
 class SoapEnvelope:
+    "envelope implementation"
 
     def __init__(self):
         self._action = ""
@@ -111,5 +110,3 @@ class SoapEnvelope:
 
     def setProbeResolveMatches(self, probeResolveMatches):
         self._probeResolveMatches = probeResolveMatches
-
-

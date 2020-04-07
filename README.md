@@ -1,39 +1,39 @@
 WS-Discovery in Python
 ======================
-This is WS-Discovery implementation for Python 2 & 3. It allows to both discover
-services and publish discoverable services.
+This is WS-Discovery implementation for Python 3. It allows to both discover
+services and publish discoverable services. For Python 2 support, use the latest 1.x version
+of this package.
 
-Usage
------
+Extensive [package documentation](https://koodaamo.github.io/python-ws-discovery) is available.
+
+Basic usage
+------------
 
 A simple `wsdiscover` command-line client is provided for discovering WS-Discovery compliant devices and systems. Run `wsdiscover --help` for usage instructions.
 
 Here's an example of how to use the package in your Python code. The following code first publishes a service and then discovers it:
 
 ```python
-    from wsdiscovery import WSDiscovery, QName, Scope
+    from wsdiscovery.discovery import ThreadedWSDiscovery as WSDiscovery
+    from wsdiscovery.publishing import ThreadedWSPublishing as WSPublishing
+    from wsdiscovery import QName, Scope
 
+    # Define type, scope & address of service
+    ttype1 = QName("http://www.onvif.org/ver10/device/wsdl", "Device")
+    scope1 = Scope("onvif://www.onvif.org/Model")
+    xAddr1 = "localhost:8080/abc"
+
+    # Publish the service
+    wsp = WSPublishing()
+    wsp.start()
+    wsp.publishService(types=[ttype1], scopes=[scope1], xAddrs=[xAddr1])
+
+    # Discover it (along with any other service out there)
     wsd = WSDiscovery()
     wsd.start()
-
-    ttype = QName("abc", "def")
-
-    ttype1 = QName("namespace", "myTestService")
-
-    # Note: some devices scope services using onvif:// scheme, not http://
-    scope1 = Scope("http://myscope")
-    ttype2 = QName("namespace", "myOtherTestService_type1")
-    scope2 = Scope("http://other_scope")
-
-    xAddr = "localhost:8080/abc"
-    wsd.publishService(types=[ttype], scopes=[scope2], xAddrs=[xAddr])
-
-    #ret = wsd.searchServices(scopes=[scope1], timeout=10)
-    ret = wsd.searchServices()
-
-    for service in ret:
+    services = wsd.searchServices()
+    for service in services:
         print(service.getEPR() + ":" + service.getXAddrs()[0])
-
     wsd.stop()
 ```
 
@@ -49,8 +49,10 @@ Original version created by L.A. Fernando.
 
 Code was then forked and maintained by Andrei Kopats.
 
+Python2 support fixes by Michael Leinartas.
+
 Python3 port done by Pieter Jordaan.
 
-Packaging, major refactoring & command-line client by Petri Savolainen.
+Packaging, major refactoring & command-line clients and
+reStructuredText package documentation by Petri Savolainen.
 
-Python2 support fixes by Michael Leinartas.

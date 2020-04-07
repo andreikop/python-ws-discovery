@@ -1,15 +1,10 @@
+"""Module with URI implementation that supports service scope matching"""
 
-"""
-Simple URI implementation, just for the purposes of service scope matching
-"""
-
-try:
-    from urllib.parse import unquote  # Python 3
-except ImportError:
-    from urllib2 import unquote  # Python 2
+from urllib.parse import unquote
 
 
 class URI:
+    "URI implementation with additional functionality useful for service scope matching"
 
     def __init__(self, uri):
         uri = unquote(uri)
