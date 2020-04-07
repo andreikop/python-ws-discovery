@@ -56,7 +56,6 @@ class Publishing:
         self._localServices[self.uuid] = service
         self._sendHello(service)
 
-        time.sleep(10.001)
 
     def clearLocalServices(self):
         'send Bye messages for the services and remove them'
