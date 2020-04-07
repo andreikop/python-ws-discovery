@@ -1,20 +1,18 @@
 Changelog
 ==========
 
-1.2 (unreleased)
-----------------
+2.0.0 (unreleased)
+-------------------
 
 - decoupled threaded networking from ws-discovery implementation
 - refactored app-level discovery & publishing code into their own modules
+- refactored message construction, serialization & deserialization
 - added new ``wspublish`` command-line client to publish a service
 - added unicast discovery support to ``wsdiscover``command-line client
 - collected all namespaces in one module
-- published good documentation at readthedocs
-
-1.1.3 (unreleased)
--------------------
-
-- Nothing yet
+- improved README example
+- good documentation in reStructuredText with Sphinx
+- removed Python 2 support code
 
 1.1.2 (2019-01-01)
 -------------------

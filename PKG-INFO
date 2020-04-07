@@ -1,6 +1,6 @@
 Metadata-Version: 1.2
 Name: WSDiscovery
-Version: 1.1.3.dev0
+Version: 2.0.0.dev0
 Summary: WS-Discovery implementation for python
 Home-page: https://github.com/andreikop/python-ws-discovery
 Author: L.A. Fernando
