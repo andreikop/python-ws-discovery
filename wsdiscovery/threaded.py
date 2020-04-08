@@ -7,7 +7,7 @@ import uuid
 import socket
 import struct
 import threading
-import select
+import selectors
 
 from .udp import UDPMessage
 from .actions import *
@@ -83,7 +83,7 @@ class NetworkingThread(_StoppableDaemonThread):
         self._observer = observer
         self._capture = observer._capture
         self._seqnum = 1 # capture sequence number
-        self._poll = select.poll()
+        self._selector = selectors.DefaultSelector()
 
     @staticmethod
     def _makeMreq(addr):
@@ -107,7 +107,6 @@ class NetworkingThread(_StoppableDaemonThread):
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         sock.bind(('', MULTICAST_PORT))
-
         sock.setblocking(0)
 
         return sock
@@ -121,7 +120,7 @@ class NetworkingThread(_StoppableDaemonThread):
 
         sock = self._createMulticastOutSocket(addr, self._observer.ttl)
         self._multiOutUniInSockets[addr] = sock
-        self._poll.register(sock, select.POLLIN)
+        self._selector.register(sock, selectors.EVENT_READ)
 
     def removeSourceAddr(self, addr):
         try:
@@ -130,7 +129,7 @@ class NetworkingThread(_StoppableDaemonThread):
             pass
 
         sock = self._multiOutUniInSockets[addr]
-        self._poll.unregister(sock)
+        self._selector.unregister(sock)
         sock.close()
         del self._multiOutUniInSockets[addr]
 
@@ -152,8 +151,8 @@ class NetworkingThread(_StoppableDaemonThread):
             self._recvMessages()
 
     def _recvMessages(self):
-        for fd, event in self._poll.poll(0):
-            sock = socket.fromfd(fd, socket.AF_INET, socket.SOCK_DGRAM)
+        for key, events in self._selector.select(0):
+            sock = socket.fromfd(key.fd, socket.AF_INET, socket.SOCK_DGRAM)
             try:
                 data, addr = sock.recvfrom(BUFFER_SIZE)
             except socket.error as e:
@@ -238,7 +237,7 @@ class NetworkingThread(_StoppableDaemonThread):
         self._uniOutSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
         self._multiInSocket = self._createMulticastInSocket()
-        self._poll.register(self._multiInSocket)
+        self._selector.register(self._multiInSocket, selectors.EVENT_WRITE | selectors.EVENT_READ)
 
         self._multiOutUniInSockets = {}  # FIXME synchronisation
 
@@ -246,7 +245,7 @@ class NetworkingThread(_StoppableDaemonThread):
         super(NetworkingThread, self).join()
         self._uniOutSocket.close()
 
-        self._poll.unregister(self._multiInSocket)
+        self._selector.unregister(self._multiInSocket)
         self._multiInSocket.close()
 
 

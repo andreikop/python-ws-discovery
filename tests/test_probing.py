@@ -1,25 +1,49 @@
-import select
+import logging
+import selectors
 import socket
-from .fixtures import wsd, probe_response
-from mock import patch
+from .fixtures import probe_response
+from wsdiscovery.threaded import NetworkingThread, MULTICAST_PORT
+from wsdiscovery import WSDiscovery
 
 
-@patch('select.poll')
-@patch('socket.socket.recvfrom')
-def test_probing(mock_recv, mock_poll, wsd, probe_response):
+def test_probing(monkeypatch, probe_response):
+    "mock up socket registration, event selection & socket message response"
 
-    def mock_poll_fd(*args, **kwargs):
-        "set correct poll.poll() response"
-        sck = args[0] # poll.register is called with socket as a parameter
-        if sck.proto == socket.IPPROTO_UDP:
-            fn = sck.fileno()
-            # mock up a claim that the registered fd has data
-            mock_poll.return_value.poll.return_value = [(fn, select.POLLIN)]
+    sck = None
 
-    mock_poll.return_value.register.side_effect = mock_poll_fd
-    mock_recv.return_value = probe_response
+    def mock_register(selector, rsock, evtmask):
+        """get hold of the multicast socket that will send the Probe message,
+        when the socket is registered with the selector"""
+        global sck
+        # The Probe is sent multicast, we use that to identify the right socket.
+        # Identification could be done better, but this is enough for now.
+        if rsock.getsockname()[1] == MULTICAST_PORT:
+            sck = rsock
 
+    def mock_select(*args):
+        "set a mock Probe response event in motion for the same socket"
+        global sck
+        if sck and sck.getsockname()[1] == MULTICAST_PORT:
+            key = selectors.SelectorKey(sck.makefile(), sck.fileno(), [], "")
+            # to mock just one response we just nullify the sock
+            sck = None
+            return [(key, selectors.EVENT_READ)]
+        else:
+            return []
+
+    def mock_recvfrom(*args):
+        return probe_response
+
+    monkeypatch.setattr(selectors.DefaultSelector, "register", mock_register)
+    monkeypatch.setattr(selectors.DefaultSelector, "select", mock_select)
+    monkeypatch.setattr(socket.socket, "recvfrom", mock_recvfrom)
+
+    # we cannot use a fixture that'd start discovery for us, since the socket
+    # selector registration happens at startup time
+    wsd = WSDiscovery()
+    wsd.start()
     found = wsd.searchServices()
+
     assert len(found) == 1
     assert probe_response[1] in found[0].getXAddrs()[0]
     assert len(found[0].getScopes()) == 4
