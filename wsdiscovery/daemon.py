@@ -20,6 +20,8 @@ class Daemon:
     "generic WS-Discovery messaging daemon implementation"
 
     def __init__(self, uuid_=None, capture=None, ttl=1, **kwargs):
+
+        # track existence of a possible discovery proxy
         self._dpActive = False
         self._dpAddr = None
         self._dpEPR = None

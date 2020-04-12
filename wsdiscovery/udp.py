@@ -1,9 +1,16 @@
 """:abbr:`UDP (User Datagram Protocol)` message implementation that helps with
 management of unicast/multicast semantics and repeat & delay handling.
+
+WS-Discovery spec dictates that the example algorithm provided in SOAP-over-UDP spec
+is to be used; see
+
+http://docs.oasis-open.org/ws-dd/soapoverudp/1.1/os/wsdd-soapoverudp-1.1-spec-os.html#_Toc229451838
 """
 
 import random
 import time
+
+# delays are in milliseconds
 
 UNICAST_UDP_REPEAT=2
 UNICAST_UDP_MIN_DELAY=50
@@ -23,7 +30,7 @@ class UDPMessage:
     UNICAST = 'unicast'
 
     def __init__(self, env, addr, port, msgType, initialDelay=0):
-        """msgType shall be Message.MULTICAST or Message.UNICAST"""
+        """msgType shall be UDPMessage.MULTICAST or UDPMessage.UNICAST"""
         self._env = env
         self._addr = addr
         self._port = port
