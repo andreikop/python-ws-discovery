@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>Threaded networking base classes &#8212; WSDiscovery 2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="WS-Discovery message facilities" href="message.html" />
@@ -35,17 +35,18 @@
   <div class="section" id="module-wsdiscovery.threaded">
 <span id="threaded-networking-base-classes"></span><h1>Threaded networking base classes<a class="headerlink" href="#module-wsdiscovery.threaded" title="Permalink to this headline">¶</a></h1>
 <p>Threaded networking facilities for implementing threaded WS-Discovery daemons.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="wsdiscovery.threaded.AddressMonitorThread">
-<em class="property">class </em><code class="descclassname">wsdiscovery.threaded.</code><code class="descname">AddressMonitorThread</code><span class="sig-paren">(</span><em>wsd</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.AddressMonitorThread" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<em class="property">class </em><code class="sig-prename descclassname">wsdiscovery.threaded.</code><code class="sig-name descname">AddressMonitorThread</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">wsd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.AddressMonitorThread" title="Permalink to this definition">¶</a></dt>
+<dd><p>trigger address change callbacks when local service addresses change</p>
+<dl class="py method">
 <dt id="wsdiscovery.threaded.AddressMonitorThread._updateAddrs">
-<code class="descname">_updateAddrs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.AddressMonitorThread._updateAddrs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_updateAddrs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.AddressMonitorThread._updateAddrs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.AddressMonitorThread.run">
-<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.AddressMonitorThread.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.AddressMonitorThread.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method representing the thread’s activity.</p>
 <p>You may override this method in a subclass. The standard run() method
 invokes the callable object passed to the object’s constructor as the
@@ -55,59 +56,59 @@ from the args and kwargs arguments, respectively.</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="wsdiscovery.threaded.NetworkingThread">
-<em class="property">class </em><code class="descclassname">wsdiscovery.threaded.</code><code class="descname">NetworkingThread</code><span class="sig-paren">(</span><em>observer</em>, <em>capture=None</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="staticmethod">
+<em class="property">class </em><code class="sig-prename descclassname">wsdiscovery.threaded.</code><code class="sig-name descname">NetworkingThread</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">observer</span></em>, <em class="sig-param"><span class="n">capture</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread._createMulticastInSocket">
-<em class="property">static </em><code class="descname">_createMulticastInSocket</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._createMulticastInSocket" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">_createMulticastInSocket</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._createMulticastInSocket" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="staticmethod">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread._createMulticastOutSocket">
-<em class="property">static </em><code class="descname">_createMulticastOutSocket</code><span class="sig-paren">(</span><em>addr</em>, <em>ttl</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._createMulticastOutSocket" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">_createMulticastOutSocket</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">addr</span></em>, <em class="sig-param"><span class="n">ttl</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._createMulticastOutSocket" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="staticmethod">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread._makeMreq">
-<em class="property">static </em><code class="descname">_makeMreq</code><span class="sig-paren">(</span><em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._makeMreq" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">_makeMreq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">addr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._makeMreq" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread._recvMessages">
-<code class="descname">_recvMessages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._recvMessages" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_recvMessages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._recvMessages" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread._sendMsg">
-<code class="descname">_sendMsg</code><span class="sig-paren">(</span><em>msg</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._sendMsg" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_sendMsg</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">msg</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._sendMsg" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread._sendPendingMessages">
-<code class="descname">_sendPendingMessages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._sendPendingMessages" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_sendPendingMessages</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread._sendPendingMessages" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method sleeps, if nothing to do</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread.addMulticastMessage">
-<code class="descname">addMulticastMessage</code><span class="sig-paren">(</span><em>env</em>, <em>addr</em>, <em>port</em>, <em>initialDelay=0</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.addMulticastMessage" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addMulticastMessage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">env</span></em>, <em class="sig-param"><span class="n">addr</span></em>, <em class="sig-param"><span class="n">port</span></em>, <em class="sig-param"><span class="n">initialDelay</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.addMulticastMessage" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread.addSourceAddr">
-<code class="descname">addSourceAddr</code><span class="sig-paren">(</span><em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.addSourceAddr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addSourceAddr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">addr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.addSourceAddr" title="Permalink to this definition">¶</a></dt>
 <dd><p>None means ‘system default’</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread.addUnicastMessage">
-<code class="descname">addUnicastMessage</code><span class="sig-paren">(</span><em>env</em>, <em>addr</em>, <em>port</em>, <em>initialDelay=0</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.addUnicastMessage" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addUnicastMessage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">env</span></em>, <em class="sig-param"><span class="n">addr</span></em>, <em class="sig-param"><span class="n">port</span></em>, <em class="sig-param"><span class="n">initialDelay</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.addUnicastMessage" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread.join">
-<code class="descname">join</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.join" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">join</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.join" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wait until the thread terminates.</p>
 <p>This blocks the calling thread until the thread whose join() method is
 called terminates – either normally or through an unhandled exception
@@ -126,14 +127,14 @@ thread before it has been started and attempts to do so raises the same
 exception.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread.removeSourceAddr">
-<code class="descname">removeSourceAddr</code><span class="sig-paren">(</span><em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.removeSourceAddr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">removeSourceAddr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">addr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.removeSourceAddr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread.run">
-<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.run" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Method representing the thread’s activity.</p>
 <p>You may override this method in a subclass. The standard run() method
 invokes the callable object passed to the object’s constructor as the
@@ -141,9 +142,9 @@ target argument, if any, with sequential and keyword arguments taken
 from the args and kwargs arguments, respectively.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.NetworkingThread.start">
-<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.start" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.NetworkingThread.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the thread’s activity.</p>
 <p>It must be called at most once per thread object. It arranges for the
 object’s run() method to be invoked in a separate thread of control.</p>
@@ -153,64 +154,64 @@ same thread object.</p>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="wsdiscovery.threaded.ThreadedNetworking">
-<em class="property">class </em><code class="descclassname">wsdiscovery.threaded.</code><code class="descname">ThreadedNetworking</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wsdiscovery.threaded.</code><code class="sig-name descname">ThreadedNetworking</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking" title="Permalink to this definition">¶</a></dt>
 <dd><p>handle threaded networking start &amp; stop, address add/remove &amp; message sending</p>
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.ThreadedNetworking._startThreads">
-<code class="descname">_startThreads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking._startThreads" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_startThreads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking._startThreads" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.ThreadedNetworking._stopThreads">
-<code class="descname">_stopThreads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking._stopThreads" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_stopThreads</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking._stopThreads" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.ThreadedNetworking.addSourceAddr">
-<code class="descname">addSourceAddr</code><span class="sig-paren">(</span><em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.addSourceAddr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addSourceAddr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">addr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.addSourceAddr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.ThreadedNetworking.removeSourceAddr">
-<code class="descname">removeSourceAddr</code><span class="sig-paren">(</span><em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.removeSourceAddr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">removeSourceAddr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">addr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.removeSourceAddr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.ThreadedNetworking.sendMulticastMessage">
-<code class="descname">sendMulticastMessage</code><span class="sig-paren">(</span><em>env</em>, <em>initialDelay=0</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.sendMulticastMessage" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sendMulticastMessage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">env</span></em>, <em class="sig-param"><span class="n">initialDelay</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.sendMulticastMessage" title="Permalink to this definition">¶</a></dt>
 <dd><p>handle multicast message sending</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.ThreadedNetworking.sendUnicastMessage">
-<code class="descname">sendUnicastMessage</code><span class="sig-paren">(</span><em>env</em>, <em>host</em>, <em>port</em>, <em>initialDelay=0</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.sendUnicastMessage" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">sendUnicastMessage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">env</span></em>, <em class="sig-param"><span class="n">host</span></em>, <em class="sig-param"><span class="n">port</span></em>, <em class="sig-param"><span class="n">initialDelay</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.sendUnicastMessage" title="Permalink to this definition">¶</a></dt>
 <dd><p>handle unicast message sending</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.ThreadedNetworking.start">
-<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.start" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>start networking - should be called before using other methods</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded.ThreadedNetworking.stop">
-<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.stop" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded.ThreadedNetworking.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>cleans up and stops networking</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="wsdiscovery.threaded._StoppableDaemonThread">
-<em class="property">class </em><code class="descclassname">wsdiscovery.threaded.</code><code class="descname">_StoppableDaemonThread</code><a class="headerlink" href="#wsdiscovery.threaded._StoppableDaemonThread" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wsdiscovery.threaded.</code><code class="sig-name descname">_StoppableDaemonThread</code><a class="headerlink" href="#wsdiscovery.threaded._StoppableDaemonThread" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stoppable daemon thread.</p>
 <p>run() method shall exit, when self._quitEvent.wait() returned True</p>
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.threaded._StoppableDaemonThread.schedule_stop">
-<code class="descname">schedule_stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded._StoppableDaemonThread.schedule_stop" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">schedule_stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.threaded._StoppableDaemonThread.schedule_stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Schedule stopping the thread.
 Use join() to wait, until thread really has been stopped</p>
 </dd></dl>
@@ -269,15 +270,15 @@ Use join() to wait, until thread really has been stopped</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -294,7 +295,7 @@ Use join() to wait, until thread really has been stopped</p>
       &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

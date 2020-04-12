@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>WS-Discovery messages (de)serialization &#8212; WSDiscovery 2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Bye message (de)serialization" href="actions/bye.html" />
@@ -35,15 +35,15 @@
   <div class="section" id="module-wsdiscovery.message">
 <span id="ws-discovery-messages-de-serialization"></span><h1>WS-Discovery messages (de)serialization<a class="headerlink" href="#module-wsdiscovery.message" title="Permalink to this headline">¶</a></h1>
 <p>Functions to serialize and deserialize messages between SOAP envelope &amp; string representations</p>
-<dl class="function">
+<dl class="py function">
 <dt id="wsdiscovery.message.createSOAPMessage">
-<code class="descclassname">wsdiscovery.message.</code><code class="descname">createSOAPMessage</code><span class="sig-paren">(</span><em>env</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.message.createSOAPMessage" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">wsdiscovery.message.</code><code class="sig-name descname">createSOAPMessage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">env</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.message.createSOAPMessage" title="Permalink to this definition">¶</a></dt>
 <dd><p>serialize SOAP envelopes into XML strings</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="wsdiscovery.message.parseSOAPMessage">
-<code class="descclassname">wsdiscovery.message.</code><code class="descname">parseSOAPMessage</code><span class="sig-paren">(</span><em>data</em>, <em>ipAddr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.message.parseSOAPMessage" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">wsdiscovery.message.</code><code class="sig-name descname">parseSOAPMessage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">ipAddr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.message.parseSOAPMessage" title="Permalink to this definition">¶</a></dt>
 <dd><p>deserialize XML message strings into SOAP envelope objects</p>
 </dd></dl>
 
@@ -114,15 +114,15 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -139,7 +139,7 @@
       &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

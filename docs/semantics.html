@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>WS-Discovery message semantics &#8212; WSDiscovery 2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="WS-Discovery terms" href="terms.html" />
@@ -38,21 +38,21 @@
 the availability of networked services.</p>
 <p>See <a class="reference internal" href="terms.html"><span class="doc">WS-Discovery terms</span></a> for explanation of some common terms.</p>
 <dl class="glossary simple">
-<dt id="term-hello">Hello</dt><dd><p>A service <em>must</em> send a one-way multicast Hello message when it joins a network,
+<dt id="term-Hello">Hello</dt><dd><p>A service <em>must</em> send a one-way multicast Hello message when it joins a network,
 or its metadata changes.</p>
 </dd>
-<dt id="term-probe">Probe</dt><dd><p>To discover services, optionally limited to a particular service type or scope,
+<dt id="term-Probe">Probe</dt><dd><p>To discover services, optionally limited to a particular service type or scope,
 a client sends a Probe message. Probe can be unicast or multicast.</p>
 </dd>
-<dt id="term-probe-match">Probe match</dt><dd><p>When a service receives a matching Probe, it <em>must</em> respond with a Probe Match message.</p>
+<dt id="term-Probe-match">Probe match</dt><dd><p>When a service receives a matching Probe, it <em>must</em> respond with a Probe Match message.</p>
 </dd>
-<dt id="term-resolve">Resolve</dt><dd><p>A client may send a one-way multicast Resolve message to locate service
+<dt id="term-Resolve">Resolve</dt><dd><p>A client may send a one-way multicast Resolve message to locate service
 address(es).</p>
 </dd>
-<dt id="term-resolve-match">Resolve match</dt><dd><p>When a service matches a Resolve message, it <em>must</em> respond with a unicast
+<dt id="term-Resolve-match">Resolve match</dt><dd><p>When a service matches a Resolve message, it <em>must</em> respond with a unicast
 Resolve Match message.</p>
 </dd>
-<dt id="term-bye">Bye</dt><dd><p>A service <em>should</em> send a one-way multicast Bye message when preparing to
+<dt id="term-Bye">Bye</dt><dd><p>A service <em>should</em> send a one-way multicast Bye message when preparing to
 leave a network.</p>
 </dd>
 </dl>
@@ -98,15 +98,15 @@ leave a network.</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -123,7 +123,7 @@ leave a network.</p>
       &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>Resolve message (de)serialization &#8212; WSDiscovery 2.0 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Resolve match message (de)serialization" href="resolvematch.html" />
@@ -33,17 +33,23 @@
           <div class="body" role="main">
             
   <div class="section" id="module-wsdiscovery.actions.resolve">
-<span id="resolve-message-de-serialization"></span><h1><a class="reference internal" href="../semantics.html#term-resolve"><span class="xref std std-term">Resolve</span></a> message (de)serialization<a class="headerlink" href="#module-wsdiscovery.actions.resolve" title="Permalink to this headline">¶</a></h1>
+<span id="resolve-message-de-serialization"></span><h1><a class="reference internal" href="../semantics.html#term-Resolve"><span class="xref std std-term">Resolve</span></a> message (de)serialization<a class="headerlink" href="#module-wsdiscovery.actions.resolve" title="Permalink to this headline">¶</a></h1>
 <p>Serialize &amp; parse WS-Discovery Resolve SOAP messages</p>
-<dl class="function">
+<dl class="py function">
+<dt id="wsdiscovery.actions.resolve.constructResolve">
+<code class="sig-prename descclassname">wsdiscovery.actions.resolve.</code><code class="sig-name descname">constructResolve</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">epr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.actions.resolve.constructResolve" title="Permalink to this definition">¶</a></dt>
+<dd><p>construct an envelope that represents a <code class="docutils literal notranslate"><span class="pre">Resolve</span></code> message</p>
+</dd></dl>
+
+<dl class="py function">
 <dt id="wsdiscovery.actions.resolve.createResolveMessage">
-<code class="descclassname">wsdiscovery.actions.resolve.</code><code class="descname">createResolveMessage</code><span class="sig-paren">(</span><em>env</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.actions.resolve.createResolveMessage" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">wsdiscovery.actions.resolve.</code><code class="sig-name descname">createResolveMessage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">env</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.actions.resolve.createResolveMessage" title="Permalink to this definition">¶</a></dt>
 <dd><p>serialize a SOAP envelope object into a string</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="wsdiscovery.actions.resolve.parseResolveMessage">
-<code class="descclassname">wsdiscovery.actions.resolve.</code><code class="descname">parseResolveMessage</code><span class="sig-paren">(</span><em>dom</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.actions.resolve.parseResolveMessage" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">wsdiscovery.actions.resolve.</code><code class="sig-name descname">parseResolveMessage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dom</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.actions.resolve.parseResolveMessage" title="Permalink to this definition">¶</a></dt>
 <dd><p>parse a XML message into a SOAP envelope object</p>
 </dd></dl>
 
@@ -101,15 +107,15 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -126,7 +132,7 @@
       &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

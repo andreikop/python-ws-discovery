@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>Generic networking base daemon &#8212; WSDiscovery 2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Threaded networking base classes" href="threaded.html" />
@@ -35,43 +35,43 @@
   <div class="section" id="module-wsdiscovery.daemon">
 <span id="generic-networking-base-daemon"></span><h1>Generic networking base daemon<a class="headerlink" href="#module-wsdiscovery.daemon" title="Permalink to this headline">¶</a></h1>
 <p>Generic networking-agnostic WS-Discovery messaging daemon mixin implementation.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="wsdiscovery.daemon.Daemon">
-<em class="property">class </em><code class="descclassname">wsdiscovery.daemon.</code><code class="descname">Daemon</code><span class="sig-paren">(</span><em>uuid_=None</em>, <em>capture=None</em>, <em>ttl=1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wsdiscovery.daemon.</code><code class="sig-name descname">Daemon</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">uuid_</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">capture</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ttl</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon" title="Permalink to this definition">¶</a></dt>
 <dd><p>generic WS-Discovery messaging daemon implementation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.daemon.Daemon._sendBye">
-<code class="descname">_sendBye</code><span class="sig-paren">(</span><em>service</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendBye" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_sendBye</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">service</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendBye" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.daemon.Daemon._sendHello">
-<code class="descname">_sendHello</code><span class="sig-paren">(</span><em>service</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendHello" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_sendHello</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">service</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendHello" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.daemon.Daemon._sendProbe">
-<code class="descname">_sendProbe</code><span class="sig-paren">(</span><em>types=None</em>, <em>scopes=None</em>, <em>address=None</em>, <em>port=None</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendProbe" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_sendProbe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">types</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">scopes</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">address</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">port</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendProbe" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.daemon.Daemon._sendProbeMatch">
-<code class="descname">_sendProbeMatch</code><span class="sig-paren">(</span><em>services</em>, <em>relatesTo</em>, <em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendProbeMatch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_sendProbeMatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">services</span></em>, <em class="sig-param"><span class="n">relatesTo</span></em>, <em class="sig-param"><span class="n">addr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendProbeMatch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.daemon.Daemon._sendResolve">
-<code class="descname">_sendResolve</code><span class="sig-paren">(</span><em>epr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendResolve" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_sendResolve</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">epr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendResolve" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.daemon.Daemon._sendResolveMatch">
-<code class="descname">_sendResolveMatch</code><span class="sig-paren">(</span><em>service</em>, <em>relatesTo</em>, <em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendResolveMatch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_sendResolveMatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">service</span></em>, <em class="sig-param"><span class="n">relatesTo</span></em>, <em class="sig-param"><span class="n">addr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon._sendResolveMatch" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.daemon.Daemon.envReceived">
-<code class="descname">envReceived</code><span class="sig-paren">(</span><em>env</em>, <em>addr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon.envReceived" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">envReceived</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">env</span></em>, <em class="sig-param"><span class="n">addr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.daemon.Daemon.envReceived" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -128,15 +128,15 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -153,7 +153,7 @@
       &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

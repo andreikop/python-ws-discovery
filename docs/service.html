@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>Service representation &#8212; WSDiscovery 2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Service Scope representation" href="scope.html" />
@@ -35,90 +35,90 @@
   <div class="section" id="module-wsdiscovery.service">
 <span id="service-representation"></span><h1>Service representation<a class="headerlink" href="#module-wsdiscovery.service" title="Permalink to this headline">¶</a></h1>
 <p>Discoverable WS-Discovery service.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="wsdiscovery.service.Service">
-<em class="property">class </em><code class="descclassname">wsdiscovery.service.</code><code class="descname">Service</code><span class="sig-paren">(</span><em>types</em>, <em>scopes</em>, <em>xAddrs</em>, <em>epr</em>, <em>instanceId</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wsdiscovery.service.</code><code class="sig-name descname">Service</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">types</span></em>, <em class="sig-param"><span class="n">scopes</span></em>, <em class="sig-param"><span class="n">xAddrs</span></em>, <em class="sig-param"><span class="n">epr</span></em>, <em class="sig-param"><span class="n">instanceId</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service" title="Permalink to this definition">¶</a></dt>
 <dd><p>A web service representation implementation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.getEPR">
-<code class="descname">getEPR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getEPR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getEPR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getEPR" title="Permalink to this definition">¶</a></dt>
 <dd><p>get endpoint reference</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.getInstanceId">
-<code class="descname">getInstanceId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getInstanceId" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getInstanceId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getInstanceId" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.getMessageNumber">
-<code class="descname">getMessageNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getMessageNumber" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getMessageNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getMessageNumber" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.getMetadataVersion">
-<code class="descname">getMetadataVersion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getMetadataVersion" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getMetadataVersion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getMetadataVersion" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.getScopes">
-<code class="descname">getScopes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getScopes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getScopes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getScopes" title="Permalink to this definition">¶</a></dt>
 <dd><p>get the service scopes</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.getTypes">
-<code class="descname">getTypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getTypes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getTypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getTypes" title="Permalink to this definition">¶</a></dt>
 <dd><p>get service types</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.getXAddrs">
-<code class="descname">getXAddrs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getXAddrs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getXAddrs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.getXAddrs" title="Permalink to this definition">¶</a></dt>
 <dd><p>get service network address</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.incrementMessageNumber">
-<code class="descname">incrementMessageNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.incrementMessageNumber" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">incrementMessageNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.incrementMessageNumber" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.setEPR">
-<code class="descname">setEPR</code><span class="sig-paren">(</span><em>epr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setEPR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setEPR</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">epr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setEPR" title="Permalink to this definition">¶</a></dt>
 <dd><p>set endpoint reference</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.setInstanceId">
-<code class="descname">setInstanceId</code><span class="sig-paren">(</span><em>instanceId</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setInstanceId" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setInstanceId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">instanceId</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setInstanceId" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.setMessageNumber">
-<code class="descname">setMessageNumber</code><span class="sig-paren">(</span><em>messageNumber</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setMessageNumber" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setMessageNumber</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">messageNumber</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setMessageNumber" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.setMetadataVersion">
-<code class="descname">setMetadataVersion</code><span class="sig-paren">(</span><em>metadataVersion</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setMetadataVersion" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setMetadataVersion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metadataVersion</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setMetadataVersion" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.setScopes">
-<code class="descname">setScopes</code><span class="sig-paren">(</span><em>scopes</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setScopes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setScopes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scopes</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setScopes" title="Permalink to this definition">¶</a></dt>
 <dd><p>set the service scopes</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.setTypes">
-<code class="descname">setTypes</code><span class="sig-paren">(</span><em>types</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setTypes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setTypes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">types</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setTypes" title="Permalink to this definition">¶</a></dt>
 <dd><p>set service types</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.service.Service.setXAddrs">
-<code class="descname">setXAddrs</code><span class="sig-paren">(</span><em>xAddrs</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setXAddrs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setXAddrs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xAddrs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.service.Service.setXAddrs" title="Permalink to this definition">¶</a></dt>
 <dd><p>set service network address</p>
 </dd></dl>
 
@@ -174,15 +174,15 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -199,7 +199,7 @@
       &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>Service Scope representation &#8212; WSDiscovery 2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="QName representation" href="qname.html" />
@@ -35,23 +35,23 @@
   <div class="section" id="module-wsdiscovery.scope">
 <span id="service-scope-representation"></span><h1>Service Scope representation<a class="headerlink" href="#module-wsdiscovery.scope" title="Permalink to this headline">¶</a></h1>
 <p>Service scopes are used to constrain service discovery.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="wsdiscovery.scope.Scope">
-<em class="property">class </em><code class="descclassname">wsdiscovery.scope.</code><code class="descname">Scope</code><span class="sig-paren">(</span><em>value</em>, <em>matchBy=None</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.scope.Scope" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wsdiscovery.scope.</code><code class="sig-name descname">Scope</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">matchBy</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.scope.Scope" title="Permalink to this definition">¶</a></dt>
 <dd><p>Service scope implementation.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.scope.Scope.getMatchBy">
-<code class="descname">getMatchBy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.scope.Scope.getMatchBy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getMatchBy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.scope.Scope.getMatchBy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.scope.Scope.getQuotedValue">
-<code class="descname">getQuotedValue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.scope.Scope.getQuotedValue" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getQuotedValue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.scope.Scope.getQuotedValue" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.scope.Scope.getValue">
-<code class="descname">getValue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.scope.Scope.getValue" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getValue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.scope.Scope.getValue" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -106,15 +106,15 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -131,7 +131,7 @@
       &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

@@ -1,17 +1,17 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
     <title>WS-Discovery message envelope &amp; factories &#8212; WSDiscovery 2.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="WS-Discovery messages (de)serialization" href="serialize_deserialize.html" />
@@ -34,197 +34,161 @@
             
   <div class="section" id="module-wsdiscovery.envelope">
 <span id="ws-discovery-message-envelope-factories"></span><h1>WS-Discovery message envelope &amp; factories<a class="headerlink" href="#module-wsdiscovery.envelope" title="Permalink to this headline">¶</a></h1>
-<p>SOAP envelope and WSDiscovery message factories.</p>
-<dl class="class">
+<p>SOAP envelope implementation.</p>
+<dl class="py class">
 <dt id="wsdiscovery.envelope.SoapEnvelope">
-<em class="property">class </em><code class="descclassname">wsdiscovery.envelope.</code><code class="descname">SoapEnvelope</code><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">wsdiscovery.envelope.</code><code class="sig-name descname">SoapEnvelope</code><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope" title="Permalink to this definition">¶</a></dt>
 <dd><p>envelope implementation</p>
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getAction">
-<code class="descname">getAction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getAction" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getAction</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getAction" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getEPR">
-<code class="descname">getEPR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getEPR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getEPR</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getEPR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getInstanceId">
-<code class="descname">getInstanceId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getInstanceId" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getInstanceId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getInstanceId" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getMessageId">
-<code class="descname">getMessageId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getMessageId" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getMessageId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getMessageId" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getMessageNumber">
-<code class="descname">getMessageNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getMessageNumber" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getMessageNumber</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getMessageNumber" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getMetadataVersion">
-<code class="descname">getMetadataVersion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getMetadataVersion" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getMetadataVersion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getMetadataVersion" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getProbeResolveMatches">
-<code class="descname">getProbeResolveMatches</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getProbeResolveMatches" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getProbeResolveMatches</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getProbeResolveMatches" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getRelatesTo">
-<code class="descname">getRelatesTo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getRelatesTo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getRelatesTo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getRelatesTo" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getRelationshipType">
-<code class="descname">getRelationshipType</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getRelationshipType" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getRelationshipType</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getRelationshipType" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getReplyTo">
-<code class="descname">getReplyTo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getReplyTo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getReplyTo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getReplyTo" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getScopes">
-<code class="descname">getScopes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getScopes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getScopes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getScopes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getSequenceId">
-<code class="descname">getSequenceId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getSequenceId" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getSequenceId</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getSequenceId" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getTo">
-<code class="descname">getTo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getTo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getTo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getTo" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getTypes">
-<code class="descname">getTypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getTypes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getTypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getTypes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.getXAddrs">
-<code class="descname">getXAddrs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getXAddrs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">getXAddrs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.getXAddrs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setAction">
-<code class="descname">setAction</code><span class="sig-paren">(</span><em>action</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setAction" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setAction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">action</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setAction" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setEPR">
-<code class="descname">setEPR</code><span class="sig-paren">(</span><em>epr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setEPR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setEPR</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">epr</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setEPR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setInstanceId">
-<code class="descname">setInstanceId</code><span class="sig-paren">(</span><em>instanceId</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setInstanceId" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setInstanceId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">instanceId</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setInstanceId" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setMessageId">
-<code class="descname">setMessageId</code><span class="sig-paren">(</span><em>messageId</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setMessageId" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setMessageId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">messageId</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setMessageId" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setMessageNumber">
-<code class="descname">setMessageNumber</code><span class="sig-paren">(</span><em>messageNumber</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setMessageNumber" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setMessageNumber</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">messageNumber</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setMessageNumber" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setMetadataVersion">
-<code class="descname">setMetadataVersion</code><span class="sig-paren">(</span><em>metadataVersion</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setMetadataVersion" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setMetadataVersion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">metadataVersion</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setMetadataVersion" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setProbeResolveMatches">
-<code class="descname">setProbeResolveMatches</code><span class="sig-paren">(</span><em>probeResolveMatches</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setProbeResolveMatches" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setProbeResolveMatches</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probeResolveMatches</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setProbeResolveMatches" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setRelatesTo">
-<code class="descname">setRelatesTo</code><span class="sig-paren">(</span><em>relatesTo</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setRelatesTo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setRelatesTo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">relatesTo</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setRelatesTo" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setRelationshipType">
-<code class="descname">setRelationshipType</code><span class="sig-paren">(</span><em>relationshipType</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setRelationshipType" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setRelationshipType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">relationshipType</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setRelationshipType" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setReplyTo">
-<code class="descname">setReplyTo</code><span class="sig-paren">(</span><em>replyTo</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setReplyTo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setReplyTo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">replyTo</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setReplyTo" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setScopes">
-<code class="descname">setScopes</code><span class="sig-paren">(</span><em>scopes</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setScopes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setScopes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">scopes</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setScopes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setSequenceId">
-<code class="descname">setSequenceId</code><span class="sig-paren">(</span><em>sequenceId</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setSequenceId" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setSequenceId</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">sequenceId</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setSequenceId" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setTo">
-<code class="descname">setTo</code><span class="sig-paren">(</span><em>to</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setTo" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setTo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setTo" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setTypes">
-<code class="descname">setTypes</code><span class="sig-paren">(</span><em>types</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setTypes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setTypes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">types</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setTypes" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="wsdiscovery.envelope.SoapEnvelope.setXAddrs">
-<code class="descname">setXAddrs</code><span class="sig-paren">(</span><em>xAddrs</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setXAddrs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setXAddrs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xAddrs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.SoapEnvelope.setXAddrs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-</dd></dl>
-
-<dl class="function">
-<dt id="wsdiscovery.envelope.constructBye">
-<code class="descclassname">wsdiscovery.envelope.</code><code class="descname">constructBye</code><span class="sig-paren">(</span><em>service</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.constructBye" title="Permalink to this definition">¶</a></dt>
-<dd><p>construct an envelope that represents a <code class="docutils literal notranslate"><span class="pre">Bye</span></code> message</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="wsdiscovery.envelope.constructHello">
-<code class="descclassname">wsdiscovery.envelope.</code><code class="descname">constructHello</code><span class="sig-paren">(</span><em>service</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.constructHello" title="Permalink to this definition">¶</a></dt>
-<dd><p>construct an envelope that represents a <code class="docutils literal notranslate"><span class="pre">Hello</span></code> message</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="wsdiscovery.envelope.constructProbe">
-<code class="descclassname">wsdiscovery.envelope.</code><code class="descname">constructProbe</code><span class="sig-paren">(</span><em>types</em>, <em>scopes</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.constructProbe" title="Permalink to this definition">¶</a></dt>
-<dd><p>construct an envelope that represents a <code class="docutils literal notranslate"><span class="pre">Probe</span></code> message</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="wsdiscovery.envelope.constructProbeMatch">
-<code class="descclassname">wsdiscovery.envelope.</code><code class="descname">constructProbeMatch</code><span class="sig-paren">(</span><em>services</em>, <em>relatesTo</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.constructProbeMatch" title="Permalink to this definition">¶</a></dt>
-<dd><p>construct an envelope that represents a <code class="docutils literal notranslate"><span class="pre">Probe</span> <span class="pre">Match</span></code> message</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="wsdiscovery.envelope.constructResolve">
-<code class="descclassname">wsdiscovery.envelope.</code><code class="descname">constructResolve</code><span class="sig-paren">(</span><em>epr</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.constructResolve" title="Permalink to this definition">¶</a></dt>
-<dd><p>construct an envelope that represents a <code class="docutils literal notranslate"><span class="pre">Resolve</span></code> message</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="wsdiscovery.envelope.constructResolveMatch">
-<code class="descclassname">wsdiscovery.envelope.</code><code class="descname">constructResolveMatch</code><span class="sig-paren">(</span><em>service</em>, <em>relatesTo</em><span class="sig-paren">)</span><a class="headerlink" href="#wsdiscovery.envelope.constructResolveMatch" title="Permalink to this definition">¶</a></dt>
-<dd><p>construct an envelope that represents a <code class="docutils literal notranslate"><span class="pre">Resolve</span> <span class="pre">Match</span></code> message</p>
 </dd></dl>
 
 </div>
@@ -279,15 +243,15 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -304,7 +268,7 @@
       &copy;2020, L.A. Fernando, Andrei Kopats, Pieter Jordaan, Petri Savolainen, Michael Leinartas.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
