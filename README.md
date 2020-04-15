@@ -1,4 +1,4 @@
-[![Documentation Status](https://readthedocs.org/projects/python-ws-discovery/badge/?version=latest)](https://python-ws-discovery.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/python-ws-discovery/badge/?version=latest)](https://python-ws-discovery.readthedocs.io/en/latest)
 
 WS-Discovery in Python
 ======================
