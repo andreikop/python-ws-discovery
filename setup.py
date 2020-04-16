@@ -17,7 +17,7 @@ except Exception:
 
 
 setup(name='WSDiscovery',
-      version='2.0.0.dev0',
+      version='2.0.0',
       description='WS-Discovery implementation for python',
       long_description=README + "\n\n" + CHANGES,
       long_description_content_type="text/markdown",
@@ -32,7 +32,6 @@ setup(name='WSDiscovery',
             'Operating System :: MacOS :: MacOS X',
             'Operating System :: POSIX :: Linux',
             'Programming Language :: Python :: 3',
-            'Programming Language :: Python :: 3.4',
             'Programming Language :: Python :: 3.5',
             'Programming Language :: Python :: 3.6',
             'Programming Language :: Python :: 3.7',
