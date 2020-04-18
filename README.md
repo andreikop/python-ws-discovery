@@ -8,6 +8,8 @@ of this package.
 
 Extensive [package documentation is available at ReadTheDocs](https://python-ws-discovery.readthedocs.io).
 
+Install from PyPI: `pip install WSDiscovery`.
+
 Basic usage
 ------------
 
