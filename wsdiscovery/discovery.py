@@ -130,6 +130,7 @@ class Discovery:
 
     def stop(self):
         self.clearRemoteServices()
+        super().stop()
 
 
 class ThreadedWSDiscovery(Daemon, Discovery, ThreadedNetworking):
