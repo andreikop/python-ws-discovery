@@ -215,7 +215,7 @@ class NetworkingThread(_StoppableDaemonThread):
                 except OSError as e:
                     # sendto will fail for interfaces that do not support multicast or are not up.
                     # An example of the first case is a wireguard vpn interface.
-                    # In either just log as debug and ignore the error.
+                    # In either case just log as debug and ignore the error.
                     logger.debug("Interface for %s does not support multicast or is not UP.\n\tOSError %s",
                         socket.inet_ntoa(sock.getsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_IF, 4)), e)
                 if self._capture:
