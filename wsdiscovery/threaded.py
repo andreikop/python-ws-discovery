@@ -210,7 +210,14 @@ class NetworkingThread(_StoppableDaemonThread):
                 self._seqnum += 1
         else:
             for sock in list(self._multiOutUniInSockets.values()):
-                sock.sendto(data, (msg.getAddr(), msg.getPort()))
+                try:
+                    sock.sendto(data, (msg.getAddr(), msg.getPort()))
+                except OSError as e:
+                    # sendto will fail for interfaces that do not support multicast or are not up.
+                    # An example of the first case is a wireguard vpn interface.
+                    # In either case just log as debug and ignore the error.
+                    logger.debug("Interface for %s does not support multicast or is not UP.\n\tOSError %s",
+                        socket.inet_ntoa(sock.getsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_IF, 4)), e)
                 if self._capture:
                     self._capture.write("%i SEND %s:%s\n" % (self._seqnum, msg.getAddr(), msg.getPort()))
                     self._capture.write(data.decode("utf-8") + "\n")
