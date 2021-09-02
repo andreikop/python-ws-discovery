@@ -45,7 +45,7 @@ class Discovery:
         """
         self._remoteServiceByeCallback = cb
 
-    def setRemoveServiceDisappearedCallback(self, cb):
+    def setRemoteServiceDisappearedCallback(self, cb):
         """Set callback, which will be called when new service disappears
         Service uuid is passed as a parameter to the callback
         Set None to disable callback
