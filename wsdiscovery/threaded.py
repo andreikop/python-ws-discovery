@@ -8,6 +8,7 @@ import socket
 import struct
 import threading
 import selectors
+import platform
 
 from .udp import UDPMessage
 from .actions import *
@@ -105,6 +106,9 @@ class NetworkingThread(_StoppableDaemonThread):
     def _createMulticastInSocket():
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+        if platform.system() in ["Darwin", "FreeBSD"]:
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
 
         sock.bind(('', MULTICAST_PORT))
         sock.setblocking(0)
