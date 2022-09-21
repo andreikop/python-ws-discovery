@@ -76,7 +76,7 @@ class NetworkingThread(_StoppableDaemonThread):
     def __init__(self, observer, capture=None):
         super(NetworkingThread, self).__init__()
 
-        self.setDaemon(True)
+        self.daemon = True
         self._queue = []    # FIXME synchronisation
 
         self._knownMessageIds = set()
