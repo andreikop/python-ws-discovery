@@ -1,2 +1,2 @@
-netifaces
+netifaces-plus
 click
