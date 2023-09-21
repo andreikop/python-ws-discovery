@@ -9,6 +9,7 @@ import struct
 import threading
 import selectors
 import platform
+from typing import cast
 
 from .udp import UDPMessage
 from .actions import *
@@ -156,10 +157,14 @@ class NetworkingThread(_StoppableDaemonThread):
 
     def _recvMessages(self):
         for key, events in self._selector.select(0):
-            sock = socket.fromfd(key.fd, socket.AF_INET, socket.SOCK_DGRAM)
+            if self._quitEvent.is_set():
+                break
+
+            sock = cast(socket.socket, key.fileobj)
+
             try:
                 data, addr = sock.recvfrom(BUFFER_SIZE)
-            except socket.error as e:
+            except socket.error:
                 time.sleep(0.01)
                 continue
 
@@ -253,11 +258,18 @@ class NetworkingThread(_StoppableDaemonThread):
         self._multiOutUniInSockets = {}  # FIXME synchronisation
 
     def join(self):
+        assert self._quitEvent.is_set()
         super(NetworkingThread, self).join()
-        self._uniOutSocket.close()
 
         self._selector.unregister(self._multiInSocket)
+        self._uniOutSocket.close()
         self._multiInSocket.close()
+
+        for sock in self._multiOutUniInSockets.values():
+            try:
+                sock.close()
+            except socket.error:
+                ...
 
 
 class ThreadedNetworking:

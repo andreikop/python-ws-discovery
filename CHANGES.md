@@ -4,7 +4,7 @@ Changelog
 2.0.1 (unreleased)
 -------------------
 
-- nothing yet
+- Fix socket leaks in `NetworkingThread`
 
 2.0.0 (2020-04-16)
 -------------------
