@@ -281,3 +281,11 @@ def showEnv(env):
     print("Probe Matches: %s" % env.getProbeResolveMatches())
     print("-----------------------------")
 
+
+
+def dom2Str(data):
+    dom = minidom.parseString(data)
+    return "\n" + dom.toprettyxml(indent="  ") + "\n"
+
+
+

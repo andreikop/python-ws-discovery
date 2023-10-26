@@ -1,6 +1,6 @@
 """Functions to serialize and deserialize messages between SOAP envelope & string representations"""
 
-import io
+import io, sys
 from .namespaces import NS_ADDRESSING, NS_SOAPENV
 from .actions import *
 from xml.dom import minidom
@@ -25,7 +25,6 @@ def createSOAPMessage(env):
 
 def parseSOAPMessage(data, ipAddr):
     "deserialize XML message strings into SOAP envelope objects"
-
     try:
         dom = minidom.parseString(data)
     except Exception:
@@ -33,7 +32,7 @@ def parseSOAPMessage(data, ipAddr):
         return None
 
     if dom.getElementsByTagNameNS(NS_SOAPENV, "Fault"):
-        #print('Fault received from %s:' % (ipAddr, data), file=sys.stderr)
+        #print('Fault received from %s %s:' % (ipAddr, data), file=sys.stderr)
         return None
 
     soapAction = dom.getElementsByTagNameNS(NS_ADDRESSING, "Action")[0].firstChild.data.strip()

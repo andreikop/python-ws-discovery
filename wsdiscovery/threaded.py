@@ -14,7 +14,7 @@ from typing import cast
 from .udp import UDPMessage
 from .actions import *
 from .uri import URI
-from .util import _getNetworkAddrs
+from .util import _getNetworkAddrs, dom2Str
 from .message import createSOAPMessage, parseSOAPMessage
 from .service import Service
 
@@ -151,6 +151,8 @@ class NetworkingThread(_StoppableDaemonThread):
         self._knownMessageIds.add(env.getMessageId())
 
     def run(self):
+        if self._capture:
+            self.t0 = time.time()
         while not self._quitEvent.is_set() or self._queue:
             self._sendPendingMessages()
             self._recvMessages()
@@ -171,6 +173,10 @@ class NetworkingThread(_StoppableDaemonThread):
             env = parseSOAPMessage(data, addr[0])
 
             if env is None: # fault or failed to parse
+                if self._capture:
+                    self._capture.write("%i WARNING: BAD RECV %s:%s TS=%s\n" % (self._seqnum, addr[0], addr[1], time.time() - self.t0))
+                    self._capture.write(dom2Str(data))
+                    self._seqnum += 1
                 continue
 
             _own_addrs = self._observer._addrsMonitorThread._addrs
@@ -181,14 +187,16 @@ class NetworkingThread(_StoppableDaemonThread):
                     logger.debug(msg, addr[0], prms)
 
                 if self._capture:
-                    self._capture.write("%i RECV %s:%s\n" % (self._seqnum, addr[0], addr[1]))
-                    self._capture.write(data.decode("utf-8") + "\n")
+                    self._capture.write("%i RECV %s:%s TS=%s\n" % (self._seqnum, addr[0], addr[1], time.time() - self.t0))
+                    self._capture.write(dom2Str(data))
                     self._seqnum += 1
 
             mid = env.getMessageId()
             if mid in self._knownMessageIds:
-                continue
+                continue # https://github.com/andreikop/python-ws-discovery/issues/38 # TODO
             else:
+                if self._capture:
+                    self._capture.write("NEW KNOWN MSG IDS %s\n" % (mid))
                 self._knownMessageIds.add(mid)
 
             iid = env.getInstanceId()
@@ -214,11 +222,11 @@ class NetworkingThread(_StoppableDaemonThread):
         if msg.msgType() == UDPMessage.UNICAST:
             self._uniOutSocket.sendto(data, (msg.getAddr(), msg.getPort()))
             if self._capture:
-                self._capture.write("%i SEND %s:%s\n" % (self._seqnum, msg.getAddr(), msg.getPort()))
-                self._capture.write(data.decode("utf-8") + "\n")
+                self._capture.write("%i SEND %s:%s TS=%s\n" % (self._seqnum, msg.getAddr(), msg.getPort(), time.time() - self.t0))
+                self._capture.write(dom2Str(data))
                 self._seqnum += 1
         else:
-            for sock in list(self._multiOutUniInSockets.values()):
+            for addr, sock in self._multiOutUniInSockets.items():
                 try:
                     sock.sendto(data, (msg.getAddr(), msg.getPort()))
                 except OSError as e:
@@ -228,8 +236,8 @@ class NetworkingThread(_StoppableDaemonThread):
                     logger.debug("Interface for %s does not support multicast or is not UP.\n\tOSError %s",
                         socket.inet_ntoa(sock.getsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_IF, 4)), e)
                 if self._capture:
-                    self._capture.write("%i SEND %s:%s\n" % (self._seqnum, msg.getAddr(), msg.getPort()))
-                    self._capture.write(data.decode("utf-8") + "\n")
+                    self._capture.write("%i SEND %s:%s iface=%s TS=%s\n" % (self._seqnum, msg.getAddr(), msg.getPort(), addr, time.time() - self.t0))
+                    self._capture.write(dom2Str(data))
                     self._seqnum += 1
 
     def _sendPendingMessages(self):
