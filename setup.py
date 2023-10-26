@@ -40,8 +40,8 @@ setup(name='WSDiscovery',
             'Topic :: Communications'
       ],
       packages=['wsdiscovery', 'wsdiscovery.actions'],
-      setup_requires=['netifaces', 'click'],
-      install_requires=['netifaces', 'click'],
+      setup_requires=['netifaces-plus', 'click'],
+      install_requires=['netifaces-plus', 'click'],
       tests_require = ['pytest', 'mock'],
       entry_points = {
          'console_scripts': [
