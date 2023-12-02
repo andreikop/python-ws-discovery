@@ -71,7 +71,7 @@ class AddressMonitorThread(_StoppableDaemonThread):
 
 
 class NetworkingThread(_StoppableDaemonThread):
-    def __init__(self, observer, protocol_version):
+    def __init__(self, observer):
         super(NetworkingThread, self).__init__()
 
         self.daemon = True
@@ -82,36 +82,29 @@ class NetworkingThread(_StoppableDaemonThread):
         self._observer = observer
         self._capture = observer._capture
 
-        assert protocol_version in [socket.AF_INET, socket.AF_INET6]
-        self._protocolVersion = protocol_version
-
         self._seqnum = 1  # capture sequence number
         self._selector = selectors.DefaultSelector()
 
-    @staticmethod
-    def _makeMreq(addr):
-        if addr.version == 4:
-            return struct.pack("4s4s", socket.inet_aton(MULTICAST_IPV4_ADDRESS), addr.packed)
-        else:
-            return struct.pack("=16si", socket.inet_pton(socket.AF_INET6, MULTICAST_IPV6_ADDRESS), int(addr.scope_id))
+    def _makeMreq(self, addr) -> bytes:
+        pass
 
-    def _get_inet(self):
-        return socket.AF_INET if self._protocolVersion != socket.AF_INET6 else socket.AF_INET6
+    def _get_inet(self) -> int:
+        pass
 
-    def _get_multicast(self):
-        return socket.IP_MULTICAST_IF if self._protocolVersion != socket.AF_INET6 else socket.IPV6_MULTICAST_IF
+    def _get_multicast(self) -> int:
+        pass
 
-    def _get_ip_proto(self):
-        return socket.IPPROTO_IP if self._protocolVersion != socket.AF_INET6 else socket.IPPROTO_IPV6
+    def _get_ip_proto(self) -> int:
+        pass
 
-    def _get_ip_join(self):
-        return socket.IP_ADD_MEMBERSHIP if self._protocolVersion != socket.AF_INET6 else socket.IPV6_JOIN_GROUP
+    def _get_ip_join(self) -> int:
+        pass
 
-    def _get_ip_leave(self):
-        return socket.IP_DROP_MEMBERSHIP if self._protocolVersion != socket.AF_INET6 else socket.IPV6_LEAVE_GROUP
+    def _get_ip_leave(self) -> int:
+        pass
 
-    def _get_multicast_ttl(self):
-        return socket.IP_MULTICAST_TTL if self._protocolVersion != socket.AF_INET6 else socket.IPV6_MULTICAST_HOPS
+    def _get_multicast_ttl(self) -> int:
+        pass
 
     def _createMulticastOutSocket(self, addr, ttl):
         ip_proto = self._get_ip_proto()
@@ -121,7 +114,7 @@ class NetworkingThread(_StoppableDaemonThread):
 
         if not addr:
             iface = socket.INADDR_ANY
-        elif self._protocolVersion == socket.AF_INET:
+        elif self._get_inet() == socket.AF_INET:
             iface = addr.packed
         else:
             iface = int(addr.scope_id)
@@ -131,7 +124,7 @@ class NetworkingThread(_StoppableDaemonThread):
         return sock
 
     def _createMulticastInSocket(self):
-        sock = socket.socket(self._protocolVersion, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        sock = socket.socket(self._get_inet(), socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         if platform.system() in ["Darwin", "FreeBSD"]:
@@ -266,7 +259,7 @@ class NetworkingThread(_StoppableDaemonThread):
                                  socket.inet_ntoa(sock.getsockopt(self._get_ip_proto(), self._get_multicast(), 4)), e)
                 if self._capture:
                     self._capture.write("%i SEND %s:%s iface=%s TS=%s\n" % (
-                    self._seqnum, msg.getAddr(), msg.getPort(), addr, time.time() - self.t0))
+                        self._seqnum, msg.getAddr(), msg.getPort(), addr, time.time() - self.t0))
                     self._capture.write(dom2Str(data))
                     self._seqnum += 1
 
@@ -288,7 +281,7 @@ class NetworkingThread(_StoppableDaemonThread):
     def start(self):
         super(NetworkingThread, self).start()
 
-        self._uniOutSocket = socket.socket(self._protocolVersion, socket.SOCK_DGRAM)
+        self._uniOutSocket = socket.socket(self._get_inet(), socket.SOCK_DGRAM)
 
         self._multiInSocket = self._createMulticastInSocket()
         self._selector.register(self._multiInSocket, selectors.EVENT_WRITE | selectors.EVENT_READ)
@@ -310,6 +303,58 @@ class NetworkingThread(_StoppableDaemonThread):
                 logger.error(e)
 
 
+class NetworkingThreadIPv4(NetworkingThread):
+    def __init__(self, observer):
+        super().__init__(observer)
+
+    def _makeMreq(self, addr):
+        return struct.pack("4s4s", socket.inet_aton(MULTICAST_IPV4_ADDRESS), addr.packed)
+
+    def _get_inet(self):
+        return socket.AF_INET
+
+    def _get_multicast(self):
+        return socket.IP_MULTICAST_IF
+
+    def _get_ip_proto(self):
+        return socket.IPPROTO_IP
+
+    def _get_ip_join(self):
+        return socket.IP_ADD_MEMBERSHIP
+
+    def _get_ip_leave(self):
+        return socket.IP_DROP_MEMBERSHIP
+
+    def _get_multicast_ttl(self):
+        return socket.IP_MULTICAST_TTL
+
+
+class NetworkingThreadIPv6(NetworkingThread):
+    def __init__(self, observer):
+        super().__init__(observer)
+
+    def _makeMreq(self, addr):
+        return struct.pack("=16si", socket.inet_pton(socket.AF_INET6, MULTICAST_IPV6_ADDRESS), int(addr.scope_id))
+
+    def _get_inet(self):
+        return socket.AF_INET6
+
+    def _get_multicast(self):
+        return socket.IPV6_MULTICAST_IF
+
+    def _get_ip_proto(self):
+        return socket.IPPROTO_IPV6
+
+    def _get_ip_join(self):
+        return socket.IPV6_JOIN_GROUP
+
+    def _get_ip_leave(self):
+        return socket.IPV6_LEAVE_GROUP
+
+    def _get_multicast_ttl(self):
+        return socket.IPV6_MULTICAST_HOPS
+
+
 class ThreadedNetworking:
     "handle threaded networking start & stop, address add/remove & message sending"
 
@@ -325,8 +370,8 @@ class ThreadedNetworking:
         if self._networkingThread_v4 is not None:
             return
 
-        self._networkingThread_v4 = NetworkingThread(self, socket.AF_INET)
-        self._networkingThread_v6 = NetworkingThread(self, socket.AF_INET6)
+        self._networkingThread_v4 = NetworkingThreadIPv4(self)
+        self._networkingThread_v6 = NetworkingThreadIPv6(self)
         self._networkingThread_v4.start()
         self._networkingThread_v6.start()
         logger.debug("networking threads started")
