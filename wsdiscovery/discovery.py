@@ -13,7 +13,7 @@ from .daemon import Daemon
 
 
 class Discovery:
-    "networking-agnostic generic remote service discovery mixin"
+    """networking-agnostic generic remote service discovery mixin"""
 
     def __init__(self, **kwargs):
         self._remoteServices = {}

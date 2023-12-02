@@ -1,6 +1,7 @@
 """Various utilities used by different parts of the package."""
 
 import io
+import ipaddress
 import string
 import random
 import netifaces
@@ -243,16 +244,17 @@ def getQNameFromValue(value, node):
     return QName(ns, localName, prefix)
 
 
-def _getNetworkAddrs():
+def _getNetworkAddrs(protocol_version):
     result = []
 
     for if_name in netifaces.interfaces():
         iface_info = netifaces.ifaddresses(if_name)
-        if netifaces.AF_INET in iface_info:
-            for addrDict in iface_info[netifaces.AF_INET]:
+        if protocol_version in iface_info:
+            for addrDict in iface_info[protocol_version]:
                 addr = addrDict['addr']
-                if addr != '127.0.0.1':
-                    result.append(addr)
+                ip_address = ipaddress.ip_address(addr)
+                if not ip_address.is_loopback:
+                    result.append(ip_address)
     return result
 
 
