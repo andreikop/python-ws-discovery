@@ -1,4 +1,5 @@
 """Discoverable WS-Discovery service."""
+import socket
 
 from .util import _getNetworkAddrs
 
@@ -38,10 +39,11 @@ class Service:
         for xAddr in self._xAddrs:
             if '{ip}' in xAddr:
                 if ipAddrs is None:
-                    ipAddrs = _getNetworkAddrs()
+                    ipAddrs = _getNetworkAddrs(socket.AF_INET)
+                    ipAddrs.append(_getNetworkAddrs(socket.AF_INET6))
                 for ipAddr in ipAddrs:
-                    if ipAddr != '127.0.0.1':
-                        ret.append(xAddr.format(ip=ipAddr))
+                    if not ipAddr.is_loopback:
+                        ret.append(xAddr.format(ip=str(ipAddr)))
             else:
                 ret.append(xAddr)
         return ret
