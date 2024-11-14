@@ -24,7 +24,7 @@ def test_probing(monkeypatch, probe_response):
         "set a mock Probe response event in motion for the same socket"
         global sck
         if sck and sck.getsockname()[1] == MULTICAST_PORT:
-            key = selectors.SelectorKey(sck.makefile(), sck.fileno(), [], "")
+            key = selectors.SelectorKey(sck, sck.fileno(), [], "")
             # to mock just one response we just nullify the sock
             sck = None
             return [(key, selectors.EVENT_READ)]
