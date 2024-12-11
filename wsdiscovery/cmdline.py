@@ -8,9 +8,7 @@ from wsdiscovery.publishing import ThreadedWSPublishing as WSPublishing
 from wsdiscovery.scope import Scope
 from wsdiscovery.qname import QName
 
-logging.basicConfig()
-
-DEFAULT_LOGLEVEL = logging.INFO
+DEFAULT_LOGLEVEL = "INFO"
 
 @contextmanager
 def discovery(capture=None):
@@ -27,29 +25,28 @@ def publishing(capture=None):
     wsd.stop()
 
 
-def get_logger(name, loglevel):
-    if loglevel:
-        level = getattr(logging, loglevel, None)
-        if not level:
-            print("Invalid log level '%s'" % loglevel)
-            sys.exit()
-    else:
-        level = DEFAULT_LOGLEVEL
+def setup_logger(name, loglevel):
+    level = getattr(logging, loglevel, None)
+    if not level:
+        print("Invalid log level '%s'" % loglevel)
+        sys.exit()
 
-    logger = logging.getLogger(name)
-    logger.setLevel(level)
+    logging.basicConfig(level=level)
+    return logging.getLogger(name)
 
 
 @click.command()
 @click.option('--scope', '-s', help='Full scope URI, eg. onvif://www.onvif.org/Model/')
 @click.option('--address', '-a', help='Service address')
 @click.option('--port', '-p', type=int, help='Service port')
-@click.option('--loglevel', '-l',  help='Log level; one of INFO, DEBUG, WARNING, ERROR')
+@click.option('--loglevel', '-l',  default=DEFAULT_LOGLEVEL, show_default=True,
+              type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]),
+              help='Log level')
 @click.option('--capture', '-c', nargs=1, type=click.File('w'), help='Capture messages to a file')
 def discover(scope, address, port, loglevel, capture):
     "Discover services using WS-Discovery"
 
-    logger = get_logger("ws-discovery", loglevel)
+    logger = setup_logger("ws-discovery", loglevel)
 
     with discovery(capture) as wsd:
         scopes = [Scope(scope)] if scope else []
@@ -66,12 +63,14 @@ def discover(scope, address, port, loglevel, capture):
 @click.option('--typename', '-t', help='Qualified type name, eg. https://myservicesns:myservice_type')
 @click.option('--address', '-a', help='Service IP address')
 @click.option('--port', '-p', type=int, help='Service port')
-@click.option('--loglevel', '-l',  help='Log level; one of INFO, DEBUG, WARNING, ERROR')
+@click.option('--loglevel', '-l',  default=DEFAULT_LOGLEVEL, show_default=True,
+              type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]),
+              help='Log level')
 @click.option('--capture', '-c', nargs=1, type=click.File('w'), help='Capture messages to a file')
 def publish(scope, typename, address, port, loglevel, capture):
     "Publish services using WS-Discovery"
 
-    logger = get_logger("ws-publishing", loglevel)
+    logger = setup_logger("ws-publishing", loglevel)
 
     with publishing(capture) as wsp:
         scopes = [Scope(scope)] if scope else []
