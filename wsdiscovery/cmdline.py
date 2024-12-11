@@ -3,17 +3,21 @@ import logging
 from contextlib import contextmanager
 from urllib.parse import urlparse
 import click
+
 from wsdiscovery.discovery import ThreadedWSDiscovery as WSDiscovery
 from wsdiscovery.publishing import ThreadedWSPublishing as WSPublishing
 from wsdiscovery.scope import Scope
 from wsdiscovery.qname import QName
 from wsdiscovery.discovery import DEFAULT_DISCOVERY_TIMEOUT
+from wsdiscovery.udp import UNICAST_UDP_REPEAT, MULTICAST_UDP_REPEAT
 
 DEFAULT_LOGLEVEL = "INFO"
 
 @contextmanager
-def discovery(capture=None):
-    wsd = WSDiscovery(capture=capture)
+def discovery(capture=None, unicast_num=UNICAST_UDP_REPEAT,
+              multicast_num=MULTICAST_UDP_REPEAT):
+    wsd = WSDiscovery(capture=capture, unicast_num=unicast_num,
+                      multicast_num=multicast_num)
     wsd.start()
     yield wsd
     wsd.stop()
@@ -47,11 +51,17 @@ def setup_logger(name, loglevel):
 @click.option('--timeout', '-t', default=DEFAULT_DISCOVERY_TIMEOUT, show_default=True,
               type=int, help='Discovery timeout in seconds')
 def discover(scope, address, port, loglevel, capture, timeout):
+@click.option('--unicast-num', '-un', type=int, default=UNICAST_UDP_REPEAT,
+              show_default=True, help='Number of Unicast messages to send')
+@click.option('--multicast-num', '-mn', type=int, default=MULTICAST_UDP_REPEAT,
+              show_default=True, help='Number of Multicast messages to send')
+def discover(scope, address, port, loglevel, capture, unicast_num,
+             multicast_num):
     "Discover services using WS-Discovery"
 
     logger = setup_logger("ws-discovery", loglevel)
 
-    with discovery(capture) as wsd:
+    with discovery(capture, unicast_num, multicast_num) as wsd:
         scopes = [Scope(scope)] if scope else []
         svcs = wsd.searchServices(scopes=scopes, address=address, port=port,
                                   timeout=timeout)
@@ -71,7 +81,12 @@ def discover(scope, address, port, loglevel, capture, timeout):
               type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]),
               help='Log level')
 @click.option('--capture', '-c', nargs=1, type=click.File('w'), help='Capture messages to a file')
-def publish(scope, typename, address, port, loglevel, capture):
+@click.option('--unicast-num', '-un', type=int, default=UNICAST_UDP_REPEAT,
+              show_default=True, help='Number of Unicast messages to send')
+@click.option('--multicast-num', '-mn', type=int, default=MULTICAST_UDP_REPEAT,
+              show_default=True, help='Number of Multicast messages to send')
+def publish(scope, typename, address, port, loglevel, capture, unicast_num,
+            multicast_num):
     "Publish services using WS-Discovery"
 
     logger = setup_logger("ws-publishing", loglevel)
@@ -89,4 +104,3 @@ def publish(scope, typename, address, port, loglevel, capture):
 
         xAddrs = ["%s:%i" % (address, port)] if address else ['127.0.0.1']
         svc = wsp.publishService(types, scopes, xAddrs)
-

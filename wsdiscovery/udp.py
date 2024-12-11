@@ -26,11 +26,13 @@ MULTICAST_UDP_UPPER_DELAY=500
 class UDPMessage:
     "UDP message management implementation"
 
-    MULTICAST = 'multicast'
     UNICAST = 'unicast'
+    MULTICAST = 'multicast'
 
-    def __init__(self, env, addr, port, msgType, initialDelay=0):
-        """msgType shall be UDPMessage.MULTICAST or UDPMessage.UNICAST"""
+    def __init__(self, env, addr, port, msgType, initialDelay=0,
+                 unicast_num=UNICAST_UDP_REPEAT,
+                 multicast_num=MULTICAST_UDP_REPEAT):
+        """msgType shall be UDPMessage.UNICAST or UDPMessage.MULTICAST"""
         self._env = env
         self._addr = addr
         self._port = port
@@ -38,13 +40,13 @@ class UDPMessage:
 
         if msgType == self.UNICAST:
             udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay = \
-                    UNICAST_UDP_REPEAT, \
+                    unicast_num, \
                     UNICAST_UDP_MIN_DELAY, \
                     UNICAST_UDP_MAX_DELAY, \
                     UNICAST_UDP_UPPER_DELAY
         else:
             udpRepeat, udpMinDelay, udpMaxDelay, udpUpperDelay = \
-                    MULTICAST_UDP_REPEAT, \
+                    multicast_num, \
                     MULTICAST_UDP_MIN_DELAY, \
                     MULTICAST_UDP_MAX_DELAY, \
                     MULTICAST_UDP_UPPER_DELAY
@@ -79,5 +81,3 @@ class UDPMessage:
             self._t = self._udpUpperDelay
         self._nextTime = int(time.time() * 1000) + self._t
         self._udpRepeat = self._udpRepeat - 1
-
-
