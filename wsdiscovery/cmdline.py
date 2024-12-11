@@ -7,6 +7,7 @@ from wsdiscovery.discovery import ThreadedWSDiscovery as WSDiscovery
 from wsdiscovery.publishing import ThreadedWSPublishing as WSPublishing
 from wsdiscovery.scope import Scope
 from wsdiscovery.qname import QName
+from wsdiscovery.discovery import DEFAULT_DISCOVERY_TIMEOUT
 
 DEFAULT_LOGLEVEL = "INFO"
 
@@ -43,14 +44,17 @@ def setup_logger(name, loglevel):
               type=click.Choice(["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]),
               help='Log level')
 @click.option('--capture', '-c', nargs=1, type=click.File('w'), help='Capture messages to a file')
-def discover(scope, address, port, loglevel, capture):
+@click.option('--timeout', '-t', default=DEFAULT_DISCOVERY_TIMEOUT, show_default=True,
+              type=int, help='Discovery timeout in seconds')
+def discover(scope, address, port, loglevel, capture, timeout):
     "Discover services using WS-Discovery"
 
     logger = setup_logger("ws-discovery", loglevel)
 
     with discovery(capture) as wsd:
         scopes = [Scope(scope)] if scope else []
-        svcs = wsd.searchServices(scopes=scopes, address=address, port=port)
+        svcs = wsd.searchServices(scopes=scopes, address=address, port=port,
+                                  timeout=timeout)
         print("\nDiscovered:\n")
         for service in svcs:
             url = urlparse(service.getXAddrs()[0])

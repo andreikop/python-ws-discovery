@@ -11,6 +11,8 @@ from .namespaces import NS_DISCOVERY
 from .threaded import ThreadedNetworking
 from .daemon import Daemon
 
+DEFAULT_DISCOVERY_TIMEOUT = 3
+
 
 class Discovery:
     """networking-agnostic generic remote service discovery mixin"""
@@ -117,8 +119,9 @@ class Discovery:
 
         self._remoteServices.clear()
 
-    def searchServices(self, types=None, scopes=None, address=None, port=None, timeout=3):
-        'search for services given the TYPES and SCOPES in a given TIMEOUT'
+    def searchServices(self, types=None, scopes=None, address=None, port=None,
+                       timeout=DEFAULT_DISCOVERY_TIMEOUT):
+        'search for services given the TYPES and SCOPES within a given TIMEOUT'
         try:
             self._sendProbe(types, scopes, address, port)
         except:
