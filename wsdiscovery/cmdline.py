@@ -50,12 +50,11 @@ def setup_logger(name, loglevel):
 @click.option('--capture', '-c', nargs=1, type=click.File('w'), help='Capture messages to a file')
 @click.option('--timeout', '-t', default=DEFAULT_DISCOVERY_TIMEOUT, show_default=True,
               type=int, help='Discovery timeout in seconds')
-def discover(scope, address, port, loglevel, capture, timeout):
 @click.option('--unicast-num', '-un', type=int, default=UNICAST_UDP_REPEAT,
               show_default=True, help='Number of Unicast messages to send')
 @click.option('--multicast-num', '-mn', type=int, default=MULTICAST_UDP_REPEAT,
               show_default=True, help='Number of Multicast messages to send')
-def discover(scope, address, port, loglevel, capture, unicast_num,
+def discover(scope, address, port, loglevel, capture, timeout, unicast_num,
              multicast_num):
     "Discover services using WS-Discovery"
 
