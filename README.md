@@ -3,8 +3,8 @@
 WS-Discovery in Python
 ======================
 This is WS-Discovery implementation for Python 3. It allows to both discover
-services and publish discoverable services. For Python 2 support, use the latest 1.x version
-of this package.
+services and publish discoverable services. For Python 2 support, use the
+latest 1.x version of this package.
 
 Extensive [package documentation is available at ReadTheDocs](https://python-ws-discovery.readthedocs.io).
 
@@ -13,9 +13,12 @@ Install from PyPI: `pip install WSDiscovery`.
 Basic usage
 ------------
 
-A simple `wsdiscover` command-line client is provided for discovering WS-Discovery compliant devices and systems. Run `wsdiscover --help` for usage instructions.
+A simple `wsdiscover` command-line client is provided for discovering
+WS-Discovery compliant devices and systems. Run `wsdiscover --help` for
+usage instructions.
 
-Here's an example of how to use the package in your Python code. The following code first publishes a service and then discovers it:
+Here's an example of how to use the package in your Python code. The following
+code first publishes a service and then discovers it:
 
 ```python
     from wsdiscovery.discovery import ThreadedWSDiscovery as WSDiscovery
@@ -40,6 +43,19 @@ Here's an example of how to use the package in your Python code. The following c
         print(service.getEPR() + ":" + service.getXAddrs()[0])
     wsd.stop()
 ```
+
+Development notes
+-----------------
+To fix a bug or develop this package, it is recommended to use a virtual
+environment and set up a development environment. For example:
+```
+$ python3 -m venv venv
+$ . venv/bin/activate
+(venv) $ pip3 install -e
+```
+Then you can call `wsdiscover` and `wspublish` from within this virtual
+environment. Any code changes to the package will be available and testable
+immediately.
 
 Development state
 -----------------
