@@ -15,9 +15,9 @@ DEFAULT_LOGLEVEL = "INFO"
 
 @contextmanager
 def discovery(capture=None, unicast_num=UNICAST_UDP_REPEAT,
-              multicast_num=MULTICAST_UDP_REPEAT):
+              multicast_num=MULTICAST_UDP_REPEAT, relates_to=False):
     wsd = WSDiscovery(capture=capture, unicast_num=unicast_num,
-                      multicast_num=multicast_num)
+                      multicast_num=multicast_num, relates_to=relates_to)
     wsd.start()
     yield wsd
     wsd.stop()
@@ -54,13 +54,15 @@ def setup_logger(name, loglevel):
               show_default=True, help='Number of Unicast messages to send')
 @click.option('--multicast-num', '-mn', type=int, default=MULTICAST_UDP_REPEAT,
               show_default=True, help='Number of Multicast messages to send')
+@click.option('--relates-to', '-rt', is_flag=True,
+              help='Also use RelatesTo tag to recognize incoming messages.')
 def discover(scope, address, port, loglevel, capture, timeout, unicast_num,
-             multicast_num):
+             multicast_num, relates_to):
     "Discover services using WS-Discovery"
 
     logger = setup_logger("ws-discovery", loglevel)
 
-    with discovery(capture, unicast_num, multicast_num) as wsd:
+    with discovery(capture, unicast_num, multicast_num, relates_to) as wsd:
         scopes = [Scope(scope)] if scope else []
         svcs = wsd.searchServices(scopes=scopes, address=address, port=port,
                                   timeout=timeout)
