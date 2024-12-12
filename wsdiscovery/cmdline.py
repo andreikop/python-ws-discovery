@@ -13,6 +13,9 @@ from wsdiscovery.udp import UNICAST_UDP_REPEAT, MULTICAST_UDP_REPEAT
 
 DEFAULT_LOGLEVEL = "INFO"
 
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+
+
 @contextmanager
 def discovery(capture=None, unicast_num=UNICAST_UDP_REPEAT,
               multicast_num=MULTICAST_UDP_REPEAT):
@@ -40,7 +43,7 @@ def setup_logger(name, loglevel):
     return logging.getLogger(name)
 
 
-@click.command()
+@click.command(context_settings=CONTEXT_SETTINGS)
 @click.option('--scope', '-s', help='Full scope URI, eg. onvif://www.onvif.org/Model/')
 @click.option('--address', '-a', help='Service address')
 @click.option('--port', '-p', type=int, help='Service port')
@@ -71,7 +74,7 @@ def discover(scope, address, port, loglevel, capture, timeout, unicast_num,
             print("  - %s\n" % "\n  - ".join([str(s) for s in service.getScopes()]))
 
 
-@click.command()
+@click.command(context_settings=CONTEXT_SETTINGS)
 @click.option('--scope', '-s', help='Full scope URI, eg. onvif://www.onvif.org/Model/')
 @click.option('--typename', '-t', help='Qualified type name, eg. https://myservicesns:myservice_type')
 @click.option('--address', '-a', help='Service IP address')
