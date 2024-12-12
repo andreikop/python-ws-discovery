@@ -13,14 +13,15 @@ from .actions import *
 from .message import createSOAPMessage, parseSOAPMessage
 from .udp import UDPMessage
 from .util import _getNetworkAddrs, dom2Str
-
-logger = logging.getLogger("threading")
+from .udp import UNICAST_UDP_REPEAT, MULTICAST_UDP_REPEAT
 
 BUFFER_SIZE = 0xffff
 NETWORK_ADDRESSES_CHECK_TIMEOUT = 5
 MULTICAST_PORT = 3702
 MULTICAST_IPV4_ADDRESS = "239.255.255.250"
 MULTICAST_IPV6_ADDRESS = "FF02::C"
+
+logger = logging.getLogger("threading")
 
 
 class _StoppableDaemonThread(threading.Thread):
@@ -157,14 +158,18 @@ class NetworkingThread(_StoppableDaemonThread):
         sock.close()
         del self._multiOutUniInSockets[addr]
 
-    def addUnicastMessage(self, env, addr, port, initialDelay=0):
-        msg = UDPMessage(env, addr, port, UDPMessage.UNICAST, initialDelay)
+    def addUnicastMessage(self, env, addr, port, initialDelay=0,
+                          unicast_num=UNICAST_UDP_REPEAT):
+        msg = UDPMessage(env, addr, port, UDPMessage.UNICAST, initialDelay,
+                         unicast_num=unicast_num)
 
         self._queue.append(msg)
         self._knownMessageIds.add(env.getMessageId())
 
-    def addMulticastMessage(self, env, addr, port, initialDelay=0):
-        msg = UDPMessage(env, addr, port, UDPMessage.MULTICAST, initialDelay)
+    def addMulticastMessage(self, env, addr, port, initialDelay=0,
+                            multicast_num=MULTICAST_UDP_REPEAT):
+        msg = UDPMessage(env, addr, port, UDPMessage.MULTICAST, initialDelay,
+                         multicast_num=multicast_num)
 
         self._queue.append(msg)
         self._knownMessageIds.add(env.getMessageId())
@@ -358,12 +363,16 @@ class NetworkingThreadIPv6(NetworkingThread):
 class ThreadedNetworking:
     "handle threaded networking start & stop, address add/remove & message sending"
 
-    def __init__(self, **kwargs):
+    def __init__(self,
+                 unicast_num=UNICAST_UDP_REPEAT,
+                 multicast_num=MULTICAST_UDP_REPEAT, **kwargs):
         self._networkingThread_v4 = None
         self._networkingThread_v6 = None
         self._addrsMonitorThread_v4 = None
         self._addrsMonitorThread_v6 = None
         self._serverStarted = False
+        self._unicast_num = unicast_num
+        self._multicast_num = multicast_num
         super().__init__(**kwargs)
 
     def _startThreads(self):
@@ -423,12 +432,24 @@ class ThreadedNetworking:
         elif version == 6:
             self._networkingThread_v6.removeSourceAddr(addr)
 
-    def sendUnicastMessage(self, env, host, port, initialDelay=0):
+    def sendUnicastMessage(self, env, host, port, initialDelay=0,
+                           unicast_num=UNICAST_UDP_REPEAT):
         "handle unicast message sending"
-        self._networkingThread_v4.addUnicastMessage(env, host, port, initialDelay)
-        self._networkingThread_v6.addUnicastMessage(env, host, port, initialDelay)
+        self._networkingThread_v4.addUnicastMessage(env, host, port,
+                                                    initialDelay, unicast_num)
+        self._networkingThread_v6.addUnicastMessage(env, host, port,
+                                                    initialDelay, unicast_num)
 
-    def sendMulticastMessage(self, env, initialDelay=0):
+    def sendMulticastMessage(self, env, initialDelay=0,
+                             multicast_num=MULTICAST_UDP_REPEAT):
         "handle multicast message sending"
-        self._networkingThread_v4.addMulticastMessage(env, MULTICAST_IPV4_ADDRESS, MULTICAST_PORT, initialDelay)
-        self._networkingThread_v6.addMulticastMessage(env, MULTICAST_IPV6_ADDRESS, MULTICAST_PORT, initialDelay)
+        self._networkingThread_v4.addMulticastMessage(env,
+                                                      MULTICAST_IPV4_ADDRESS,
+                                                      MULTICAST_PORT,
+                                                      initialDelay,
+                                                      multicast_num)
+        self._networkingThread_v6.addMulticastMessage(env,
+                                                      MULTICAST_IPV6_ADDRESS,
+                                                      MULTICAST_PORT,
+                                                      initialDelay,
+                                                      multicast_num)
