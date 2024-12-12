@@ -257,14 +257,14 @@ def _getNetworkAddrs(protocol_version):
     if protocol_version == socket.AF_INET:
         for iface in ifaces:
             for ip in iface.ips:
-                if type(ip.ip) is string:
+                if isinstance(ip.ip, str):
                     ip_address = ipaddress.ip_address(ip.ip)
                     if not ip_address.is_loopback:
                         addrs.append(ip_address)
     elif protocol_version == socket.AF_INET6:
         for iface in ifaces:
             for ip in iface.ips:
-                if type(ip.ip) is tuple:
+                if isinstance(ip.ip, tuple):
                     ip_address = ipaddress.ip_address(f"{ip.ip[0]}%{ip.ip[2]}")
                     if not ip_address.is_loopback:
                         addrs.append(ip_address)
