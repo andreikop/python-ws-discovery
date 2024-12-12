@@ -51,7 +51,7 @@ environment and set up a development environment. For example:
 ```
 $ python3 -m venv venv
 $ . venv/bin/activate
-(venv) $ pip3 install -e
+(venv) $ pip3 install -e .
 ```
 Then you can call `wsdiscover` and `wspublish` from within this virtual
 environment. Any code changes to the package will be available and testable

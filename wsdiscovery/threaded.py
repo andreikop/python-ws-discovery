@@ -313,6 +313,7 @@ class NetworkingThreadIPv4(NetworkingThread):
         super().__init__(observer)
 
     def _makeMreq(self, addr):
+        "IPvv multicast group join/leave request"
         return struct.pack("4s4s", socket.inet_aton(MULTICAST_IPV4_ADDRESS), addr.packed)
 
     def _get_inet(self):
@@ -339,6 +340,7 @@ class NetworkingThreadIPv6(NetworkingThread):
         super().__init__(observer)
 
     def _makeMreq(self, addr):
+        "IPv6 multicast group join/leave request"
         return struct.pack("=16si", socket.inet_pton(socket.AF_INET6, MULTICAST_IPV6_ADDRESS), int(addr.scope_id))
 
     def _get_inet(self):

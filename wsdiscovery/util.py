@@ -1,15 +1,20 @@
 """Various utilities used by different parts of the package."""
 
 import io
-import ipaddress
 import string
 import random
-import netifaces
+import logging
+import ipaddress
+import socket
 from xml.dom import minidom
+import ifaddr
+
 from .scope import Scope
 from .uri import URI
 from .namespaces import NS_ADDRESSING, NS_DISCOVERY, NS_SOAPENV
 from .qname import QName
+
+logger = logging.getLogger("util")
 
 
 def createSkelSoapMessage(soapAction):
@@ -245,17 +250,29 @@ def getQNameFromValue(value, node):
 
 
 def _getNetworkAddrs(protocol_version):
-    result = []
+    addrs = []
+    ifaces = ifaddr.get_adapters()
 
-    for if_name in netifaces.interfaces():
-        iface_info = netifaces.ifaddresses(if_name)
-        if protocol_version in iface_info:
-            for addrDict in iface_info[protocol_version]:
-                addr = addrDict['addr']
-                ip_address = ipaddress.ip_address(addr)
-                if not ip_address.is_loopback:
-                    result.append(ip_address)
-    return result
+    # ifaddr library only returns IPv4 and IPv6 addresses
+    if protocol_version == socket.AF_INET:
+        for iface in ifaces:
+            for ip in iface.ips:
+                if type(ip.ip) is string:
+                    ip_address = ipaddress.ip_address(ip.ip)
+                    if not ip_address.is_loopback:
+                        addrs.append(ip_address)
+    elif protocol_version == socket.AF_INET6:
+        for iface in ifaces:
+            for ip in iface.ips:
+                if type(ip.ip) is tuple:
+                    ip_address = ipaddress.ip_address(f"{ip.ip[0]}%{ip.ip[2]}")
+                    if not ip_address.is_loopback:
+                        addrs.append(ip_address)
+    else:
+        logger.warning(f"requested protocol version ({protocol_version}) is not"
+                       f" IPv4 ({socket.AF_INET}) or IPv6 ({socket.AF_INET6})")
+
+    return addrs
 
 
 def _generateInstanceId():
