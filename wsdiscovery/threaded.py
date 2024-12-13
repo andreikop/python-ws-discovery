@@ -82,6 +82,7 @@ class NetworkingThread(_StoppableDaemonThread):
         self._iidMap = {}
         self._observer = observer
         self._capture = observer._capture
+        self._relates_to = observer._relates_to
 
         self._seqnum = 1  # capture sequence number
         self._selector = selectors.DefaultSelector()
@@ -219,7 +220,10 @@ class NetworkingThread(_StoppableDaemonThread):
 
             mid = env.getMessageId()
             if mid in self._knownMessageIds:
-                continue  # https://github.com/andreikop/python-ws-discovery/issues/38 # TODO
+                if self._relates_to and env.getRelatesTo() in self._knownMessageIds:
+                    pass
+                else:
+                    continue
             else:
                 if self._capture:
                     self._capture.write("NEW KNOWN MSG IDS %s\n" % (mid))
@@ -367,7 +371,8 @@ class ThreadedNetworking:
 
     def __init__(self,
                  unicast_num=UNICAST_UDP_REPEAT,
-                 multicast_num=MULTICAST_UDP_REPEAT, **kwargs):
+                 multicast_num=MULTICAST_UDP_REPEAT,
+                 relates_to=False, **kwargs):
         self._networkingThread_v4 = None
         self._networkingThread_v6 = None
         self._addrsMonitorThread_v4 = None
@@ -375,6 +380,7 @@ class ThreadedNetworking:
         self._serverStarted = False
         self._unicast_num = unicast_num
         self._multicast_num = multicast_num
+        self._relates_to = relates_to
         super().__init__(**kwargs)
 
     def _startThreads(self):
