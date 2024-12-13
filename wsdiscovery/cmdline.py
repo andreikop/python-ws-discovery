@@ -44,7 +44,11 @@ def setup_logger(name, loglevel):
 
 
 @click.command(context_settings=CONTEXT_SETTINGS)
-@click.option('--scope', '-s', help='Full scope URI, eg. onvif://www.onvif.org/Model/')
+@click.option('--scope', '-s', help='Probe scope URI, e.g. onvif://www.onvif.org/Model/')
+@click.option('--type', '-y', 'ptype', nargs=3, type=(str, str, str), multiple=True,
+              help='Probe type in this order: NS_URI NS_PREFIX LOCAL_NAME,'
+                   ' e.g. http://www.onvif.org/ver10/network/wsdl dp0 NetworkVideoTransmitter'
+                   ' -- this option can be specified multiple times')
 @click.option('--address', '-a', help='Service address')
 @click.option('--port', '-p', type=int, help='Service port')
 @click.option('--loglevel', '-l',  default=DEFAULT_LOGLEVEL, show_default=True,
@@ -59,16 +63,22 @@ def setup_logger(name, loglevel):
               show_default=True, help='Number of Multicast messages to send')
 @click.option('--relates-to', '-rt', is_flag=True,
               help='Also use RelatesTo tag to recognize incoming messages.')
-def discover(scope, address, port, loglevel, capture, timeout, unicast_num,
-             multicast_num, relates_to):
+def discover(scope, ptype, address, port, loglevel, capture, timeout,
+             unicast_num, multicast_num, relates_to):
     "Discover services using WS-Discovery"
 
     logger = setup_logger("ws-discovery", loglevel)
 
+    probe_types = []
+    for type_tuple in ptype:
+        probe_types.append(QName(type_tuple[0], type_tuple[2], type_tuple[1]))
+    if len(probe_types) == 0:
+        probe_types = None
+
     with discovery(capture, unicast_num, multicast_num, relates_to) as wsd:
         scopes = [Scope(scope)] if scope else []
-        svcs = wsd.searchServices(scopes=scopes, address=address, port=port,
-                                  timeout=timeout)
+        svcs = wsd.searchServices(types=probe_types, scopes=scopes,
+                                  address=address, port=port, timeout=timeout)
         print("\nDiscovered:\n")
         for service in svcs:
             url = urlparse(service.getXAddrs()[0])
