@@ -17,8 +17,13 @@ def test_probing(monkeypatch, probe_response):
         global sck
         # The Probe is sent multicast, we use that to identify the right socket.
         # Identification could be done better, but this is enough for now.
-        if rsock.getsockname()[1] == MULTICAST_PORT:
-            sck = rsock
+        try:
+            if rsock.getsockname()[1] == MULTICAST_PORT:
+                sck = rsock
+        except OSError:
+            # to guard against windows error:
+            # [WinError 10022] An invalid argument was supplied
+            pass
 
     def mock_select(*args):
         "set a mock Probe response event in motion for the same socket"
