@@ -17,7 +17,8 @@ def test_probing(monkeypatch, probe_response):
         global sck
         # The Probe is sent multicast, we use that to identify the right socket.
         # Identification could be done better, but this is enough for now.
-        if rsock.getsockname()[1] == MULTICAST_PORT:
+        if (rsock.proto == socket.IPPROTO_UDP and
+            rsock.getsockname()[1] == MULTICAST_PORT):
             sck = rsock
 
     def mock_select(*args):
