@@ -16,6 +16,8 @@ from .qname import QName
 
 logger = logging.getLogger("util")
 
+_APIPA_RANGE = ipaddress.ip_network("169.254.0.0/16")
+
 
 def createSkelSoapMessage(soapAction):
     doc = minidom.Document()
@@ -259,14 +261,14 @@ def _getNetworkAddrs(protocol_version):
             for ip in iface.ips:
                 if isinstance(ip.ip, str):
                     ip_address = ipaddress.ip_address(ip.ip)
-                    if not ip_address.is_loopback:
+                    if not ip_address.is_loopback and ip_address not in _APIPA_RANGE:
                         addrs.append(ip_address)
     elif protocol_version == socket.AF_INET6:
         for iface in ifaces:
             for ip in iface.ips:
                 if isinstance(ip.ip, tuple):
                     ip_address = ipaddress.ip_address(f"{ip.ip[0]}%{ip.ip[2]}")
-                    if not ip_address.is_loopback:
+                    if not ip_address.is_loopback and ip_address not in _APIPA_RANGE:
                         addrs.append(ip_address)
     else:
         logger.warning(f"requested protocol version ({protocol_version}) is not"
