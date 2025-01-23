@@ -400,21 +400,19 @@ class ThreadedNetworking:
         logger.debug("address monitoring threads started")
 
     def _stopThreads(self):
-        if self._networkingThread_v4 is None:
-            return
+        if self._networkingThread_v4 is not None:
+            self._networkingThread_v4.schedule_stop()
+            self._addrsMonitorThread_v4.schedule_stop()
+            self._networkingThread_v4.join()
+            self._addrsMonitorThread_v4.join()
+            self._networkingThread_v4 = None
 
-        self._networkingThread_v4.schedule_stop()
-        self._addrsMonitorThread_v4.schedule_stop()
-        self._networkingThread_v6.schedule_stop()
-        self._addrsMonitorThread_v6.schedule_stop()
-
-        self._networkingThread_v4.join()
-        self._addrsMonitorThread_v4.join()
-        self._networkingThread_v6.join()
-        self._addrsMonitorThread_v6.join()
-
-        self._networkingThread_v4 = None
-        self._networkingThread_v6 = None
+        if self._networkingThread_v6 is not None:
+            self._networkingThread_v6.schedule_stop()
+            self._addrsMonitorThread_v6.schedule_stop()
+            self._networkingThread_v6.join()
+            self._addrsMonitorThread_v6.join()
+            self._networkingThread_v6 = None
 
     def start(self):
         """start networking - should be called before using other methods"""
