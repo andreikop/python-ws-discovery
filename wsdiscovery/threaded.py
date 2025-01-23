@@ -433,14 +433,14 @@ class ThreadedNetworking:
         version = ipaddress.ip_address(addr).version
         if version == 4:
             self._networkingThread_v4.addSourceAddr(addr)
-        elif version == 6:
+        elif version == 6 and self._networkingThread_v6 is not None:
             self._networkingThread_v6.addSourceAddr(addr)
 
     def removeSourceAddr(self, addr):
         version = ipaddress.ip_address(addr).version
         if version == 4:
             self._networkingThread_v4.removeSourceAddr(addr)
-        elif version == 6:
+        elif version == 6 and self._networkingThread_v6 is not None:
             self._networkingThread_v6.removeSourceAddr(addr)
 
     def sendUnicastMessage(self, env, host, port, initialDelay=0,
@@ -448,8 +448,9 @@ class ThreadedNetworking:
         "handle unicast message sending"
         self._networkingThread_v4.addUnicastMessage(env, host, port,
                                                     initialDelay, unicast_num)
-        self._networkingThread_v6.addUnicastMessage(env, host, port,
-                                                    initialDelay, unicast_num)
+        if self._networkingThread_v6 is not None:
+            self._networkingThread_v6.addUnicastMessage(env, host, port,
+                                                        initialDelay, unicast_num)
 
     def sendMulticastMessage(self, env, initialDelay=0,
                              multicast_num=MULTICAST_UDP_REPEAT):
@@ -459,7 +460,8 @@ class ThreadedNetworking:
                                                       MULTICAST_PORT,
                                                       initialDelay,
                                                       multicast_num)
-        self._networkingThread_v6.addMulticastMessage(env,
+        if self._networkingThread_v6 is not None:
+            self._networkingThread_v6.addMulticastMessage(env,
                                                       MULTICAST_IPV6_ADDRESS,
                                                       MULTICAST_PORT,
                                                       initialDelay,
