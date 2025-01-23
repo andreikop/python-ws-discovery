@@ -388,15 +388,20 @@ class ThreadedNetworking:
             return
 
         self._networkingThread_v4 = NetworkingThreadIPv4(self)
-        self._networkingThread_v6 = NetworkingThreadIPv6(self)
         self._networkingThread_v4.start()
-        self._networkingThread_v6.start()
+        self._addrsMonitorThread_v4 = AddressMonitorThread(self, socket.AF_INET)
+        self._addrsMonitorThread_v4.start()
         logger.debug("networking threads started")
 
-        self._addrsMonitorThread_v4 = AddressMonitorThread(self, socket.AF_INET)
-        self._addrsMonitorThread_v6 = AddressMonitorThread(self, socket.AF_INET6)
-        self._addrsMonitorThread_v4.start()
-        self._addrsMonitorThread_v6.start()
+        try:
+            self._networkingThread_v6 = NetworkingThreadIPv6(self)
+            self._networkingThread_v6.start()
+            self._addrsMonitorThread_v6 = AddressMonitorThread(self, socket.AF_INET6)
+            self._addrsMonitorThread_v6.start()
+        except OSError as e:
+            logger.debug("IPv6 not supported: %s", e)
+            self._networkingThread_v6 = None
+            self._addrsMonitorThread_v6 = None
         logger.debug("address monitoring threads started")
 
     def _stopThreads(self):
