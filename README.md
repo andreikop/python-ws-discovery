@@ -75,3 +75,5 @@ Python3 port done by Pieter Jordaan.
 
 Packaging, major refactoring & command-line clients and
 reStructuredText package documentation by Petri Savolainen.
+
+See full list of contributors on the [GitHub page](https://github.com/andreikop/python-ws-discovery).
