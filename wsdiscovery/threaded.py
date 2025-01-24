@@ -388,33 +388,36 @@ class ThreadedNetworking:
             return
 
         self._networkingThread_v4 = NetworkingThreadIPv4(self)
-        self._networkingThread_v6 = NetworkingThreadIPv6(self)
         self._networkingThread_v4.start()
-        self._networkingThread_v6.start()
+        self._addrsMonitorThread_v4 = AddressMonitorThread(self, socket.AF_INET)
+        self._addrsMonitorThread_v4.start()
         logger.debug("networking threads started")
 
-        self._addrsMonitorThread_v4 = AddressMonitorThread(self, socket.AF_INET)
-        self._addrsMonitorThread_v6 = AddressMonitorThread(self, socket.AF_INET6)
-        self._addrsMonitorThread_v4.start()
-        self._addrsMonitorThread_v6.start()
+        try:
+            self._networkingThread_v6 = NetworkingThreadIPv6(self)
+            self._networkingThread_v6.start()
+            self._addrsMonitorThread_v6 = AddressMonitorThread(self, socket.AF_INET6)
+            self._addrsMonitorThread_v6.start()
+        except OSError as e:
+            logger.debug("IPv6 not supported: %s", e)
+            self._networkingThread_v6 = None
+            self._addrsMonitorThread_v6 = None
         logger.debug("address monitoring threads started")
 
     def _stopThreads(self):
-        if self._networkingThread_v4 is None:
-            return
+        if self._networkingThread_v4 is not None:
+            self._networkingThread_v4.schedule_stop()
+            self._addrsMonitorThread_v4.schedule_stop()
+            self._networkingThread_v4.join()
+            self._addrsMonitorThread_v4.join()
+            self._networkingThread_v4 = None
 
-        self._networkingThread_v4.schedule_stop()
-        self._addrsMonitorThread_v4.schedule_stop()
-        self._networkingThread_v6.schedule_stop()
-        self._addrsMonitorThread_v6.schedule_stop()
-
-        self._networkingThread_v4.join()
-        self._addrsMonitorThread_v4.join()
-        self._networkingThread_v6.join()
-        self._addrsMonitorThread_v6.join()
-
-        self._networkingThread_v4 = None
-        self._networkingThread_v6 = None
+        if self._networkingThread_v6 is not None:
+            self._networkingThread_v6.schedule_stop()
+            self._addrsMonitorThread_v6.schedule_stop()
+            self._networkingThread_v6.join()
+            self._addrsMonitorThread_v6.join()
+            self._networkingThread_v6 = None
 
     def start(self):
         """start networking - should be called before using other methods"""
@@ -430,14 +433,14 @@ class ThreadedNetworking:
         version = ipaddress.ip_address(addr).version
         if version == 4:
             self._networkingThread_v4.addSourceAddr(addr)
-        elif version == 6:
+        elif version == 6 and self._networkingThread_v6 is not None:
             self._networkingThread_v6.addSourceAddr(addr)
 
     def removeSourceAddr(self, addr):
         version = ipaddress.ip_address(addr).version
         if version == 4:
             self._networkingThread_v4.removeSourceAddr(addr)
-        elif version == 6:
+        elif version == 6 and self._networkingThread_v6 is not None:
             self._networkingThread_v6.removeSourceAddr(addr)
 
     def sendUnicastMessage(self, env, host, port, initialDelay=0,
@@ -445,8 +448,9 @@ class ThreadedNetworking:
         "handle unicast message sending"
         self._networkingThread_v4.addUnicastMessage(env, host, port,
                                                     initialDelay, unicast_num)
-        self._networkingThread_v6.addUnicastMessage(env, host, port,
-                                                    initialDelay, unicast_num)
+        if self._networkingThread_v6 is not None:
+            self._networkingThread_v6.addUnicastMessage(env, host, port,
+                                                        initialDelay, unicast_num)
 
     def sendMulticastMessage(self, env, initialDelay=0,
                              multicast_num=MULTICAST_UDP_REPEAT):
@@ -456,7 +460,8 @@ class ThreadedNetworking:
                                                       MULTICAST_PORT,
                                                       initialDelay,
                                                       multicast_num)
-        self._networkingThread_v6.addMulticastMessage(env,
+        if self._networkingThread_v6 is not None:
+            self._networkingThread_v6.addMulticastMessage(env,
                                                       MULTICAST_IPV6_ADDRESS,
                                                       MULTICAST_PORT,
                                                       initialDelay,
