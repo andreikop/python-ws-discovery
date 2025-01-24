@@ -121,7 +121,15 @@ class NetworkingThread(_StoppableDaemonThread):
         else:
             iface = int(addr.scope_id)
 
-        sock.setsockopt(ip_proto, self._get_multicast(), iface)
+        try:
+            sock.setsockopt(ip_proto, self._get_multicast(), iface)
+        except OSError as e:
+            logger.warning(
+                "Interface for %s does not support "
+                "multicast flags or is not UP: OSError %s",
+                addr,
+                e
+            )
 
         return sock
 
