@@ -195,7 +195,11 @@ class NetworkingThread(_StoppableDaemonThread):
                 time.sleep(0.01)
                 continue
 
-            env = parseSOAPMessage(data, addr[0])
+            try:
+                env = parseSOAPMessage(data, addr[0])
+            except Exception as e:
+                logger.debug("Failed to parse message from %s\n%s: %s", addr[0], data, e, exc_info=True)
+                env = None
 
             if env is None:  # fault or failed to parse
                 if self._capture:
