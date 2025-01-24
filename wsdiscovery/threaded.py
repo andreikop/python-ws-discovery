@@ -142,7 +142,7 @@ class NetworkingThread(_StoppableDaemonThread):
         try:
             self._multiInSocket.setsockopt(self._get_ip_proto(), self._get_ip_join(), self._makeMreq(addr))
         except socket.error as e:
-            logger.warning(f"Interface has more than 1 address: {e}")
+            logger.debug(f"Interface has more than 1 address: {e}")
 
         sock = self._createMulticastOutSocket(addr, self._observer.ttl)
         self._multiOutUniInSockets[addr] = sock
@@ -152,7 +152,7 @@ class NetworkingThread(_StoppableDaemonThread):
         try:
             self._multiInSocket.setsockopt(self._get_ip_proto(), self._get_ip_leave(), self._makeMreq(addr))
         except socket.error as e:
-            logger.warning(f"Interface has more than 1 address: {e}")
+            logger.debug(f"Interface has more than 1 address: {e}")
 
         sock = self._multiOutUniInSockets[addr]
         self._selector.unregister(sock)
