@@ -39,9 +39,9 @@ def setup_logger(name, loglevel):
         print("Invalid log level '%s'" % loglevel)
         sys.exit()
 
-    logging.basicConfig(level=level)
-    return logging.getLogger(name)
-
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    return logger
 
 @click.command(context_settings=CONTEXT_SETTINGS)
 @click.option('--scope', '-s', help='Probe scope URI, e.g. onvif://www.onvif.org/Model/')
